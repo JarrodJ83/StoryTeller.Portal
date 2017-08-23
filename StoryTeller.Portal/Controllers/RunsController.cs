@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
+﻿using Microsoft.AspNetCore.Mvc;
+using StoryTeller.Portal.CQRS;
+using StoryTeller.ResultAggregation.Requests;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace StoryTeller.ResultAggregator.Controllers
@@ -11,36 +8,17 @@ namespace StoryTeller.ResultAggregator.Controllers
     [Route("api/[controller]")]
     public class RunsController : Controller
     {
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IRequestHandler<AddRunRequest> _addRunRequest;
+
+        public RunsController(IRequestHandler<AddRunRequest> addRunRequest)
         {
-            return new string[] { "value1", "value2" };
+            _addRunRequest = addRunRequest;
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]AddRunRequest addRunRequest)
         {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            _addRunRequest.Handle(addRunRequest);
         }
     }
 }
