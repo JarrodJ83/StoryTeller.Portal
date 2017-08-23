@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal", "StoryTeller.Portal\StoryTeller.Portal.csproj", "{965ACD92-A6D4-49B2-93AF-EB5BA94684CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.Portal.CQRS", "StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj", "{7FC1A584-362E-43D6-AA3A-3496DB688F1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{965ACD92-A6D4-49B2-93AF-EB5BA94684CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{965ACD92-A6D4-49B2-93AF-EB5BA94684CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{965ACD92-A6D4-49B2-93AF-EB5BA94684CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FC1A584-362E-43D6-AA3A-3496DB688F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FC1A584-362E-43D6-AA3A-3496DB688F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FC1A584-362E-43D6-AA3A-3496DB688F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FC1A584-362E-43D6-AA3A-3496DB688F1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
