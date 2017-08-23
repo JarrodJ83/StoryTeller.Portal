@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.ResultAggregati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.Portal", "StoryTeller.Portal\StoryTeller.Portal.csproj", "{CAF21C6B-ADA8-4A51-87B8-45B8E6F462D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.ResultAggregation.RequestHandlers", "StoryTeller.ResultAggregation.RequestHandlers\StoryTeller.ResultAggregation.RequestHandlers.csproj", "{F5CF463B-A2F4-4A0D-A1AF-E52E8095938B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{CAF21C6B-ADA8-4A51-87B8-45B8E6F462D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAF21C6B-ADA8-4A51-87B8-45B8E6F462D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAF21C6B-ADA8-4A51-87B8-45B8E6F462D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5CF463B-A2F4-4A0D-A1AF-E52E8095938B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5CF463B-A2F4-4A0D-A1AF-E52E8095938B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5CF463B-A2F4-4A0D-A1AF-E52E8095938B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5CF463B-A2F4-4A0D-A1AF-E52E8095938B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

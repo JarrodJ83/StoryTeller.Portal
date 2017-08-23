@@ -8,17 +8,17 @@ namespace StoryTeller.ResultAggregator.Controllers
     [Route("api/[controller]")]
     public class RunsController : Controller
     {
-        private readonly IRequestHandler<AddRunRequest> _addRunRequest;
+        private readonly IRequestHandler<AddRunRequest, int> _addRunRequest;
 
-        public RunsController(IRequestHandler<AddRunRequest> addRunRequest)
+        public RunsController(IRequestHandler<AddRunRequest, int> addRunRequest)
         {
             _addRunRequest = addRunRequest;
         }
 
         [HttpPost]
-        public void Post([FromBody]AddRunRequest addRunRequest)
+        public int Post([FromBody]AddRunRequest addRunRequest)
         {
-            _addRunRequest.Handle(addRunRequest);
+            return _addRunRequest.Handle(addRunRequest);
         }
     }
 }

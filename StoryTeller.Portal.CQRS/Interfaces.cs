@@ -18,6 +18,15 @@
         void Execute(TCmd cmd);
     }
 
+    public interface ICommand<out TKey> where TKey : struct 
+    {
+    }
+
+    public interface ICommandHandler<in TCmd, TKey> where TCmd : ICommand<TKey> where TKey : struct 
+    {
+        void Execute(TCmd cmd, out TKey key);
+    }
+
     public interface IRequest
     {
     }
