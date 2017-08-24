@@ -5,11 +5,11 @@ using StoryTeller.ResultAggregation.Commands;
 
 namespace StoryTeller.ResultAggregation.RequestHandlers
 {
-    public class AddRunRequest : IRequestHandler<Requests.AddRunRequest, int>
+    public class AddRunRequestHandler : IRequestHandler<Requests.AddRunRequest, int>
     {
         private ICommandHandler<Commands.AddRunForApplication, int> addRunForApplication;
 
-        public AddRunRequest(ICommandHandler<AddRunForApplication, int> addRunForApplication)
+        public AddRunRequestHandler(ICommandHandler<AddRunForApplication, int> addRunForApplication)
         {
             this.addRunForApplication = addRunForApplication;
         }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -18,6 +16,7 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
         {
             _sqlSettings = sqlSettings;
         }
+
         public async Task ExecuteAsync(AddRunForApplication cmd, CancellationToken cancellationToken)
         {
             using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
@@ -25,7 +24,7 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
                 await conn.OpenAsync(cancellationToken);
                 cmd.Key = await conn.ExecuteScalarAsync<int>(
                     @"insert into Run ([ApplicationId], [Name],[RunDateTime]) values (@ApplicationId, @RunName, @RunDate)
-                      select @@identity", new { cmd.ApplicationId, cmd.RunName, cmd.RunDate });
+                      select @@identity", new {cmd.ApplicationId, cmd.RunName, cmd.RunDate});
             }
         }
     }

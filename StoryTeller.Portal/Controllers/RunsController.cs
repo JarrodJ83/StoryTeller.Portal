@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,9 +20,10 @@ namespace StoryTeller.ResultAggregator.Controllers
         }
 
         [HttpPost]
-        public async Task Post([FromBody]AddRunRequest addRunRequest)
+        public async Task<IActionResult> Post([FromBody]AddRunRequest addRunRequest)
         {
-            await _addRunRequest.HandleAsync(addRunRequest, Request.HttpContext.RequestAborted);
+            int key = await _addRunRequest.HandleAsync(addRunRequest, Request.HttpContext.RequestAborted);
+            return Created(String.Empty, key);
         }
     }
 }
