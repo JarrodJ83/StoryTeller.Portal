@@ -23,7 +23,7 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
         {
             var spec = new Spec
             {
-                ApplicationId = request.AppId,
+                AppId = request.AppId,
                 Name = request.PostedSpec.Name,
                 StoryTellerId = request.PostedSpec.StoryTellerId
             };

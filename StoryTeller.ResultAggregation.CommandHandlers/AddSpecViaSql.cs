@@ -18,10 +18,10 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
         public async Task ExecuteAsync(AddSpec cmd, CancellationToken cancellationToken)
         {
             var qry = $@"insert into Spec ([AppId], [Name], [StoryTellerId]) 
-                         values (@{nameof(cmd.Spec.ApplicationId)}, @{nameof(cmd.Spec.Name)}, @{nameof(cmd.Spec.StoryTellerId)}) 
+                         values (@{nameof(cmd.Spec.AppId)}, @{nameof(cmd.Spec.Name)}, @{nameof(cmd.Spec.StoryTellerId)}) 
                          select @@identity";
 
-            var appId = await ExecuteScalar<int>(qry, new { cmd.Spec.ApplicationId, cmd.Spec.Name, cmd.Spec.StoryTellerId }, cancellationToken);
+            var appId = await ExecuteScalar<int>(qry, new { ApplicationId = cmd.Spec.AppId, cmd.Spec.Name, cmd.Spec.StoryTellerId }, cancellationToken);
 
             cmd.Spec.Id = appId;
         }

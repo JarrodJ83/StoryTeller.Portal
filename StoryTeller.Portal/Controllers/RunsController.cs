@@ -21,13 +21,15 @@ namespace StoryTeller.ResultAggregator.Controllers
     {
         private readonly IRequestHandler<AddRunRequest, Run> _addRunRequest;
         private readonly IRequestHandler<AddSpecToRunRequest> _addSpecToRunRequestRequestHandler;
+        private readonly IRequestHandler<AddSpecBatchToRunRequest> _addSpecBatchToRunRequestRequestHandler;
         private readonly IApiContext _apiContext;
 
-        public RunsController(IApiContext apiContext, IRequestHandler<AddRunRequest, Run> addRunRequest, IRequestHandler<AddSpecToRunRequest> addSpecToRunRequestRequestHandler)
+        public RunsController(IApiContext apiContext, IRequestHandler<AddRunRequest, Run> addRunRequest, IRequestHandler<AddSpecToRunRequest> addSpecToRunRequestRequestHandler, IRequestHandler<AddSpecBatchToRunRequest> addSpecBatchToRunRequestRequestHandler)
         {
             _addRunRequest = addRunRequest;
             _apiContext = apiContext;
             _addSpecToRunRequestRequestHandler = addSpecToRunRequestRequestHandler;
+            _addSpecBatchToRunRequestRequestHandler = addSpecBatchToRunRequestRequestHandler;
         }
 
         [HttpPost]
@@ -42,9 +44,12 @@ namespace StoryTeller.ResultAggregator.Controllers
 
         [HttpPost]
         [Route("{runId}/SpecBatches")]
-        public async Task<IActionResult> PostRunSpecs([FromRoute]int runId, List<int> specIds)
+        public async Task<IActionResult> PostRunSpecs([FromRoute]int runId, [FromBody]PostRunSpecBatch postedRunSpecBatch)
         {
-            throw new NotImplementedException();
+            await _addSpecBatchToRunRequestRequestHandler.HandleAsync(
+                new AddSpecBatchToRunRequest(_apiContext.ApplicationId, runId, postedRunSpecBatch.SpecIds),
+                Request.HttpContext.RequestAborted);
+            return Created(string.Empty, null);
         }
 
         [HttpPost]
