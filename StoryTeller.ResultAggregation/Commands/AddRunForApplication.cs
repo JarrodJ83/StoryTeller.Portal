@@ -1,6 +1,5 @@
 ﻿using System;
 using StoryTeller.Portal.CQRS;
-using StoryTeller.ResultAggregation.Models;
 
 namespace StoryTeller.ResultAggregation.Commands
 {
@@ -9,6 +8,7 @@ namespace StoryTeller.ResultAggregation.Commands
         public int ApplicationId { get; }
         public string RunName { get; }
         public DateTime RunDate { get; }
+        public int Key { get; set; }
 
         public AddRunForApplication(int applicationId, string runName, DateTime runDate)
         {

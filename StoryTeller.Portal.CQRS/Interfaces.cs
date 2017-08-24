@@ -1,12 +1,15 @@
-﻿namespace StoryTeller.Portal.CQRS
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace StoryTeller.Portal.CQRS
 {
     public interface IQuery<TResult>
     {
     }
 
-    public interface IQueryHandler<in TQry, out TResult> where TQry : IQuery<TResult>
+    public interface IQueryHandler<in TQry, TResult> where TQry : IQuery<TResult>
     {
-        TResult Fetch(TQry qry);
+        Task<TResult> FetchAsynx(TQry qry, CancellationToken cancellationToken);
     }
 
     public interface ICommand
@@ -15,16 +18,17 @@
 
     public interface ICommandHandler<in TCmd> where TCmd : ICommand
     {
-        void Execute(TCmd cmd);
+        Task ExecuteAsync(TCmd cmd, CancellationToken cancellationToken);
     }
 
     public interface ICommand<out TKey> where TKey : struct 
     {
+        TKey Key { get; }
     }
 
     public interface ICommandHandler<in TCmd, TKey> where TCmd : ICommand<TKey> where TKey : struct 
     {
-        void Execute(TCmd cmd, out TKey key);
+        Task ExecuteAsync(TCmd cmd, CancellationToken cancellationToken);
     }
 
     public interface IRequest
@@ -37,11 +41,11 @@
 
     public interface IRequestHandler<in TRequest> where TRequest : IRequest
     {
-        void Handle(TRequest request);
+        Task HandleAsync(TRequest request, CancellationToken cancellationToken);
     }
 
-    public interface IRequestHandler<in TRequest, out TResponse> where TRequest : IRequest<TResponse>
+    public interface IRequestHandler<in TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
-        TResponse Handle(TRequest request);
+        Task<TResponse> HandleAsync(TRequest request, CancellationToken cancellationToken);
     }
 }

@@ -1,4 +1,6 @@
-﻿using StoryTeller.Portal.CQRS;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Commands;
 
 namespace StoryTeller.ResultAggregation.RequestHandlers
@@ -12,11 +14,11 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
             this.addRunForApplication = addRunForApplication;
         }
 
-        public int Handle(Requests.AddRunRequest request)
+        public async Task<int> HandleAsync(Requests.AddRunRequest request, CancellationToken cancellationToken)
         {
-            int runId;
-            addRunForApplication.Execute(new AddRunForApplication(request.ApplicationId, request.RunName, request.RunDateTime), out runId);
-            return runId;
+            var addRunForApplicationCommand = new AddRunForApplication(request.ApplicationId, request.RunName, request.RunDateTime);
+            await addRunForApplication.ExecuteAsync(addRunForApplicationCommand, cancellationToken);
+            return addRunForApplicationCommand.Key;
         }
     }
 }

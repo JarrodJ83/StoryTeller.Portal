@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Requests;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,9 +19,9 @@ namespace StoryTeller.ResultAggregator.Controllers
         }
 
         [HttpPost]
-        public int Post([FromBody]AddRunRequest addRunRequest)
+        public async Task Post([FromBody]AddRunRequest addRunRequest)
         {
-            return _addRunRequest.Handle(addRunRequest);
+            await _addRunRequest.HandleAsync(addRunRequest, Request.HttpContext.RequestAborted);
         }
     }
 }
