@@ -8,7 +8,7 @@ using StoryTeller.ResultAggregation.Settings;
 
 namespace StoryTeller.ResultAggregation.CommandHandlers
 {
-    public class AddRunForApplicationViaSql : SqlCommand, ICommandHandler<Commands.AddRunForApplication, int>
+    public class AddRunForApplicationViaSql : SqlCommand, ICommandHandler<Commands.AddRunForApplication>
     {
         public AddRunForApplicationViaSql(ISqlSettings sqlSettings) : base(sqlSettings)
         {
@@ -16,8 +16,11 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
 
         public async Task ExecuteAsync(AddRunForApplication cmd, CancellationToken cancellationToken)
         {
-            cmd.Key = await ExecuteScalar<int>(@"insert into Run ([ApplicationId], [Name],[RunDateTime]) values (@ApplicationId, @RunName, @RunDate)
-                               select @@identity", new {cmd.ApplicationId, cmd.RunName, cmd.RunDate}, cancellationToken);
+            var runid = await ExecuteScalar<int>($@"insert into Run ([ApplicationId], [Name],[RunDateTime]) 
+                                                 values (@{nameof(cmd.ApplicationId)}, @{nameof(cmd.Run.Name)}, @{nameof(cmd.Run.RunDateTime)})
+                                                 select @@identity", new {cmd.ApplicationId, cmd.Run.Name, cmd.Run.RunDateTime}, cancellationToken);
+
+            cmd.Run.Id = runid;
         }
     }
 }

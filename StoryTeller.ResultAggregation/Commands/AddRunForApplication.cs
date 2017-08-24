@@ -1,20 +1,19 @@
 ﻿using System;
 using StoryTeller.Portal.CQRS;
+using StoryTeller.ResultAggregation.ClientModel;
+using StoryTeller.ResultAggregation.Models;
 
 namespace StoryTeller.ResultAggregation.Commands
 {
-    public class AddRunForApplication : ICommand<int>
+    public class AddRunForApplication : ICommand
     {
         public int ApplicationId { get; }
-        public string RunName { get; }
-        public DateTime RunDate { get; }
-        public int Key { get; set; }
+        public Run Run { get; }
 
-        public AddRunForApplication(int applicationId, string runName, DateTime runDate)
+        public AddRunForApplication(int applicationId, Run run)
         {
             ApplicationId = applicationId;
-            RunName = runName;
-            RunDate = runDate;
+            Run = run;
         }
     }
 }

@@ -2,23 +2,32 @@
 using System.Threading.Tasks;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Commands;
+using StoryTeller.ResultAggregation.Models;
 
 namespace StoryTeller.ResultAggregation.RequestHandlers
 {
-    public class AddRunRequestHandler : IRequestHandler<Requests.AddRunRequest, int>
+    public class AddRunRequestHandler : IRequestHandler<Requests.AddRunRequest, Run>
     {
-        private ICommandHandler<Commands.AddRunForApplication, int> addRunForApplication;
+        private ICommandHandler<Commands.AddRunForApplication> addRunForApplication;
 
-        public AddRunRequestHandler(ICommandHandler<AddRunForApplication, int> addRunForApplication)
+        public AddRunRequestHandler(ICommandHandler<AddRunForApplication> addRunForApplication)
         {
             this.addRunForApplication = addRunForApplication;
         }
 
-        public async Task<int> HandleAsync(Requests.AddRunRequest request, CancellationToken cancellationToken)
+        public async Task<Run> HandleAsync(Requests.AddRunRequest request, CancellationToken cancellationToken)
         {
-            var addRunForApplicationCommand = new AddRunForApplication(request.ApplicationId, request.PostedRun.RunName, request.PostedRun.RunDateTime);
+            var run = new Run
+            {
+                Name = request.PostedRun.RunName,
+                RunDateTime = request.PostedRun.RunDateTime
+            };
+
+            var addRunForApplicationCommand = new AddRunForApplication(request.ApplicationId, run);
+
             await addRunForApplication.ExecuteAsync(addRunForApplicationCommand, cancellationToken);
-            return addRunForApplicationCommand.Key;
+
+            return run;
         }
     }
 }
