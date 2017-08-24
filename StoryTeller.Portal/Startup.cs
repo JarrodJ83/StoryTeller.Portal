@@ -59,7 +59,9 @@ namespace StoryTeller_Portal
             container.RegisterMvcControllers(app);
             container.RegisterMvcViewComponents(app);
             
+
             container.Register<ISqlSettings, SqlSettings>();
+            container.Register<IApiContext, ApiContext>();
             container.Register<ApiAuthenticationMiddleware>();
 
             container.Register(typeof(ICommandHandler<>), new []{ typeof(AddRunForApplicationViaSql).Assembly });
@@ -69,6 +71,7 @@ namespace StoryTeller_Portal
 
             // Cross-wire ASP.NET services (if any). For instance:
             container.CrossWire<ILoggerFactory>(app);
+            container.CrossWire<IHttpContextAccessor>(app);
 
             // NOTE: Do prevent cross-wired instances as much as possible.
             // See: https://simpleinjector.org/blog/2016/07/

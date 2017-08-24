@@ -17,17 +17,18 @@ namespace StoryTeller.ResultAggregator.Controllers
     public class RunsController : Controller
     {
         private readonly IRequestHandler<AddRunRequest, int> _addRunRequest;
+        private readonly IApiContext _apiContext;
 
-        public RunsController(IRequestHandler<AddRunRequest, int> addRunRequest)
+        public RunsController(IRequestHandler<AddRunRequest, int> addRunRequest, IApiContext apiContext)
         {
             _addRunRequest = addRunRequest;
+            _apiContext = apiContext;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]AddRunRequest addRunRequest)
         {
-            var applicationIdClaim = Request.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "ApplicationId");
-            addRunRequest.ApplicationId = int.Parse(applicationIdClaim.Value);
+            addRunRequest.ApplicationId = _apiContext.ApplicationId;
             int key = await _addRunRequest.HandleAsync(addRunRequest, Request.HttpContext.RequestAborted);
             return Created(String.Empty, key);
         }

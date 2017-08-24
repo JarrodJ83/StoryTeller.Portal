@@ -1,12 +1,19 @@
-﻿namespace StoryTeller.Portal
+﻿using Microsoft.AspNetCore.Http;
+using System.Linq;
+
+namespace StoryTeller.Portal
 {
     public class ApiContext : IApiContext
     {
         public int ApplicationId { get; }
 
-        private ApiContext(int applicationId)
+        public ApiContext(IHttpContextAccessor contextAccessor)
         {
-            ApplicationId = applicationId;
+            if (contextAccessor.HttpContext == null)
+                return;
+
+            var applicationIdClaim = contextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "ApplicationId");
+            ApplicationId = int.Parse(applicationIdClaim.Value);
         }
     }
 }
