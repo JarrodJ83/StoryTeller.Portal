@@ -8,7 +8,7 @@ using StoryTeller.ResultAggregation.Settings;
 
 namespace StoryTeller.ResultAggregation.CommandHandlers
 {
-    public class AddRunForApplicationViaSql : SqlCommand, ICommandHandler<Commands.AddRunForApplication>
+    public class AddRunForApplicationViaSql : SqlCommandHandler, ICommandHandler<Commands.AddRunForApplication>
     {
         public AddRunForApplicationViaSql(ISqlSettings sqlSettings) : base(sqlSettings)
         {

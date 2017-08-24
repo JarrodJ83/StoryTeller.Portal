@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StoryTeller.ResultAggregation.CommandHandlers\StoryTeller.ResultAggregation.CommandHandlers.csproj" />
     <ProjectReference Include="..\StoryTeller.ResultAggregation\StoryTeller.ResultAggregation.csproj" />
   </ItemGroup>
 

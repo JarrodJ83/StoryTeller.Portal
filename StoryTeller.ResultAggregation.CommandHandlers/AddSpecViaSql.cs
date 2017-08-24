@@ -9,7 +9,7 @@ using StoryTeller.ResultAggregation.Settings;
 
 namespace StoryTeller.ResultAggregation.CommandHandlers
 {
-    public class AddSpecViaSql : SqlCommand, ICommandHandler<Commands.AddSpec, int>
+    public class AddSpecViaSql : SqlCommandHandler, ICommandHandler<Commands.AddSpec, int>
     {
         public AddSpecViaSql(ISqlSettings sqlSettings) : base(sqlSettings)
         {

@@ -23,7 +23,7 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
                 RunDateTime = request.PostedRun.RunDateTime
             };
 
-            var addRunForApplicationCommand = new AddRunForApplication(request.ApplicationId, run);
+            var addRunForApplicationCommand = new AddRunForApplication(request.AppId, run);
 
             await addRunForApplication.ExecuteAsync(addRunForApplicationCommand, cancellationToken);
 

@@ -10,11 +10,11 @@ using StoryTeller.ResultAggregation.Settings;
 
 namespace StoryTeller.ResultAggregation.CommandHandlers
 {
-    public abstract class SqlCommand
+    public abstract class SqlCommandHandler
     {
         protected ISqlSettings _sqlSettings { get; }
 
-        protected SqlCommand(ISqlSettings sqlSettings)
+        protected SqlCommandHandler(ISqlSettings sqlSettings)
         {
             _sqlSettings = sqlSettings;
         }
