@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj" />
+    <ProjectReference Include="..\StoryTeller.ResultAggregation\StoryTeller.ResultAggregation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Data.SqlClient">
+      <HintPath>..\..\..\..\Users\jarrod.johnson\.nuget\packages\system.data.sqlclient\4.1.0\ref\netstandard1.3\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

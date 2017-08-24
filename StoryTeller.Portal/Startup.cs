@@ -16,6 +16,7 @@ using StoryTeller.Portal;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.Portal.Middleware;
 using StoryTeller.ResultAggregation.CommandHandlers;
+using StoryTeller.ResultAggregation.QueryHandlers;
 using StoryTeller.ResultAggregation.RequestHandlers;
 using StoryTeller.ResultAggregation.Settings;
 
@@ -66,8 +67,11 @@ namespace StoryTeller_Portal
 
             container.Register(typeof(ICommandHandler<>), new []{ typeof(AddRunForApplicationViaSql).Assembly });
             container.Register(typeof(ICommandHandler<,>), new[] {typeof(AddRunForApplicationViaSql).Assembly});
-            container.Register(typeof(IRequestHandler<>), new[] {typeof(AddRunRequestHandler).Assembly});
-            container.Register(typeof(IRequestHandler<,>), new[] {typeof(AddRunRequestHandler).Assembly});
+
+            container.Register(typeof(IRequestHandler<>), new[] { typeof(AddRunRequestHandler).Assembly });
+            container.Register(typeof(IRequestHandler<,>), new[] { typeof(AddRunRequestHandler).Assembly });
+            
+            container.Register(typeof(IQueryHandler<,>), new[] { typeof(GetAllSpecsViaSql).Assembly });
 
             // Cross-wire ASP.NET services (if any). For instance:
             container.CrossWire<ILoggerFactory>(app);

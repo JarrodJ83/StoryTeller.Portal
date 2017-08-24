@@ -9,5 +9,6 @@ namespace StoryTeller.ResultAggregation.Models
         public int Id { get; set; }
         public Guid StoryTellerId { get; set; }
         public string Name { get; set; }
+        public int ApplicationId { get; set; }
     }
 }

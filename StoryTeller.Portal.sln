@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.Portal.CQRS", "StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj", "{7FC1A584-362E-43D6-AA3A-3496DB688F1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.CQRS", "StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj", "{7FC1A584-362E-43D6-AA3A-3496DB688F1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.ResultAggregation", "StoryTeller.ResultAggregation\StoryTeller.ResultAggregation.csproj", "{732E1D5C-C321-477C-8601-2A4A9648AD62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.ResultAggregation", "StoryTeller.ResultAggregation\StoryTeller.ResultAggregation.csproj", "{732E1D5C-C321-477C-8601-2A4A9648AD62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.Portal", "StoryTeller.Portal\StoryTeller.Portal.csproj", "{CAF21C6B-ADA8-4A51-87B8-45B8E6F462D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal", "StoryTeller.Portal\StoryTeller.Portal.csproj", "{CAF21C6B-ADA8-4A51-87B8-45B8E6F462D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.ResultAggregation.RequestHandlers", "StoryTeller.ResultAggregation.RequestHandlers\StoryTeller.ResultAggregation.RequestHandlers.csproj", "{F5CF463B-A2F4-4A0D-A1AF-E52E8095938B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.ResultAggregation.RequestHandlers", "StoryTeller.ResultAggregation.RequestHandlers\StoryTeller.ResultAggregation.RequestHandlers.csproj", "{F5CF463B-A2F4-4A0D-A1AF-E52E8095938B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.ResultAggregation.CommandHandlers", "StoryTeller.ResultAggregation.CommandHandlers\StoryTeller.ResultAggregation.CommandHandlers.csproj", "{CB02ED8F-3C97-456F-9F7F-6A52D21B0CCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.ResultAggregation.CommandHandlers", "StoryTeller.ResultAggregation.CommandHandlers\StoryTeller.ResultAggregation.CommandHandlers.csproj", "{CB02ED8F-3C97-456F-9F7F-6A52D21B0CCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.ResultAggregation.QueryHandlers", "StoryTeller.ResultAggregation.QueryHandlers\StoryTeller.ResultAggregation.QueryHandlers.csproj", "{360712FA-D758-4088-8477-7051C03FC462}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{CB02ED8F-3C97-456F-9F7F-6A52D21B0CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB02ED8F-3C97-456F-9F7F-6A52D21B0CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB02ED8F-3C97-456F-9F7F-6A52D21B0CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{360712FA-D758-4088-8477-7051C03FC462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{360712FA-D758-4088-8477-7051C03FC462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{360712FA-D758-4088-8477-7051C03FC462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{360712FA-D758-4088-8477-7051C03FC462}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
