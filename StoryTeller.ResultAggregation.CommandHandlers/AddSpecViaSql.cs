@@ -21,7 +21,9 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
                          values (@{nameof(cmd.Spec.ApplicationId)}, @{nameof(cmd.Spec.Name)}, @{nameof(cmd.Spec.StoryTellerId)}) 
                          select @@identity";
 
-            await ExecuteScalar<int>(qry, new { cmd.Spec.ApplicationId, cmd.Spec.Name, cmd.Spec.StoryTellerId }, cancellationToken);
+            var appId = await ExecuteScalar<int>(qry, new { cmd.Spec.ApplicationId, cmd.Spec.Name, cmd.Spec.StoryTellerId }, cancellationToken);
+
+            cmd.Spec.Id = appId;
         }
     }
 }
