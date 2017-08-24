@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
@@ -12,6 +14,7 @@ using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
 using StoryTeller.Portal;
 using StoryTeller.Portal.CQRS;
+using StoryTeller.Portal.Middleware;
 using StoryTeller.ResultAggregation.CommandHandlers;
 using StoryTeller.ResultAggregation.RequestHandlers;
 using StoryTeller.ResultAggregation.Settings;
@@ -47,6 +50,7 @@ namespace StoryTeller_Portal
 
             services.EnableSimpleInjectorCrossWiring(container);
             services.UseSimpleInjectorAspNetRequestScoping(container);
+            services.AddMiddlewareAnalysis();
         }
 
         private void InitializeContainer(IApplicationBuilder app)
@@ -54,10 +58,9 @@ namespace StoryTeller_Portal
             // Add application presentation components:
             container.RegisterMvcControllers(app);
             container.RegisterMvcViewComponents(app);
-
-            // Add application services. For instance:
-
+            
             container.Register<ISqlSettings, SqlSettings>();
+            container.Register<ApiAuthenticationMiddleware>();
 
             container.Register(typeof(ICommandHandler<>), new []{ typeof(AddRunForApplicationViaSql).Assembly });
             container.Register(typeof(ICommandHandler<,>), new[] {typeof(AddRunForApplicationViaSql).Assembly});
@@ -93,6 +96,8 @@ namespace StoryTeller_Portal
             }
 
             app.UseStaticFiles();
+
+            app.Use((c, next) => container.GetInstance<ApiAuthenticationMiddleware>().Invoke(c, next));
 
             app.UseMvc(routes =>
             {
