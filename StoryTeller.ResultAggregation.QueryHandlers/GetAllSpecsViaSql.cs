@@ -27,8 +27,8 @@ namespace StoryTeller.ResultAggregation.QueryHandlers
             {
                 await conn.OpenAsync(cancellationToken);
                 IEnumerable<Spec> specs = await conn.QueryAsync<Spec>(
-                    @"select id, storytellerid, name, applicationId
-                      from spec where applicationId = @applicationId", new { qry.ApplicationId });
+                    @"select id, storytellerid, name, appId
+                      from spec where appId = @applicationId", new { qry.ApplicationId });
 
                 return specs.ToList();
             }

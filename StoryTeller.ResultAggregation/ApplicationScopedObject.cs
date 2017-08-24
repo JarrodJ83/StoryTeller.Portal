@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StoryTeller.ResultAggregation.Requests
+namespace StoryTeller.ResultAggregation
 {
-    public class ApplicationScopedRequest
+    public abstract class ApplicationScoped
     {
         public int ApplicationId { get; }
 
-        public ApplicationScopedRequest(int applicationId)
+        public ApplicationScoped(int applicationId)
         {
             ApplicationId = applicationId;
         }

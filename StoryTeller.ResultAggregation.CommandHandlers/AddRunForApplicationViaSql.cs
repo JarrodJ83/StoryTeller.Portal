@@ -8,24 +8,16 @@ using StoryTeller.ResultAggregation.Settings;
 
 namespace StoryTeller.ResultAggregation.CommandHandlers
 {
-    public class AddRunForApplicationViaSql : ICommandHandler<Commands.AddRunForApplication, int>
+    public class AddRunForApplicationViaSql : SqlCommand, ICommandHandler<Commands.AddRunForApplication, int>
     {
-        private readonly ISqlSettings _sqlSettings;
-
-        public AddRunForApplicationViaSql(ISqlSettings sqlSettings)
+        public AddRunForApplicationViaSql(ISqlSettings sqlSettings) : base(sqlSettings)
         {
-            _sqlSettings = sqlSettings;
         }
 
         public async Task ExecuteAsync(AddRunForApplication cmd, CancellationToken cancellationToken)
         {
-            using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
-            {
-                await conn.OpenAsync(cancellationToken);
-                cmd.Key = await conn.ExecuteScalarAsync<int>(
-                    @"insert into Run ([ApplicationId], [Name],[RunDateTime]) values (@ApplicationId, @RunName, @RunDate)
-                      select @@identity", new {cmd.ApplicationId, cmd.RunName, cmd.RunDate});
-            }
+            cmd.Key = await ExecuteScalar<int>(@"insert into Run ([ApplicationId], [Name],[RunDateTime]) values (@ApplicationId, @RunName, @RunDate)
+                               select @@identity", new {cmd.ApplicationId, cmd.RunName, cmd.RunDate}, cancellationToken);
         }
     }
 }

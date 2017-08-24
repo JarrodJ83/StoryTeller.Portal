@@ -16,7 +16,7 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
 
         public async Task<int> HandleAsync(Requests.AddRunRequest request, CancellationToken cancellationToken)
         {
-            var addRunForApplicationCommand = new AddRunForApplication(request.ApplicationId, request.RunName, request.RunDateTime);
+            var addRunForApplicationCommand = new AddRunForApplication(request.ApplicationId, request.PostedRun.RunName, request.PostedRun.RunDateTime);
             await addRunForApplication.ExecuteAsync(addRunForApplicationCommand, cancellationToken);
             return addRunForApplicationCommand.Key;
         }

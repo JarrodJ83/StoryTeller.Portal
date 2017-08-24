@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.SqlClient;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Dapper;
+using StoryTeller.ResultAggregation.Settings;
+
+namespace StoryTeller.ResultAggregation.CommandHandlers
+{
+    public abstract class SqlCommand
+    {
+        protected ISqlSettings _sqlSettings { get; }
+
+        protected SqlCommand(ISqlSettings sqlSettings)
+        {
+            _sqlSettings = sqlSettings;
+        }
+
+        protected async Task<TResult> ExecuteScalar<TResult>(string query, object parameters, CancellationToken cancellationToken)
+        {
+            using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
+            {
+                await conn.OpenAsync(cancellationToken);
+
+                return await conn.ExecuteScalarAsync<TResult>(query, parameters);
+            }
+        }
+    }
+}

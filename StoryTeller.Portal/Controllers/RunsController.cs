@@ -29,14 +29,11 @@ namespace StoryTeller.ResultAggregator.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]PostRun postRun)
         {
-            var addRunRequest = new AddRunRequest(_apiContext.ApplicationId)
-            {
-                RunDateTime = postRun.RunDateTime,
-                RunName = postRun.RunName
-            };
+            var addRunRequest = new AddRunRequest(_apiContext.ApplicationId, postRun);
 
-            int key = await _addRunRequest.HandleAsync(addRunRequest, Request.HttpContext.RequestAborted);
-            return Created(String.Empty, key);
+            int runId = await _addRunRequest.HandleAsync(addRunRequest, Request.HttpContext.RequestAborted);
+
+            return Created(String.Empty, runId);
         }
     }
 }

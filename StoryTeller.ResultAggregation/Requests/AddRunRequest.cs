@@ -1,16 +1,16 @@
 ﻿using System;
 using Newtonsoft.Json;
 using StoryTeller.Portal.CQRS;
+using StoryTeller.ResultAggregation.ClientModel;
 
 namespace StoryTeller.ResultAggregation.Requests
 {
-    public class AddRunRequest : ApplicationScopedRequest, IRequest<int>
+    public class AddRunRequest : ApplicationScoped, IRequest<int>
     {
-        public AddRunRequest(int applicationId) : base(applicationId)
+        public PostRun PostedRun { get; }
+        public AddRunRequest(int applicationId, PostRun postedRun) : base(applicationId)
         {
+            PostedRun = postedRun;
         }
-
-        public string RunName { get; set; }
-        public DateTime RunDateTime { get; set; }
     }
 }

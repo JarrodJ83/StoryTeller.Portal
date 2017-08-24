@@ -7,7 +7,7 @@ using StoryTeller.ResultAggregation.Models;
 
 namespace StoryTeller.ResultAggregation.Requests
 {
-    public class GetAllSpecs : ApplicationScopedRequest, IRequest<List<Spec>>
+    public class GetAllSpecs : ApplicationScoped, IRequest<List<Spec>>
     {
         public GetAllSpecs(int applicationId) : base(applicationId)
         {
