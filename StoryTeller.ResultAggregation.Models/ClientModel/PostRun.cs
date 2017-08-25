@@ -8,5 +8,6 @@ namespace StoryTeller.ResultAggregation.ClientModel
     {
         public string RunName { get; set; }
         public DateTime RunDateTime { get; set; }
+        public string HtmlResults { get; set; }
     }
 }

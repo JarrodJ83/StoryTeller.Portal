@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.CommandHandlers;
 using StoryTeller.ResultAggregation.Commands;
+using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Requests;
 using StoryTeller.ResultAggregation.Settings;
 
@@ -22,7 +23,13 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
 
         public async Task HandleAsync(AddSpecToRunRequest request, CancellationToken cancellationToken)
         {
-            await _addSpecToRunCommandHandler.ExecuteAsync(new AddSpecToRun(request.AppId, request.RunId, request.SpecId), cancellationToken);
+            var runSpec = new RunSpec
+            {
+                RunId = request.RunId,
+                SpecId = request.SpecId
+            };
+            
+            await _addSpecToRunCommandHandler.ExecuteAsync(new AddSpecToRun(request.AppId, runSpec), cancellationToken);
         }
     }
 }

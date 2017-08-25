@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using StoryTeller.Portal.CQRS;
+using StoryTeller.ResultAggregation.Models;
 
 namespace StoryTeller.ResultAggregation.Commands
 {
     public class AddSpecToRun : ApplicationScoped, ICommand
     {
-        public int RunId { get; }
-        public int SpecId { get; }
-        public AddSpecToRun(int applicationId, int runId, int specId) : base(applicationId)
+        public RunSpec RunSpec { get; }
+        public AddSpecToRun(int applicationId, RunSpec runSpec) : base(applicationId)
         {
-            RunId = runId;
-            SpecId = specId;
+            RunSpec = runSpec;
         }
     }
 }
