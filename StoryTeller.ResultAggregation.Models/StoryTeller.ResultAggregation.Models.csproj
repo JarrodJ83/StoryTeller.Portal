@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj" />
-    <ProjectReference Include="..\StoryTeller.ResultAggregation.Models\StoryTeller.ResultAggregation.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\Users\jarrod.johnson\.nuget\packages\newtonsoft.json\10.0.1\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
     </Reference>

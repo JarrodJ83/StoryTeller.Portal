@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj" />
+    <ProjectReference Include="..\StoryTeller.ResultAggregation.Models\StoryTeller.ResultAggregation.Models.csproj" />
     <ProjectReference Include="..\StoryTeller.ResultAggregation\StoryTeller.ResultAggregation.csproj" />
   </ItemGroup>
 

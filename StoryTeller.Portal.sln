@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.ResultAggregati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.ResultAggregation.CommandHandlers", "StoryTeller.ResultAggregation.CommandHandlers\StoryTeller.ResultAggregation.CommandHandlers.csproj", "{CB02ED8F-3C97-456F-9F7F-6A52D21B0CCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.ResultAggregation.QueryHandlers", "StoryTeller.ResultAggregation.QueryHandlers\StoryTeller.ResultAggregation.QueryHandlers.csproj", "{360712FA-D758-4088-8477-7051C03FC462}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.ResultAggregation.QueryHandlers", "StoryTeller.ResultAggregation.QueryHandlers\StoryTeller.ResultAggregation.QueryHandlers.csproj", "{360712FA-D758-4088-8477-7051C03FC462}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.Portal.ResultsAggregator", "StoryTeller.Portal.ResultsAggregator\StoryTeller.Portal.ResultsAggregator.csproj", "{7F8DC2A1-4C6B-491E-8AC9-4AE71BA4FDA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.ResultAggregation.Models", "StoryTeller.ResultAggregation.Models\StoryTeller.ResultAggregation.Models.csproj", "{ACE072C4-E1FF-4A15-9351-4D434798FBB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{360712FA-D758-4088-8477-7051C03FC462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{360712FA-D758-4088-8477-7051C03FC462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{360712FA-D758-4088-8477-7051C03FC462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F8DC2A1-4C6B-491E-8AC9-4AE71BA4FDA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F8DC2A1-4C6B-491E-8AC9-4AE71BA4FDA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F8DC2A1-4C6B-491E-8AC9-4AE71BA4FDA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F8DC2A1-4C6B-491E-8AC9-4AE71BA4FDA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACE072C4-E1FF-4A15-9351-4D434798FBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACE072C4-E1FF-4A15-9351-4D434798FBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACE072C4-E1FF-4A15-9351-4D434798FBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACE072C4-E1FF-4A15-9351-4D434798FBB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
