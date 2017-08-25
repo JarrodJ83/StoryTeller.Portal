@@ -71,6 +71,10 @@ namespace StoryTeller_Portal
             
             container.Register(typeof(IQueryHandler<,>), new[] { typeof(GetAllSpecsViaSql).Assembly });
 
+            // Need to wait for core 2.1 release as there is a bug using transaction scope currently
+            //container.RegisterDecorator(typeof(IRequestHandler<>), typeof(TransactionScopeRequestDecorator<>));
+            //container.RegisterDecorator(typeof(IRequestHandler<,>), typeof(TransactionScopeRequestResponseDecorator<,>));
+
             // Cross-wire ASP.NET services (if any). For instance:
             container.CrossWire<ILoggerFactory>(app);
             container.CrossWire<IHttpContextAccessor>(app);
