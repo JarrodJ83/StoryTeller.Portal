@@ -10,7 +10,9 @@ using StoryTeller.ResultAggregation.Models.ClientModel;
 
 namespace StoryTeller.Portal.ResultsAggregator
 {
-    public class RunLogger : IListener<BatchRunRequest>
+    public class RunLogger : 
+        IListener<BatchRunRequest>, 
+        IListener<BatchRunResponse>
     {
         private readonly IPortalResultsAggregatorClient _client;
         private readonly IRunLoggerSettings _RunLoggerSettings;
@@ -25,39 +27,61 @@ namespace StoryTeller.Portal.ResultsAggregator
 
         public void Receive(BatchRunRequest message)
         {
-            List<Spec> allSpecs = _client.GetSpecsAsync().Result;
-            Guid[] storyTellerIds = allSpecs.Select(remoteSpec => remoteSpec.StoryTellerId).ToArray();
-            List<Specification> newSpecs = message.Specifications.Where(s => !storyTellerIds.Contains(Guid.Parse(s.id))).ToList();
-            
-            newSpecs.ForEach(ns =>
+            try
             {
-                Spec newSpec = _client.AddSpecAsync(new PostSpec
+                List<Spec> allSpecs = _client.GetSpecsAsync().Result;
+                Guid[] storyTellerIds = allSpecs.Select(remoteSpec => remoteSpec.StoryTellerId).ToArray();
+                List<Specification> newSpecs = message.Specifications
+                    .Where(s => !storyTellerIds.Contains(Guid.Parse(s.id)))
+                    .ToList();
+
+                newSpecs.ForEach(ns =>
+                {
+                    Spec newSpec = _client.AddSpecAsync(new PostSpec
+                        {
+                            Name = ns.name,
+                            StoryTellerId = Guid.Parse(ns.id)
+                        }).Result;
+
+                    Console.WriteLine($"Spec {newSpec.Name} added to StoryTeller Portal");
+
+                    allSpecs.Add(newSpec);
+                });
+
+                Run run = _client.AddRunAsync(new PostRun
                     {
-                        Name = "new spec",
-                        StoryTellerId = Guid.NewGuid()
+                        RunDateTime = DateTime.Now,
+                        RunName = _RunLoggerSettings.RunNameGenerator.Generate()
                     }).Result;
 
-                Console.WriteLine($"Spec {newSpec.Name} added to StoryTeller Portal");
+                Console.WriteLine($"Run {run.Name} added to StoryTeller Portal");
 
-                allSpecs.Add(newSpec);
-            });
+                _client.AddSpecsToRunAsync(run.Id, new PostRunSpecBatch
+                    {
+                        SpecIds = allSpecs.Select(s => s.Id).ToList()
+                    }).Wait();
+                
+                RunContext.Create(run, allSpecs);
 
-            Run run = _client.AddRunAsync(new PostRun
-                {
-                    RunDateTime = DateTime.Now,
-                    RunName = _RunLoggerSettings.RunNameGenerator.Generate()
-                }).Result;
-
-            Console.WriteLine($"Run {run.Name} added to StoryTeller Portal");
-
-            _client.AddSpecsToRunAsync(run.Id, new PostRunSpecBatch
-                {
-                    SpecIds = allSpecs.Select(s => s.Id).ToList()
-                }).Wait();
-
-            Console.WriteLine($"Specs associated to {run.Name} in StoryTeller Portal");
+                Console.WriteLine($"Specs associated to {run.Name} in StoryTeller Portal");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error setting up Run in StoryTeller Portal", ex);
+            }
         }
 
         #endregion
+
+        public void Receive(BatchRunResponse message)
+        {
+            var run = RunContext.Current.Run;
+            // TODO: Need to figure out how to send HTML file content
+            run.HtmlResults = "FINISHED!";
+
+            _client.UpdateRunAsync(run).Wait();
+
+            Console.WriteLine($"Run {run.Id} updated in StoryTeller Portal with final results");
+        }
     }
 }
