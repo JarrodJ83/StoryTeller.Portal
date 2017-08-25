@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using StoryTeller.Portal.CQRS;
@@ -10,7 +9,7 @@ using StoryTeller.ResultAggregation.Requests;
 
 namespace StoryTeller.ResultAggregation.RequestHandlers
 {
-    public class AddSpecBatchToRunRequestHandler : IRequestHandler<AddSpecBatchToRunRequest>
+    public class AddSpecBatchToRunRequestHandler : IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>>
     {
         private ICommandHandler<AddSpecToRun> _addSpecToRunCommandHandler;
 
@@ -19,11 +18,17 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
             _addSpecToRunCommandHandler = addSpecToRunCommandHandler;
         }
 
-        public async Task HandleAsync(AddSpecBatchToRunRequest request, CancellationToken cancellationToken)
+        public async Task<List<RunSpec>> HandleAsync(AddSpecBatchToRunRequest request, CancellationToken cancellationToken)
         {
-            request.SpecIds.ForEach(async specId => 
-                await _addSpecToRunCommandHandler.ExecuteAsync(
-                    new AddSpecToRun(request.AppId, new RunSpec{RunId = request.RunId, SpecId = specId}), cancellationToken));
+            var runSpecs = await Task.WhenAll(request.SpecIds.Select(async specId =>
+            {
+                var runSpec = new RunSpec {RunId = request.RunId, SpecId = specId};
+                await _addSpecToRunCommandHandler.ExecuteAsync(new AddSpecToRun(request.AppId, runSpec),
+                    cancellationToken);
+                return runSpec;
+            }));
+
+            return runSpecs.ToList();
         }
     }
 }

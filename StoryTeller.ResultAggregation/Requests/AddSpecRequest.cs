@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using StoryTeller.Portal.CQRS;
-using StoryTeller.ResultAggregation.ClientModel;
+﻿using StoryTeller.Portal.CQRS;
+using StoryTeller.ResultAggregation.Models.ClientModel;
 using StoryTeller.ResultAggregation.Models;
 
 namespace StoryTeller.ResultAggregation.Requests

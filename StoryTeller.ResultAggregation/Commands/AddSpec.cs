@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using StoryTeller.Portal.CQRS;
+﻿using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Models;
-using StoryTeller.ResultAggregation.Queries;
 
 namespace StoryTeller.ResultAggregation.Commands
 {

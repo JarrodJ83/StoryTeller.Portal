@@ -1,7 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
-using StoryTeller.Portal.CQRS;
-using StoryTeller.ResultAggregation.ClientModel;
+﻿using StoryTeller.Portal.CQRS;
+using StoryTeller.ResultAggregation.Models.ClientModel;
 using StoryTeller.ResultAggregation.Models;
 
 namespace StoryTeller.ResultAggregation.Requests

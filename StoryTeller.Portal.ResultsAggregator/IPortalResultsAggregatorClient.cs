@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using StoryTeller.ResultAggregation.ClientModel;
+using StoryTeller.ResultAggregation.Models.ClientModel;
 using StoryTeller.ResultAggregation.Models;
 
 namespace StoryTeller.Portal.ResultsAggregator

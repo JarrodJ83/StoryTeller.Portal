@@ -1,7 +1,7 @@
 ﻿namespace StoryTeller.ResultAggregation.Models.ClientModel
 {
-    public class PostRunSpec
+    public class PutRunSpec
     {
-        public int SpecId { get; set; }
+        public bool? Passed { get; set; }
     }
 }

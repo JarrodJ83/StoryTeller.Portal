@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using StoryTeller.Portal.CQRS;
-using StoryTeller.ResultAggregation.CommandHandlers;
 using StoryTeller.ResultAggregation.Commands;
 using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Requests;
-using StoryTeller.ResultAggregation.Settings;
 
 namespace StoryTeller.ResultAggregation.RequestHandlers
 {
-    public class AddSpecToRunRequestHandler : IRequestHandler<AddSpecToRunRequest>
+    public class AddSpecToRunRequestHandler : IRequestHandler<AddSpecToRunRequest, RunSpec>
     {
         private ICommandHandler<AddSpecToRun> _addSpecToRunCommandHandler;
 
@@ -21,15 +16,17 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
             _addSpecToRunCommandHandler = addSpecToRunCommandHandler;
         }
 
-        public async Task HandleAsync(AddSpecToRunRequest request, CancellationToken cancellationToken)
+        public async Task<RunSpec> HandleAsync(AddSpecToRunRequest request, CancellationToken cancellationToken)
         {
             var runSpec = new RunSpec
             {
                 RunId = request.RunId,
                 SpecId = request.SpecId
             };
-            
-            await _addSpecToRunCommandHandler.ExecuteAsync(new AddSpecToRun(request.AppId, runSpec), cancellationToken);
+            var addSpecToRunCmd = new AddSpecToRun(request.AppId, runSpec);
+            await _addSpecToRunCommandHandler.ExecuteAsync(addSpecToRunCmd, cancellationToken);
+
+            return runSpec;
         }
     }
 }

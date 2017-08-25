@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace StoryTeller.ResultAggregation.ClientModel
+namespace StoryTeller.ResultAggregation.Models.ClientModel
 {
     public class PostRunSpecBatch
     {

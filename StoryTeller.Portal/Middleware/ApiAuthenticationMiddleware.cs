@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using StoryTeller.ResultAggregation.Settings;
@@ -41,7 +38,7 @@ namespace StoryTeller.Portal.Middleware
 
                 StringValues apiKeyValue = headers[_apiKeyHeaderName];
 
-                Guid apiKey = default(Guid);
+                var apiKey = default(Guid);
 
                 if (!Guid.TryParse(apiKeyValue, out apiKey))
                 {

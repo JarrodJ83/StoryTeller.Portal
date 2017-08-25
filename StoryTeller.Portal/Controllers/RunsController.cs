@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Primitives;
 using StoryTeller.Portal;
 using StoryTeller.Portal.CQRS;
-using StoryTeller.ResultAggregation.ClientModel;
+using StoryTeller.ResultAggregation.Models.ClientModel;
 using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Requests;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,16 +15,21 @@ namespace StoryTeller.ResultAggregator.Controllers
     public class RunsController : Controller
     {
         private readonly IRequestHandler<AddRunRequest, Run> _addRunRequest;
-        private readonly IRequestHandler<AddSpecToRunRequest> _addSpecToRunRequestRequestHandler;
-        private readonly IRequestHandler<AddSpecBatchToRunRequest> _addSpecBatchToRunRequestRequestHandler;
+        private readonly IRequestHandler<AddSpecToRunRequest, RunSpec> _addSpecToRunRequestRequestHandler;
+        private readonly IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>> _addSpecBatchToRunRequestRequestHandler;
+        private readonly IRequestHandler<PutRunSpecRequest> _putRunSpecRequestHandler;
         private readonly IApiContext _apiContext;
 
-        public RunsController(IApiContext apiContext, IRequestHandler<AddRunRequest, Run> addRunRequest, IRequestHandler<AddSpecToRunRequest> addSpecToRunRequestRequestHandler, IRequestHandler<AddSpecBatchToRunRequest> addSpecBatchToRunRequestRequestHandler)
+        public RunsController(IApiContext apiContext, 
+            IRequestHandler<AddRunRequest, Run> addRunRequest, 
+            IRequestHandler<AddSpecToRunRequest, RunSpec> addSpecToRunRequestRequestHandler, 
+            IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>> addSpecBatchToRunRequestRequestHandler, IRequestHandler<PutRunSpecRequest> putRunSpecRequestHandler)
         {
             _addRunRequest = addRunRequest;
             _apiContext = apiContext;
             _addSpecToRunRequestRequestHandler = addSpecToRunRequestRequestHandler;
             _addSpecBatchToRunRequestRequestHandler = addSpecBatchToRunRequestRequestHandler;
+            _putRunSpecRequestHandler = putRunSpecRequestHandler;
         }
 
         [HttpPost]
@@ -46,18 +46,31 @@ namespace StoryTeller.ResultAggregator.Controllers
         [Route("{runId}/SpecBatches")]
         public async Task<IActionResult> PostRunSpecs([FromRoute]int runId, [FromBody]PostRunSpecBatch postedRunSpecBatch)
         {
-            await _addSpecBatchToRunRequestRequestHandler.HandleAsync(
-                new AddSpecBatchToRunRequest(_apiContext.ApplicationId, runId, postedRunSpecBatch.SpecIds),
-                Request.HttpContext.RequestAborted);
-            return Created(string.Empty, null);
+            List<RunSpec> runSpecs = await _addSpecBatchToRunRequestRequestHandler.HandleAsync(
+                new AddSpecBatchToRunRequest(_apiContext.ApplicationId, runId, postedRunSpecBatch.SpecIds), Request.HttpContext.RequestAborted);
+            return Created(string.Empty, runSpecs);
         }
 
         [HttpPost]
         [Route("{runId}/Specs")]
         public async Task<IActionResult> PostRunSpecs([FromRoute]int runId, [FromBody]PostRunSpec postedRunSpec)
         {
-            await _addSpecToRunRequestRequestHandler.HandleAsync(new AddSpecToRunRequest(_apiContext.ApplicationId, runId, postedRunSpec.SpecId), Request.HttpContext.RequestAborted);
-            return Created(string.Empty, null);
+            RunSpec runSpec = await _addSpecToRunRequestRequestHandler.HandleAsync(new AddSpecToRunRequest(_apiContext.ApplicationId, runId, postedRunSpec.SpecId), Request.HttpContext.RequestAborted);
+            return Created(string.Empty, runSpec);
+        }
+
+        [HttpPut]
+        [Route("{runId}/Specs/{specId}")]
+        public async Task<IActionResult> PutRunSpecs([FromRoute] int runId, [FromRoute] int specID, [FromBody] PutRunSpec postedRunSpec)
+        {
+            var runSpec = new RunSpec
+            {
+                RunId = runId,
+                SpecId = specID,
+                Success = postedRunSpec.Passed
+            };
+            await _putRunSpecRequestHandler.HandleAsync(new PutRunSpecRequest(_apiContext.ApplicationId, runSpec), Request.HttpContext.RequestAborted);
+            return NoContent();
         }
     }
 }

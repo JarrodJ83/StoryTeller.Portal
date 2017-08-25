@@ -1,7 +1,5 @@
-﻿using System.Data.SqlClient;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Commands;
 using StoryTeller.ResultAggregation.Settings;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StoryTeller.ResultAggregation.Models
+﻿namespace StoryTeller.ResultAggregation.Models
 {
     public class App
     {
