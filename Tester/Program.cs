@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StoryTeller.Portal.ResultsAggregator;
+using StoryTeller.Portal.ResultsAggregator.Client;
 using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Models.ClientModel;
 

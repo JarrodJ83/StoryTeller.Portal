@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Models.ClientModel;
 
-namespace StoryTeller.Portal.ResultsAggregator
+namespace StoryTeller.Portal.ResultsAggregator.Client
 {
     public class PortalResultsAggregatorClient : IPortalResultsAggregatorClient
     {

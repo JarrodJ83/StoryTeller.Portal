@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using StoryTeller.ResultAggregation.Models.ClientModel;
 using StoryTeller.ResultAggregation.Models;
 
-namespace StoryTeller.Portal.ResultsAggregator
+namespace StoryTeller.Portal.ResultsAggregator.Client
 {
     public interface IPortalResultsAggregatorClient
     {
