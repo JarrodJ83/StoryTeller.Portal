@@ -6,9 +6,9 @@ using StoryTeller.ResultAggregation.Settings;
 
 namespace StoryTeller.ResultAggregation.CommandHandlers
 {
-    public class UpdateRunSpec : SqlCommandHandler, ICommandHandler<Commands.UpdateRunSpec>
+    public class UpdateRunSpecViaSql : SqlCommandHandler, ICommandHandler<Commands.UpdateRunSpec>
     {
-        public UpdateRunSpec(ISqlSettings sqlSettings) : base(sqlSettings)
+        public UpdateRunSpecViaSql(ISqlSettings sqlSettings) : base(sqlSettings)
         {
         }
 
