@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tester", "Tester\Tester.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.ResultsAggregator.Client", "StoryTeller.Portal.ResultsAggregator.Client\StoryTeller.Portal.ResultsAggregator.Client.csproj", "{C6060162-8429-4D15-90B6-009A9277E156}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.Portal.ResultsAggregator", "StoryTeller.Portal.ResultsAggregator\StoryTeller.Portal.ResultsAggregator.csproj", "{95BB4E67-DF5D-4E81-AE45-B6C925BCF06F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{C6060162-8429-4D15-90B6-009A9277E156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6060162-8429-4D15-90B6-009A9277E156}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6060162-8429-4D15-90B6-009A9277E156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95BB4E67-DF5D-4E81-AE45-B6C925BCF06F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95BB4E67-DF5D-4E81-AE45-B6C925BCF06F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95BB4E67-DF5D-4E81-AE45-B6C925BCF06F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95BB4E67-DF5D-4E81-AE45-B6C925BCF06F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
