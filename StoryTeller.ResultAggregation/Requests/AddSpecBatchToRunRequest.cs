@@ -9,8 +9,8 @@ namespace StoryTeller.ResultAggregation.Requests
         public int RunId { get; }
         public List<int> SpecIds { get; }
 
-        public AddSpecBatchToRunRequest(int applicationId, int runId, List<int> specIds)
-            : base(applicationId)
+        public AddSpecBatchToRunRequest(int appId, int runId, List<int> specIds)
+            : base(appId)
         {
             RunId = runId;
             SpecIds = specIds;

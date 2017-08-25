@@ -63,12 +63,12 @@ namespace StoryTeller.ResultAggregator.Controllers
 
         [HttpPut]
         [Route("{runId}/Specs/{specId}")]
-        public async Task<IActionResult> PutRunSpecs([FromRoute] int runId, [FromRoute] int specID, [FromBody] PutRunSpec postedRunSpec)
+        public async Task<IActionResult> PutRunSpecs([FromRoute] int runId, [FromRoute] int specId, [FromBody] PutRunSpec postedRunSpec)
         {
             var runSpec = new RunSpec
             {
                 RunId = runId,
-                SpecId = specID,
+                SpecId = specId,
                 Success = postedRunSpec.Passed
             };
             await _putRunSpecRequestHandler.HandleAsync(new PutRunSpecRequest(_apiContext.AppId, runSpec), Request.HttpContext.RequestAborted);

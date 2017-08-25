@@ -20,6 +20,9 @@ namespace StoryTeller.Portal.ResultsAggregator
         {
             ApiKey = apiKey;
             Url = url;
+
+            if (Url.EndsWith("/"))
+                Url = Url.Substring(0, Url.Length - 1);
         }
 
         #region IPortalResultsAggregatorClient
@@ -72,27 +75,25 @@ namespace StoryTeller.Portal.ResultsAggregator
 
                 client.DefaultRequestHeaders.Add("x-api-key", ApiKey);
 
-                Task<HttpResponseMessage> invokeTask = action.Invoke(client);
-                invokeTask.Wait();
-                return invokeTask.Result;
+                return await action.Invoke(client);
             }
         }
 
-        async Task<TResult> GetAsync<TResult>(string path) where TResult : class
+        async Task<TResult> GetAsync<TResult>(string resource) where TResult : class
         {
-            HttpResponseMessage response = await SendAsync(client => client.GetAsync(path));
+            HttpResponseMessage response = await SendAsync(client => client.GetAsync($"api/{resource}"));
             return await ResultOrThrowAsync<TResult>(HttpStatusCode.OK, response);
         }
 
-        async Task<TResult> PostAsync<TResult>(string path, object payload) where TResult : class
+        async Task<TResult> PostAsync<TResult>(string resource, object payload) where TResult : class
         {
-            HttpResponseMessage response = await SendAsync(client => client.PostAsync(path, CreatePostContent(payload)));
+            HttpResponseMessage response = await SendAsync(client => client.PostAsync($"api/{resource}", CreatePostContent(payload)));
             return await ResultOrThrowAsync<TResult>(HttpStatusCode.Created, response);
         }
 
-        async Task PostAsync(string path, object payload)
+        async Task PostAsync(string resource, object payload)
         {
-            HttpResponseMessage response = await SendAsync(client => client.PostAsync(path, CreatePostContent(payload)));
+            HttpResponseMessage response = await SendAsync(client => client.PostAsync($"api/{resource}", CreatePostContent(payload)));
             if (response.StatusCode != HttpStatusCode.Created)
             {
                 var content = await response.Content?.ReadAsStringAsync();
@@ -100,9 +101,9 @@ namespace StoryTeller.Portal.ResultsAggregator
             }
         }
 
-        async Task PutAsync<TObject>(string path, TObject payload)
+        async Task PutAsync(string resource, object payload)
         {
-            HttpResponseMessage response = await SendAsync(client => client.PostAsync(path, CreatePostContent(payload)));
+            HttpResponseMessage response = await SendAsync(client => client.PutAsync($"api/{resource}", CreatePostContent(payload)));
             if (response.StatusCode != HttpStatusCode.NoContent)
             {
                 var content = await response.Content?.ReadAsStringAsync();

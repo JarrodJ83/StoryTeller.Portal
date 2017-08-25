@@ -8,7 +8,7 @@ namespace StoryTeller.ResultAggregation.Requests
     {
         public PostSpec PostedSpec { get; private set; }
 
-        public AddSpecRequest(int applicationId, PostSpec postedSpec) : base(applicationId)
+        public AddSpecRequest(int appId, PostSpec postedSpec) : base(appId)
         {
             PostedSpec = postedSpec;
         }

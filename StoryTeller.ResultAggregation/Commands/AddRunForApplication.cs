@@ -5,12 +5,12 @@ namespace StoryTeller.ResultAggregation.Commands
 {
     public class AddRunForApplication : ICommand
     {
-        public int ApplicationId { get; }
+        public int AppId { get; }
         public Run Run { get; }
 
-        public AddRunForApplication(int applicationId, Run run)
+        public AddRunForApplication(int appId, Run run)
         {
-            ApplicationId = applicationId;
+            AppId = appId;
             Run = run;
         }
     }

@@ -6,7 +6,7 @@ namespace StoryTeller.ResultAggregation.Commands
     public class AddSpecToRun : ApplicationScoped, ICommand
     {
         public RunSpec RunSpec { get; }
-        public AddSpecToRun(int applicationId, RunSpec runSpec) : base(applicationId)
+        public AddSpecToRun(int appId, RunSpec runSpec) : base(appId)
         {
             RunSpec = runSpec;
         }

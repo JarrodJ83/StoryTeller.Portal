@@ -7,7 +7,7 @@ namespace StoryTeller.ResultAggregation.Commands
     {
         public Run Run { get; }
 
-        public UpdateRun(int applicationId, Run run) : base(applicationId)
+        public UpdateRun(int appId, Run run) : base(appId)
         {
             Run = run;
         }

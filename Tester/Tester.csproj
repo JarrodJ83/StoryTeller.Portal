@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="newtonsoft.json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StoryTeller.Portal.ResultsAggregator\StoryTeller.Portal.ResultsAggregator.csproj" />
+    <ProjectReference Include="..\StoryTeller.ResultAggregation.Models\StoryTeller.ResultAggregation.Models.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -8,8 +8,8 @@ namespace StoryTeller.ResultAggregation.Requests
         public int RunId { get; }
         public int SpecId { get; }
 
-        public AddSpecToRunRequest(int applicationId, int runId, int specId)
-            : base(applicationId)
+        public AddSpecToRunRequest(int appId, int runId, int specId)
+            : base(appId)
         {
             RunId = runId;
             SpecId = specId;

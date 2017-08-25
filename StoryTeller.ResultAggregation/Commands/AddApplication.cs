@@ -5,7 +5,7 @@ namespace StoryTeller.ResultAggregation.Commands
 {
     public class AddApplication : ICommand
     {
-        public int ApplicationId { get; protected set; }
+        public int AppId { get; protected set; }
         public string ApplicationName { get; }
         public Guid ApiKey { get; }
 

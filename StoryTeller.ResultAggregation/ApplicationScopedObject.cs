@@ -4,9 +4,9 @@
     {
         public int AppId { get; }
 
-        public ApplicationScoped(int applicationId)
+        public ApplicationScoped(int appId)
         {
-            AppId = applicationId;
+            AppId = appId;
         }
     }
 }

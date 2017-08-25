@@ -1,13 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFrameworks>netcoreapp2.0;net462;</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\StoryTeller.ResultAggregation.Models\StoryTeller.ResultAggregation.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+    <!--<Reference Include="System.Data" />-->
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <!--<Reference Include="System.Reflection" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />-->
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\Users\jarrod.johnson\.nuget\packages\newtonsoft.json\10.0.1\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>

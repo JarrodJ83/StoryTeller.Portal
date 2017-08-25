@@ -6,11 +6,11 @@ namespace StoryTeller.ResultAggregation.Queries
 {
     public class RunsByApplication : IQuery<List<Run>>
     {
-        public int ApplicationId { get; }
+        public int AppId { get; }
 
-        public RunsByApplication(int applicationId)
+        public RunsByApplication(int appId)
         {
-            ApplicationId = applicationId;
+            AppId = appId;
         }
     }
 }

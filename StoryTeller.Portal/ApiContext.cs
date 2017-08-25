@@ -12,7 +12,7 @@ namespace StoryTeller.Portal
             if (contextAccessor.HttpContext == null)
                 return;
 
-            var applicationIdClaim = contextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "ApplicationId");
+            var applicationIdClaim = contextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "AppId");
             AppId = int.Parse(applicationIdClaim.Value);
         }
     }

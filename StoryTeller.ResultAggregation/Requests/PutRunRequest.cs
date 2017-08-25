@@ -11,7 +11,7 @@ namespace StoryTeller.ResultAggregation.Requests
     {
         public Run Run;
 
-        public PutRunRequest(int applicationId, Run run) : base(applicationId)
+        public PutRunRequest(int appId, Run run) : base(appId)
         {
             Run = run;
         }

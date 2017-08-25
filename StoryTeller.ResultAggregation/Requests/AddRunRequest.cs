@@ -7,7 +7,7 @@ namespace StoryTeller.ResultAggregation.Requests
     public class AddRunRequest : ApplicationScoped, IRequest<Run>
     {
         public PostRun PostedRun { get; }
-        public AddRunRequest(int applicationId, PostRun postedRun) : base(applicationId)
+        public AddRunRequest(int appId, PostRun postedRun) : base(appId)
         {
             PostedRun = postedRun;
         }

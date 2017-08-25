@@ -49,11 +49,11 @@ namespace StoryTeller.Portal.Middleware
 
                 using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
                 {
-                    object applicationId =
+                    object appId =
                         await conn.ExecuteScalarAsync("select top 1 id from [app] where apikey = @apiKey",
                             new {apiKey});
 
-                    if (applicationId == null)
+                    if (appId == null)
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                         await context.Response.WriteAsync("ApiKey is either not found or invalid");
@@ -63,7 +63,7 @@ namespace StoryTeller.Portal.Middleware
                     var appPrincipal = new ClaimsPrincipal();
                     appPrincipal.AddIdentity(new ClaimsIdentity(new[]
                     {
-                        new Claim("ApplicationId", applicationId.ToString())
+                        new Claim("AppId", appId.ToString())
                     }));
 
                     context.User = appPrincipal;

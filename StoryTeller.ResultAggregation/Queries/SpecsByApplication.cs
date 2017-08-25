@@ -6,7 +6,7 @@ namespace StoryTeller.ResultAggregation.Queries
 {
     public class SpecsByApplication : ApplicationScoped, IQuery<List<Spec>>
     {
-        public SpecsByApplication(int applicationId) : base(applicationId)
+        public SpecsByApplication(int appId) : base(appId)
         {
         }
     }
