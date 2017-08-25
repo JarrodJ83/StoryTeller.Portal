@@ -2,6 +2,6 @@
 {
     public interface IApiContext
     {
-        int ApplicationId { get; }
+        int AppId { get; }
     }
 }

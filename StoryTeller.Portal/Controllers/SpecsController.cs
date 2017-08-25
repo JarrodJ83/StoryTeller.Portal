@@ -25,13 +25,13 @@ namespace StoryTeller.Portal.Controllers
         [HttpGet]
         public async Task<List<Spec>> Get()
         {
-            return await _getAllSpecsRequestHandler.HandleAsync(new GetAllSpecs(_apiContext.ApplicationId), Request.HttpContext.RequestAborted);
+            return await _getAllSpecsRequestHandler.HandleAsync(new GetAllSpecs(_apiContext.AppId), Request.HttpContext.RequestAborted);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]PostSpec postSpec)
         {
-            var addSpecRequest = new AddSpecRequest(_apiContext.ApplicationId, postSpec);
+            var addSpecRequest = new AddSpecRequest(_apiContext.AppId, postSpec);
             Spec spec = await _addSpecRequestHandler.HandleAsync(addSpecRequest, Request.HttpContext.RequestAborted);
             return Created(string.Empty, spec);
         }

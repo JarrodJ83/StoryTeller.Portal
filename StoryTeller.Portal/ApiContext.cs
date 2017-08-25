@@ -5,7 +5,7 @@ namespace StoryTeller.Portal
 {
     public class ApiContext : IApiContext
     {
-        public int ApplicationId { get; }
+        public int AppId { get; }
 
         public ApiContext(IHttpContextAccessor contextAccessor)
         {
@@ -13,7 +13,7 @@ namespace StoryTeller.Portal
                 return;
 
             var applicationIdClaim = contextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "ApplicationId");
-            ApplicationId = int.Parse(applicationIdClaim.Value);
+            AppId = int.Parse(applicationIdClaim.Value);
         }
     }
 }
