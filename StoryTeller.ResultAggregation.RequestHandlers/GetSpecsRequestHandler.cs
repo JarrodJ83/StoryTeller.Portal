@@ -21,7 +21,7 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
 
         public async Task<List<Spec>> HandleAsync(GetAllSpecs request, CancellationToken cancellationToken)
         {
-            return await _specsByApplicationQueryHandler.FetchAsynx(new SpecsByApplication(request.AppId), cancellationToken);
+            return await _specsByApplicationQueryHandler.FetchAsync(new SpecsByApplication(request.AppId), cancellationToken);
         }
     }
 }

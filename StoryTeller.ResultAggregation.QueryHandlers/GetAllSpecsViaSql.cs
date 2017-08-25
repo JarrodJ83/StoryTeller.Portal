@@ -21,7 +21,7 @@ namespace StoryTeller.ResultAggregation.QueryHandlers
             _sqlSettings = sqlSettings;
         }
 
-        public async Task<List<Spec>> FetchAsynx(SpecsByApplication qry, CancellationToken cancellationToken)
+        public async Task<List<Spec>> FetchAsync(SpecsByApplication qry, CancellationToken cancellationToken)
         {
             using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
             {

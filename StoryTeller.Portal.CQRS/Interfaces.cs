@@ -9,7 +9,7 @@ namespace StoryTeller.Portal.CQRS
 
     public interface IQueryHandler<in TQry, TResult> where TQry : IQuery<TResult>
     {
-        Task<TResult> FetchAsynx(TQry qry, CancellationToken cancellationToken);
+        Task<TResult> FetchAsync(TQry qry, CancellationToken cancellationToken);
     }
 
     public interface ICommand
