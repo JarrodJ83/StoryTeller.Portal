@@ -1,17 +1,21 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Commands;
+using StoryTeller.ResultAggregation.Events;
 using StoryTeller.ResultAggregation.Requests;
 
 namespace StoryTeller.ResultAggregation.RequestHandlers
 {
-    public class PutRunSpecRequestHandler : IRequestHandler<PutRunSpecRequest>
+    public class PutRunSpecRequestHandler : Portal.CQRS.IRequestHandler<PutRunSpecRequest>
     {
+        private readonly IMediator _mediator;
         private readonly ICommandHandler<Commands.UpdateRunSpec> _passFailRunSpecCommandHandler;
 
-        public PutRunSpecRequestHandler(ICommandHandler<UpdateRunSpec> passFailRunSpecCommandHandler)
+        public PutRunSpecRequestHandler(IMediator mediator, ICommandHandler<UpdateRunSpec> passFailRunSpecCommandHandler)
         {
+            _mediator = mediator;
             _passFailRunSpecCommandHandler = passFailRunSpecCommandHandler;
         }
 
@@ -20,6 +24,8 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
             var passFailRunSpecCmd = new UpdateRunSpec(request.AppId, request.RunSpec.RunId, request.RunSpec.SpecId, request.RunSpec.Success.Value);
 
             await _passFailRunSpecCommandHandler.ExecuteAsync(passFailRunSpecCmd, cancellationToken);
+
+            await _mediator.Publish(new RunSpecUpdated(request.RunSpec.RunId, request.RunSpec.SpecId), cancellationToken);
         }
     }
 }
