@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using StoryTeller.Engine;
 using StoryTeller.Model;
@@ -7,6 +8,7 @@ using StoryTeller.Portal.ResultsAggregator.Client;
 using StoryTeller.Remotes.Messaging;
 using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Models.ClientModel;
+using StoryTeller.Results;
 
 namespace StoryTeller.Portal.ResultsAggregator
 {
@@ -73,11 +75,13 @@ namespace StoryTeller.Portal.ResultsAggregator
 
         #endregion
 
-        public void Receive(BatchRunResponse message)
+        public void Receive(BatchRunResponse results)
         {
             var run = RunContext.Current.Run;
-            // TODO: Need to figure out how to send HTML file content
-            run.HtmlResults = "FINISHED!";
+
+            var htmlResults = File.ReadAllText(_RunLoggerSettings.HtmlResultsFileName);
+
+            run.HtmlResults = htmlResults;
 
             _client.UpdateRunAsync(run).Wait();
 

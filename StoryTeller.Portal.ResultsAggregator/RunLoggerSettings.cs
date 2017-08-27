@@ -9,11 +9,14 @@
             set => _runNameGenerator = value ?? new DateTimeRunNameGenerator();
         }
 
+        public string HtmlResultsFileName { get; }
+
         #region IRunLoggerSettings
 
         public RunLoggerSettings(IRunNameGenerator runNameGenerator = null)
         {
             RunNameGenerator = runNameGenerator;
+            HtmlResultsFileName = @"C:\temp\stresults.html";
         }
 
         #endregion
