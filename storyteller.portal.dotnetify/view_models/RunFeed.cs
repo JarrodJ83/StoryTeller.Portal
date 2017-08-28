@@ -10,20 +10,20 @@ using StoryTeller.ResultAggregation.Events;
 
 namespace storyteller.portal.dotnetify.view_models
 {
-    public class RunFeed : BaseVM, IAsyncNotificationHandler<RunCreated>
+    public class RunFeed : BaseVM
     {
-        public List<string> Runs => new List<string>
-        {
-            "Jarrod"
-        };
-        
-        public RunFeed()
-        {
-        }
+        private readonly RunFeedDataSource _ds;
 
-        public async Task Handle(RunCreated notification)
+        public List<string> Runs => _ds.Runs;
+
+        public RunFeed(RunFeedDataSource ds)
         {
-            Runs.Add(notification.RunId.ToString());
+            _ds = ds;
+            _ds.PropertyChanged += (sender, args) =>
+            {
+                this.Changed(nameof(Runs));
+                PushUpdates();
+            };
         }
     }
 }
