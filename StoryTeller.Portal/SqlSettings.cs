@@ -1,4 +1,4 @@
-﻿using StoryTeller.ResultAggregation.Settings;
+﻿using StoryTeller.Portal.CQRS.Sql;
 
 namespace StoryTeller.Portal
 {

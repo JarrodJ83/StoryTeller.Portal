@@ -1,4 +1,4 @@
-﻿namespace StoryTeller.ResultAggregation.Settings
+﻿namespace StoryTeller.Portal.CQRS.Sql
 {
     public interface ISqlSettings
     {

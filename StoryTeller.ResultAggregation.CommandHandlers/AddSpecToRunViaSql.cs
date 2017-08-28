@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using StoryTeller.Portal.CQRS;
+using StoryTeller.Portal.CQRS.Sql;
 using StoryTeller.ResultAggregation.Commands;
-using StoryTeller.ResultAggregation.Settings;
 
 namespace StoryTeller.ResultAggregation.CommandHandlers
 {
-    public class AddSpecToRunViaSql : SqlCommandHandler, ICommandHandler<AddSpecToRun>
+    public class AddSpecToRunViaSql : SqlHandler, ICommandHandler<AddSpecToRun>
     {
         public AddSpecToRunViaSql(ISqlSettings sqlSettings) : base(sqlSettings)
         {

@@ -1,12 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using StoryTeller.Portal.CQRS;
+using StoryTeller.Portal.CQRS.Sql;
 using StoryTeller.ResultAggregation.Commands;
-using StoryTeller.ResultAggregation.Settings;
 
 namespace StoryTeller.ResultAggregation.CommandHandlers
 {
-    public class AddSpecViaSql : SqlCommandHandler, ICommandHandler<Commands.AddSpec, int>
+    public class AddSpecViaSql : SqlHandler, ICommandHandler<Commands.AddSpec, int>
     {
         public AddSpecViaSql(ISqlSettings sqlSettings) : base(sqlSettings)
         {

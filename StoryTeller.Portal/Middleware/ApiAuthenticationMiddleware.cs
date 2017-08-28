@@ -7,7 +7,7 @@ using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
-using StoryTeller.ResultAggregation.Settings;
+using StoryTeller.Portal.CQRS.Sql;
 
 namespace StoryTeller.Portal.Middleware
 {

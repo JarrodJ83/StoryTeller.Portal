@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Reflection;
 using MediatR;
-using MediatR.Pipeline;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,12 +15,14 @@ using Microsoft.Extensions.Logging;
 using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
+using StoryTeller.Portal.AppManagment.QueryHandlers;
+using StoryTeller.Portal.AppManagment.RequestHandlers;
 using StoryTeller.Portal.CQRS;
+using StoryTeller.Portal.CQRS.Sql;
 using StoryTeller.Portal.Middleware;
 using StoryTeller.ResultAggregation.CommandHandlers;
 using StoryTeller.ResultAggregation.QueryHandlers;
 using StoryTeller.ResultAggregation.RequestHandlers;
-using StoryTeller.ResultAggregation.Settings;
 
 namespace StoryTeller.Portal
 {
@@ -69,13 +69,7 @@ namespace StoryTeller.Portal
             container.Register<IApiContext, ApiContext>();
             container.Register<ApiAuthenticationMiddleware>();
 
-            container.Register(typeof(ICommandHandler<>), new []{ typeof(AddRunForApplicationViaSql).Assembly });
-            container.Register(typeof(ICommandHandler<,>), new[] {typeof(AddRunForApplicationViaSql).Assembly});
-
-            container.Register(typeof(StoryTeller.Portal.CQRS.IRequestHandler<>), new[] { typeof(AddRunRequestHandler).Assembly });
-            container.Register(typeof(StoryTeller.Portal.CQRS.IRequestHandler<,>), new[] { typeof(AddRunRequestHandler).Assembly });
-            
-            container.Register(typeof(IQueryHandler<,>), new[] { typeof(GetAllSpecsViaSql).Assembly });
+            RegisterCQRSHandlers();
 
             RegisterMediatr(container);
 
@@ -89,6 +83,19 @@ namespace StoryTeller.Portal
 
             // NOTE: Do prevent cross-wired instances as much as possible.
             // See: https://simpleinjector.org/blog/2016/07/
+        }
+
+        private void RegisterCQRSHandlers()
+        {
+            container.Register(typeof(ICommandHandler<>), new[] { typeof(AddRunForApplicationViaSql).Assembly });
+            container.Register(typeof(ICommandHandler<,>), new[] { typeof(AddRunForApplicationViaSql).Assembly });
+
+            container.Register(typeof(StoryTeller.Portal.CQRS.IRequestHandler<>),
+                new[] { typeof(AddRunRequestHandler).Assembly });
+            container.Register(typeof(StoryTeller.Portal.CQRS.IRequestHandler<,>),
+                new[] { typeof(AddRunRequestHandler).Assembly, typeof(AllAppsRequestHandler).Assembly });
+
+            container.Register(typeof(IQueryHandler<,>), new[] { typeof(GetAllSpecsViaSql).Assembly, typeof(AllAppsViaSql).Assembly });
         }
 
         IEnumerable<Assembly> GetAssemblies()

@@ -1,4 +1,6 @@
-﻿namespace StoryTeller.ResultAggregation.Models
+﻿using System;
+
+namespace StoryTeller.Portal.AppManagment.Models
 {
     public class App
     {

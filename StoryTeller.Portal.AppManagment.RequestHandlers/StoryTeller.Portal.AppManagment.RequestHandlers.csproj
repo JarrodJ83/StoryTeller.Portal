@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StoryTeller.Portal.AppManagment.Models\StoryTeller.Portal.AppManagment.Models.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal.AppManagment\StoryTeller.Portal.AppManagment.csproj" />
+  </ItemGroup>
+
+</Project>

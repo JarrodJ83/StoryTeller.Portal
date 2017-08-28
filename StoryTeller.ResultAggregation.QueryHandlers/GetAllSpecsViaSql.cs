@@ -6,31 +6,22 @@ using System.Threading.Tasks;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Queries;
-using StoryTeller.ResultAggregation.Settings;
 using Dapper;
+using StoryTeller.Portal.CQRS.Sql;
+using StoryTeller.ResultAggregation.CommandHandlers;
 
 namespace StoryTeller.ResultAggregation.QueryHandlers
 {
-    public class GetAllSpecsViaSql : IQueryHandler<Queries.SpecsByApplication, List<Spec>>
+    public class GetAllSpecsViaSql : SqlHandler, IQueryHandler<Queries.SpecsByApplication, List<Spec>>
     {
-        private readonly ISqlSettings _sqlSettings;
-
-        public GetAllSpecsViaSql(ISqlSettings sqlSettings)
+        public GetAllSpecsViaSql(ISqlSettings sqlSettings) : base(sqlSettings)
         {
-            _sqlSettings = sqlSettings;
         }
 
         public async Task<List<Spec>> FetchAsync(SpecsByApplication qry, CancellationToken cancellationToken)
         {
-            using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
-            {
-                await conn.OpenAsync(cancellationToken);
-                IEnumerable<Spec> specs = await conn.QueryAsync<Spec>(
-                    $@"select id, storytellerid, name, appId
-                      from spec where appId = @{nameof(qry.AppId)}", new { qry.AppId });
-
-                return specs.ToList();
-            }
+            return await Query<Spec>($@"select id, storytellerid, name, appId
+                      from spec where appId = @{nameof(qry.AppId)}", new {qry.AppId}, cancellationToken);
         }
     }
 }

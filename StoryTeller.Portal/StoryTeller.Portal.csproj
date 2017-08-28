@@ -23,6 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StoryTeller.Portal.AppManagment.Models\StoryTeller.Portal.AppManagment.Models.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal.AppManagment.QueryHandlers\StoryTeller.Portal.AppManagment.QueryHandlers.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal.AppManagment.RequestHandlers\StoryTeller.Portal.AppManagment.RequestHandlers.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal.AppManagment\StoryTeller.Portal.AppManagment.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal.CQRS.Sql\StoryTeller.Portal.CQRS.Sql.csproj" />
     <ProjectReference Include="..\StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj" />
     <ProjectReference Include="..\StoryTeller.ResultAggregation.CommandHandlers\StoryTeller.ResultAggregation.CommandHandlers.csproj" />
     <ProjectReference Include="..\StoryTeller.ResultAggregation.Models\StoryTeller.ResultAggregation.Models.csproj" />

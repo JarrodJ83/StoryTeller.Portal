@@ -26,9 +26,7 @@ class AppsList extends React.Component<AppsProps, {}> {
         </div>;
     }
 
-    private renderAppsTable() {               
-        console.log("PROPS");
-        console.log(this.props);
+    private renderAppsTable() { 
         return <table className='table'>
             <thead>
                 <tr>

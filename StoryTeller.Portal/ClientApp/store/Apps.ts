@@ -43,8 +43,7 @@ export const actionCreators = {
         let state = getState().apps;
         console.log(state.isLoaded);
         
-        if (!state.isLoaded) {            
-            console.log("fetching");
+        if (!state.isLoaded) {      
             let fetchTask = fetch(`Apps`)
                 .then(response => response.json() as Promise<App[]>)
                 .then(data => {                    
@@ -61,8 +60,7 @@ const unloadedState: AppsState = { apps: [], isLoaded: false };
 
 export const reducer: Reducer<AppsState> = (state: AppsState, incomingAction: Action) => {
     const action = incomingAction as KnownAction;
-    console.log(action);
-
+    
     switch (action.type) {
         case 'REQUEST_APPS':
             return {
