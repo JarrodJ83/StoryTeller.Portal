@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using StoryTeller.Portal.AppManagment.Models;
+using StoryTeller.Portal.Models;
 using StoryTeller.Portal.CQRS;
 
-namespace StoryTeller.Portal.AppManagment.Requests
+namespace StoryTeller.Portal.Requests
 {
     public class AllAppsRequest : IRequest<List<App>>
     {

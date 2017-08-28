@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using StoryTeller.Portal.AppManagment.Models;
-using StoryTeller.Portal.AppManagment.Queries;
-using StoryTeller.Portal.AppManagment.Requests;
+using StoryTeller.Portal.Models;
+using StoryTeller.Portal.Queries;
+using StoryTeller.Portal.Requests;
 using StoryTeller.Portal.CQRS;
 
-namespace StoryTeller.Portal.AppManagment.RequestHandlers
+namespace StoryTeller.Portal.RequestHandlers
 {
     public class AllAppsRequestHandler : IRequestHandler<Requests.AllAppsRequest, List<App>>
     {

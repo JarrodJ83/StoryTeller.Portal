@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using StoryTeller.Portal.AppManagment.Models;
-using StoryTeller.Portal.AppManagment.Queries;
+using StoryTeller.Portal.Models;
+using StoryTeller.Portal.Queries;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.Portal.CQRS.Sql;
 using StoryTeller.ResultAggregation.CommandHandlers;
 
-namespace StoryTeller.Portal.AppManagment.QueryHandlers
+namespace StoryTeller.Portal.QueryHandlers
 {
     public class AllAppsViaSql : SqlHandler, IQueryHandler<Queries.AllApps, List<App>>
     {
