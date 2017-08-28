@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.QueryHan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.RequestHandlers", "StoryTeller.Portal.RequestHandlers\StoryTeller.Portal.RequestHandlers.csproj", "{4F1C1972-2004-451D-B90F-EDF90A4789B9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "storyteller.portal.dotnetify", "storyteller.portal.dotnetify\storyteller.portal.dotnetify.csproj", "{76F87FC3-09B1-4B81-AA63-69E0B2D26280}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{4F1C1972-2004-451D-B90F-EDF90A4789B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F1C1972-2004-451D-B90F-EDF90A4789B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F1C1972-2004-451D-B90F-EDF90A4789B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76F87FC3-09B1-4B81-AA63-69E0B2D26280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76F87FC3-09B1-4B81-AA63-69E0B2D26280}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76F87FC3-09B1-4B81-AA63-69E0B2D26280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76F87FC3-09B1-4B81-AA63-69E0B2D26280}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,20 @@
+{
+  "name": "storyteller.portal.dotnetify",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:5000/",
+  "dependencies": {
+    "concurrently": "^3.5.0",
+    "dotnetify": "^2.0.5-beta",
+    "jquery": "^3.2.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-scripts": "1.0.12"
+  },
+  "scripts": {
+    "start": "concurrently \"react-scripts start\" \"dotnet run\" --kill-others",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
