@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StoryTeller_Portal.Controllers
+namespace StoryTeller.Portal.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller

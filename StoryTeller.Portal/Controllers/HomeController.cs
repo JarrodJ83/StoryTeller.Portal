@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StoryTeller_Portal.Controllers
+namespace StoryTeller.Portal.Controllers
 {
     public class HomeController : Controller
     {

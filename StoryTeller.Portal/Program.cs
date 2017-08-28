@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace StoryTeller_Portal
+namespace StoryTeller.Portal
 {
     public class Program
     {
