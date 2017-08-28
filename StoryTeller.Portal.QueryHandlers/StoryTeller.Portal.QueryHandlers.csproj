@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StoryTeller.Portal.AppManagment.Models\StoryTeller.Portal.AppManagment.Models.csproj" />
-    <ProjectReference Include="..\StoryTeller.Portal.AppManagment\StoryTeller.Portal.AppManagment.csproj" />
     <ProjectReference Include="..\StoryTeller.Portal.CQRS.Sql\StoryTeller.Portal.CQRS.Sql.csproj" />
     <ProjectReference Include="..\StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal.Models\StoryTeller.Portal.Models.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal\StoryTeller.Portal.csproj" />
   </ItemGroup>
 
 </Project>
