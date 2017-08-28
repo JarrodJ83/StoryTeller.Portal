@@ -6,7 +6,25 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DotNetify.SignalR" Version="2.2.1-pre" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0-msbuild3-final" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DotNetify.SignalR" Version="2.2.0-pre" />
+    <PackageReference Include="mediator" Version="1.0.2123" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.0.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StoryTeller.Portal.CQRS.Sql\StoryTeller.Portal.CQRS.Sql.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal.Models\StoryTeller.Portal.Models.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal.QueryHandlers\StoryTeller.Portal.QueryHandlers.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal.RequestHandlers\StoryTeller.Portal.RequestHandlers.csproj" />
+    <ProjectReference Include="..\StoryTeller.Portal\StoryTeller.Portal.csproj" />
+    <ProjectReference Include="..\StoryTeller.ResultAggregation.CommandHandlers\StoryTeller.ResultAggregation.CommandHandlers.csproj" />
+    <ProjectReference Include="..\StoryTeller.ResultAggregation.Models\StoryTeller.ResultAggregation.Models.csproj" />
+    <ProjectReference Include="..\StoryTeller.ResultAggregation.QueryHandlers\StoryTeller.ResultAggregation.QueryHandlers.csproj" />
+    <ProjectReference Include="..\StoryTeller.ResultAggregation.RequestHandlers\StoryTeller.ResultAggregation.RequestHandlers.csproj" />
+    <ProjectReference Include="..\StoryTeller.ResultAggregation\StoryTeller.ResultAggregation.csproj" />
   </ItemGroup>
 </Project>
