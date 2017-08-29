@@ -20,7 +20,7 @@ namespace StoryTeller.ResultAggregation.QueryHandlers
 
         public async Task<List<Spec>> FetchAsync(SpecsByApplication qry, CancellationToken cancellationToken)
         {
-            return await Query<Spec>($@"select id, storytellerid, name, appId
+            return await QueryAsync<Spec>($@"select id, storytellerid, name, appId
                       from spec where appId = @{nameof(qry.AppId)}", new {qry.AppId}, cancellationToken);
         }
     }

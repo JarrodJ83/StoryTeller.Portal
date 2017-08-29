@@ -14,7 +14,7 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
 
         public async Task ExecuteAsync(Commands.UpdateRunSpec cmd, CancellationToken cancellationToken)
         {
-            var affectedRows = await ExecuteScalar<int>($@"update rs                                                        
+            var affectedRows = await ExecuteScalarAsync<int>($@"update rs                                                        
                                                             set Passed = @{nameof(cmd.Passed)}
                                                            from RunSpec as rs
                                                             inner join Run as r on rs.RunId = r.Id

@@ -12,7 +12,7 @@ class RunFeed extends React.Component {
             <div className="App-intro">
                 Runs:
                 {this.state.Runs.map(run => 
-                    <div>{run}</div>
+                    <div>{run.RunDateTime} :: {run.AppName} - {run.Name} - ({run.SuccessfulCount + run.FailureCount} / {run.TotalCount})</div>
                 )}
             </div>
         );

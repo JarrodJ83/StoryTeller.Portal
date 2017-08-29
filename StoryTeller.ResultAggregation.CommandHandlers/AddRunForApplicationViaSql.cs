@@ -14,7 +14,7 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
 
         public async Task ExecuteAsync(AddRunForApplication cmd, CancellationToken cancellationToken)
         {
-            var runid = await ExecuteScalar<int>($@"insert into Run ([AppId], [Name],[RunDateTime]) 
+            var runid = await ExecuteScalarAsync<int>($@"insert into Run ([AppId], [Name],[RunDateTime]) 
                                                  values (@{nameof(cmd.AppId)}, @{nameof(cmd.Run.Name)}, @{nameof(cmd.Run.RunDateTime)})
                                                  select @@identity", new {cmd.AppId, cmd.Run.Name, cmd.Run.RunDateTime}, cancellationToken);
 

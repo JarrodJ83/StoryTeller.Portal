@@ -25,7 +25,7 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
 
                          select @@rowcount";
 
-            var affectedRows = await ExecuteScalar<int>(qry, new { cmd.Run.Id, cmd.Run.Name, cmd.Run.HtmlResults, cmd.Run.RunDateTime, cmd.AppId }, cancellationToken);
+            var affectedRows = await ExecuteScalarAsync<int>(qry, new { cmd.Run.Id, cmd.Run.Name, cmd.Run.HtmlResults, cmd.Run.RunDateTime, cmd.AppId }, cancellationToken);
 
             if(affectedRows == 0)
                 throw new Exception("No updates");

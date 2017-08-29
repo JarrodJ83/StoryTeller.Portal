@@ -15,7 +15,7 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
 
         public async Task ExecuteAsync(AddSpecToRun cmd, CancellationToken cancellationToken)
         {
-            var result = await ExecuteScalar<int?>($@"
+            var result = await ExecuteScalarAsync<int?>($@"
                                     insert into RunSpec (runId, specId)
                                     select r.id, @{nameof(cmd.RunSpec.SpecId)}
                                     from Run as r

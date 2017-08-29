@@ -18,7 +18,7 @@ namespace StoryTeller.Portal.QueryHandlers
 
         public async Task<List<App>> FetchAsync(AllApps qry, CancellationToken cancellationToken)
         {
-            return await Query<App>("select id, name from App", new { }, cancellationToken);
+            return await QueryAsync<App>("select id, name from App", new { }, cancellationToken);
         }
     }
 }

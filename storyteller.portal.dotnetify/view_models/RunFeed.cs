@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DotNetify;
 using MediatR;
+using StoryTeller.Portal.Models.Views;
 using StoryTeller.ResultAggregation.Events;
 
 namespace storyteller.portal.dotnetify.view_models
@@ -14,7 +15,7 @@ namespace storyteller.portal.dotnetify.view_models
     {
         private readonly RunFeedDataSource _ds;
 
-        public List<string> Runs => _ds.Runs;
+        public List<RunSummary> Runs => _ds.Runs;
 
         public RunFeed(RunFeedDataSource ds)
         {

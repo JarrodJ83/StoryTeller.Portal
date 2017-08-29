@@ -101,11 +101,11 @@ namespace helloworld
             container.RegisterMvcViewComponents(app);
 
 
-            container.Register<ISqlSettings, SqlSettings>();
-            container.Register<IApiContext, ApiContext>();
-            container.Register<ApiAuthenticationMiddleware>();
+            container.Register<ISqlSettings, SqlSettings>(Lifestyle.Scoped);
+            container.Register<IApiContext, ApiContext>(Lifestyle.Scoped);
+            container.Register<ApiAuthenticationMiddleware>(Lifestyle.Scoped);
             container.Register<BaseVM>(Lifestyle.Scoped);
-            container.Register<RunFeedDataSource>(Lifestyle.Singleton);
+            container.Register<RunFeedDataSource>(Lifestyle.Scoped);
 
             RegisterCQRSHandlers();
 
@@ -125,24 +125,22 @@ namespace helloworld
 
         private void RegisterCQRSHandlers()
         {
-            container.Register(typeof(ICommandHandler<>), new[] {typeof(AddRunForApplicationViaSql).Assembly});
-            container.Register(typeof(ICommandHandler<,>), new[] {typeof(AddRunForApplicationViaSql).Assembly});
+            container.Register(typeof(ICommandHandler<>), new[] {typeof(AddRunForApplicationViaSql).Assembly}, Lifestyle.Scoped);
+            container.Register(typeof(ICommandHandler<,>), new[] {typeof(AddRunForApplicationViaSql).Assembly}, Lifestyle.Scoped);
 
             container.Register(typeof(StoryTeller.Portal.CQRS.IRequestHandler<>),
-                new[] {typeof(AddRunRequestHandler).Assembly});
+                new[] {typeof(AddRunRequestHandler).Assembly}, Lifestyle.Scoped);
             container.Register(typeof(StoryTeller.Portal.CQRS.IRequestHandler<,>),
-                new[] {typeof(AddRunRequestHandler).Assembly, typeof(AllAppsRequestHandler).Assembly});
+                new[] {typeof(AddRunRequestHandler).Assembly, typeof(AllAppsRequestHandler).Assembly}, Lifestyle.Scoped);
 
             container.Register(typeof(IQueryHandler<,>),
-                new[] {typeof(GetAllSpecsViaSql).Assembly, typeof(AllAppsViaSql).Assembly});
+                new[] {typeof(GetAllSpecsViaSql).Assembly, typeof(AllAppsViaSql).Assembly}, Lifestyle.Scoped);
         }
         void RegisterMediatr(Container container)
         {
             container.RegisterSingleton<IMediator, MediatR.Mediator>();
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-
 
             container.RegisterCollection(typeof(INotificationHandler<>), assemblies);
             container.RegisterCollection(typeof(IAsyncNotificationHandler<>), assemblies);
