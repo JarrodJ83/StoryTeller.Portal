@@ -7,11 +7,10 @@ namespace StoryTeller.Portal.ResultsAggregator.Client
 {
     public interface IPortalResultsAggregatorClient
     {
-        Task<List<Spec>> GetSpecsAsync();
+        Task<List<Spec>> GetAllSpecsAsync();
         Task<Spec> AddSpecAsync(PostSpec spec);
-        Task<Run> AddRunAsync(PostRun run);
-        Task AddSpecsToRunAsync(int runId, PostRunSpecBatch runSpecBatch);
-        Task UpdateRunSpecAsync(int runId, int specId, PutRunSpec runSpec);
+        Task<Run> StartNewRunAsync(StartNewRun run);
+        Task PassFailRunSpecAsync(PassFailRunSpec runSpec);
         Task UpdateRunAsync(Run run);
     }
 }

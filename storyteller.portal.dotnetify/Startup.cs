@@ -100,14 +100,14 @@ namespace helloworld
             container.RegisterMvcControllers(app);
             container.RegisterMvcViewComponents(app);
 
+            var sqlSettings = new SqlSettings();;
 
-            container.Register<ISqlSettings, SqlSettings>(Lifestyle.Singleton);
+            container.Register<ISqlSettings>(() => sqlSettings, Lifestyle.Singleton);
             container.Register<IApiContext, ApiContext>(Lifestyle.Scoped);
             container.Register<ApiAuthenticationMiddleware>(Lifestyle.Scoped);
-            container.Register<BaseVM>(Lifestyle.Scoped);
+            container.Register(() => new RunFeed(new LatestRunSummariesViaSql(sqlSettings), new SummaryForRunViaSql(sqlSettings)) , Lifestyle.Singleton);
+            container.Register(() => new RunFeedEntry(new SummaryForRunViaSql(sqlSettings)), Lifestyle.Scoped);
             
-            container.Register(() => new RunFeedDataSource(new LatestRunSummariesViaSql(new SqlSettings()), new SummaryForRunViaSql(new SqlSettings())), Lifestyle.Singleton);
-
             RegisterCQRSHandlers();
 
             RegisterMediatr(container);

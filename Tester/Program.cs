@@ -10,6 +10,7 @@ using StoryTeller.Portal.ResultsAggregator.Client;
 using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Models.ClientModel;
 using Fixture = Ploeh.AutoFixture.Fixture;
+using System.Threading;
 
 namespace Tester
 {
@@ -17,7 +18,7 @@ namespace Tester
     {
         static void Main(string[] args)
         {
-            var client = new PortalResultsAggregatorClient("http://localhost:17286/",
+            var client = new PortalResultsAggregatorClient("http://localhost:1881/",
                 "ee5b80aa-c4e5-413d-8c60-5eb0acabca52");
             try
             {
@@ -37,7 +38,7 @@ namespace Tester
 
             var fixture = new Fixture();
 
-            List<Spec> specs = client.GetSpecsAsync().Result;
+            List<Spec> specs = client.GetAllSpecsAsync().Result;
 
             var stSpecs = specs.Select(s => new Specification
                 {
@@ -50,7 +51,10 @@ namespace Tester
 
             var extension = new SpecResultLoggingExtension(client);
 
-            stSpecs.ForEach(s => extension.AfterEach(new SpecContext(s, null, null, null, null)));
+            foreach (var s in stSpecs) {
+                Thread.Sleep(TimeSpan.FromSeconds(2));
+                extension.AfterEach(new SpecContext(s, null, null, null, null));
+            }
 
             runLogger.Receive(new BatchRunResponse
             {
@@ -60,7 +64,7 @@ namespace Tester
         
         static void TestClient(IPortalResultsAggregatorClient client)
         {
-            List<Spec> allSpecs = client.GetSpecsAsync().Result;
+            List<Spec> allSpecs = client.GetAllSpecsAsync().Result;
 
             var newSpec = client.AddSpecAsync(new PostSpec
                 {
@@ -71,26 +75,18 @@ namespace Tester
 
             allSpecs.Add(newSpec);
 
-            var run = client.AddRunAsync(new PostRun
+            var run = client.StartNewRunAsync(new StartNewRun
                 {
                     RunDateTime = DateTime.Now,
-                    RunName = "My Run"
-                })
-                .Result;
-
-            client.AddSpecsToRunAsync(run.Id, new PostRunSpecBatch
-                {
+                    RunName = "My Run",
                     SpecIds = allSpecs.Select(s => s.Id).ToList()
-                })
-                .Wait();
+                }).Result;
 
+            var rand = new Random();
             foreach (Spec spec in allSpecs)
             {
-                client.UpdateRunSpecAsync(run.Id, spec.Id, new PutRunSpec
-                    {
-                        Passed = new Random().Next(1000) % 2 == 0
-                    })
-                    .Wait();
+                Thread.Sleep(TimeSpan.FromSeconds(2));
+                client.PassFailRunSpecAsync(new PassFailRunSpec(run.Id, spec.Id, rand.Next(1000) % 2 == 0)).Wait();
             }
 
             run.HtmlResults = "FINISHED!";

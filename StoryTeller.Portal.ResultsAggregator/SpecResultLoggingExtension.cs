@@ -38,13 +38,11 @@ namespace StoryTeller.Portal.ResultsAggregator
 
             if (RunContext.Current != null)
             {
-                var spec = RunContext.Current.Specs.Single(s => s.StoryTellerId.Equals(Guid.Parse(ctx.Specification.id)));
+                Spec spec = RunContext.Current.Specs.Single(s => s.StoryTellerId.Equals(Guid.Parse(ctx.Specification.id)));
                 try
                 {
-                    _client.UpdateRunSpecAsync(RunContext.Current.Run.Id, spec.Id, new PutRunSpec
-                    {
-                        Passed = ctx.Counts.Exceptions == 0 && ctx.Counts.Wrongs == 0
-                    });
+                    bool passed = ctx.Counts.Exceptions == 0 && ctx.Counts.Wrongs == 0;
+                    _client.PassFailRunSpecAsync(new PassFailRunSpec(RunContext.Current.Run.Id, spec.Id, passed));
 
                     Console.WriteLine($"Spec {spec.Id} [{spec.StoryTellerId}] updated in StoryTeller Portal");
                 }

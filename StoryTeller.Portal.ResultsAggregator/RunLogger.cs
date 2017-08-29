@@ -31,7 +31,7 @@ namespace StoryTeller.Portal.ResultsAggregator
         {
             try
             {
-                List<Spec> allSpecs = _client.GetSpecsAsync().Result;
+                List<Spec> allSpecs = _client.GetAllSpecsAsync().Result;
                 Guid[] storyTellerIds = allSpecs.Select(remoteSpec => remoteSpec.StoryTellerId).ToArray();
                 List<Specification> newSpecs = message.Specifications
                     .Where(s => !storyTellerIds.Contains(Guid.Parse(s.id)))
@@ -50,22 +50,16 @@ namespace StoryTeller.Portal.ResultsAggregator
                     allSpecs.Add(newSpec);
                 });
 
-                Run run = _client.AddRunAsync(new PostRun
+                Run run = _client.StartNewRunAsync(new StartNewRun
                     {
                         RunDateTime = DateTime.Now,
-                        RunName = _RunLoggerSettings.RunNameGenerator.Generate()
-                    }).Result;
+                        RunName = _RunLoggerSettings.RunNameGenerator.Generate(),
+                        SpecIds = allSpecs.Select(s => s.Id).ToList()
+                }).Result;
 
                 Console.WriteLine($"Run {run.Name} added to StoryTeller Portal");
-
-                _client.AddSpecsToRunAsync(run.Id, new PostRunSpecBatch
-                    {
-                        SpecIds = allSpecs.Select(s => s.Id).ToList()
-                    }).Wait();
                 
                 RunContext.Create(run, allSpecs);
-
-                Console.WriteLine($"Specs associated to {run.Name} in StoryTeller Portal");
             }
             catch (Exception ex)
             {

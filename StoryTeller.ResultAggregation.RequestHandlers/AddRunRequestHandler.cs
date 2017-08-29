@@ -11,12 +11,14 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
     public class AddRunRequestHandler : Portal.CQRS.IRequestHandler<Requests.AddRunRequest, Run>
     {
         private readonly IMediator _mediator;
-        private ICommandHandler<Commands.AddRunForApplication> addRunForApplication;
+        private ICommandHandler<Commands.AddRunForApplication> _addRunForApplicationCommandHandler;
+        private ICommandHandler<Commands.AddSpecToRun> _addSpecToRunCommandHandler;
 
-        public AddRunRequestHandler(IMediator mediator, ICommandHandler<AddRunForApplication> addRunForApplication)
+        public AddRunRequestHandler(IMediator mediator, ICommandHandler<AddRunForApplication> addRunForApplicationCommandHandler, ICommandHandler<AddSpecToRun> addSpecToRunCommandHandler)
         {
             _mediator = mediator;
-            this.addRunForApplication = addRunForApplication;
+            _addRunForApplicationCommandHandler = addRunForApplicationCommandHandler;
+            _addSpecToRunCommandHandler = addSpecToRunCommandHandler;
         }
 
         public async Task<Run> HandleAsync(Requests.AddRunRequest request, CancellationToken cancellationToken)
@@ -29,7 +31,16 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
 
             var addRunForApplicationCommand = new AddRunForApplication(request.AppId, run);
 
-            await addRunForApplication.ExecuteAsync(addRunForApplicationCommand, cancellationToken);
+            await _addRunForApplicationCommandHandler.ExecuteAsync(addRunForApplicationCommand, cancellationToken);
+
+            foreach (int specId in request.PostedRun.SpecIds)
+            {
+                await _addSpecToRunCommandHandler.ExecuteAsync(new AddSpecToRun(request.AppId, new RunSpec
+                {
+                    RunId = run.Id,
+                    SpecId = specId
+                }), cancellationToken);
+            }
 
             await _mediator.Publish(new RunCreated(run.Id), cancellationToken);
 

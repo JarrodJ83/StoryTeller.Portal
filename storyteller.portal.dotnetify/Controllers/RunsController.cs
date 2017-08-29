@@ -35,7 +35,7 @@ namespace StoryTeller.ResultAggregator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]PostRun postRun)
+        public async Task<IActionResult> Post([FromBody]StartNewRun postRun)
         {
             var addRunRequest = new AddRunRequest(_apiContext.AppId, postRun);
 
@@ -63,7 +63,7 @@ namespace StoryTeller.ResultAggregator.Controllers
 
         [HttpPut]
         [Route("{runId}/Specs/{specId}")]
-        public async Task<IActionResult> PutRunSpecs([FromRoute] int runId, [FromRoute] int specId, [FromBody] PutRunSpec postedRunSpec)
+        public async Task<IActionResult> PutRunSpecs([FromRoute] int runId, [FromRoute] int specId, [FromBody] PassFailRunSpec postedRunSpec)
         {
             var runSpec = new RunSpec
             {

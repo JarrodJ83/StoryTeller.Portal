@@ -19,32 +19,27 @@ namespace StoryTeller.Portal.QueryHandlers
 
         public async Task<RunSummary> FetchAsync(SummaryOfRun qry, CancellationToken cancellationToken)
         {
-            return await QuerySingleOrDefaultAsync<RunSummary>($@"
-                            declare @successCount int, @failureCount int, @totalCount int
-
-                            select @successCount = count(1)
-                            from RunSpec
-                            where runId = @runId and
-                            passed = 1
-
-                            select @failureCount = count(1)
-                            from RunSpec
-                            where runId = @runId and
-                            passed = 0
-
-                            select r.Id
+            return await QuerySingleOrDefaultAsync<RunSummary>(
+                        $@"select r.Id
                             ,r.Name
                             ,a.Id as [AppId]
                             ,a.Name as [AppName]
                             ,r.RunDateTime
                             ,r.HtmlResults
-                            ,@successCount as [SuccessCount]
-                            ,@failureCount as [FailureCount]
-                            ,@totalCount as [TotalCount]
+                            ,(select count(1)
+                                from RunSpec as rs
+                                where rs.RunId = r.Id and
+                                passed = 1) as [SuccessfulCount]
+                            ,(select count(1)
+                                from RunSpec as rs
+                                where rs.RunId = r.Id and
+                                passed = 0) as [FailureCount]
+                            ,(select count(1)
+                                from RunSpec as rs
+                                where rs.RunId = r.Id) as [TotalCount]
                             from Run as r
                                 inner join App as a on r.AppId = a.Id
-                            where r.Id = @runId
-                        ", new {qry.RunId}, cancellationToken);
+                            where r.Id = @runId", new {qry.RunId}, cancellationToken);
         }
     }
 }
