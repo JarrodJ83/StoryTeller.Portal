@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.Models",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal", "StoryTeller.Portal\StoryTeller.Portal.csproj", "{00EE5DAB-E21B-4C42-9D24-74F16E6341C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.Web", "StoryTeller.Portal.Web\StoryTeller.Portal.Web.csproj", "{5C383A0D-D4AB-425F-804C-B7C6DC2D0CCC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.QueryHandlers", "StoryTeller.Portal.QueryHandlers\StoryTeller.Portal.QueryHandlers.csproj", "{6BBD44FB-E588-4A60-B764-A8F5D15CCB22}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.RequestHandlers", "StoryTeller.Portal.RequestHandlers\StoryTeller.Portal.RequestHandlers.csproj", "{4F1C1972-2004-451D-B90F-EDF90A4789B9}"
@@ -89,10 +87,6 @@ Global
 		{00EE5DAB-E21B-4C42-9D24-74F16E6341C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00EE5DAB-E21B-4C42-9D24-74F16E6341C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00EE5DAB-E21B-4C42-9D24-74F16E6341C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C383A0D-D4AB-425F-804C-B7C6DC2D0CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C383A0D-D4AB-425F-804C-B7C6DC2D0CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C383A0D-D4AB-425F-804C-B7C6DC2D0CCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C383A0D-D4AB-425F-804C-B7C6DC2D0CCC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6BBD44FB-E588-4A60-B764-A8F5D15CCB22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6BBD44FB-E588-4A60-B764-A8F5D15CCB22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BBD44FB-E588-4A60-B764-A8F5D15CCB22}.Release|Any CPU.ActiveCfg = Release|Any CPU
