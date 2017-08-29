@@ -101,11 +101,12 @@ namespace helloworld
             container.RegisterMvcViewComponents(app);
 
 
-            container.Register<ISqlSettings, SqlSettings>(Lifestyle.Scoped);
+            container.Register<ISqlSettings, SqlSettings>(Lifestyle.Singleton);
             container.Register<IApiContext, ApiContext>(Lifestyle.Scoped);
             container.Register<ApiAuthenticationMiddleware>(Lifestyle.Scoped);
             container.Register<BaseVM>(Lifestyle.Scoped);
-            container.Register<RunFeedDataSource>(Lifestyle.Scoped);
+            
+            container.Register(() => new RunFeedDataSource(new LatestRunSummariesViaSql(new SqlSettings()), new SummaryForRunViaSql(new SqlSettings())), Lifestyle.Singleton);
 
             RegisterCQRSHandlers();
 
