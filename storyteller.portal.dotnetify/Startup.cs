@@ -106,7 +106,6 @@ namespace helloworld
             container.Register<IApiContext, ApiContext>(Lifestyle.Scoped);
             container.Register<ApiAuthenticationMiddleware>(Lifestyle.Scoped);
             container.Register(() => new RunFeed(new LatestRunSummariesViaSql(sqlSettings), new SummaryForRunViaSql(sqlSettings)) , Lifestyle.Singleton);
-            container.Register(() => new RunFeedEntry(new SummaryForRunViaSql(sqlSettings)), Lifestyle.Scoped);
             
             RegisterCQRSHandlers();
 

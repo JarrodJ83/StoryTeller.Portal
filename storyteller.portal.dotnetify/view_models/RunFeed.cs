@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DotNetify;
+using DotNetify.Routing;
 using MediatR;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.Portal.Models.Views;
@@ -13,16 +14,19 @@ using StoryTeller.ResultAggregation.Events;
 
 namespace storyteller.portal.dotnetify.view_models
 {
-    public class RunFeed : BaseVM, IAsyncNotificationHandler<RunCreated>, IAsyncNotificationHandler<RunSpecUpdated>
+    public class RunFeed : BaseVM, IAsyncNotificationHandler<RunCreated>, IAsyncNotificationHandler<RunSpecUpdated>, IRoutable
     {
-        //private readonly RunFeedDataSource _ds;
-
         private readonly IQueryHandler<LatestRunSumarries, List<RunSummary>> _runSummariesQueryHandler;
         private readonly IQueryHandler<SummaryOfRun, RunSummary> _summaryOfRunQueryHandler;
         public List<RunSummary> Runs { get; set; } = new List<RunSummary>();
 
         public RunFeed(IQueryHandler<LatestRunSumarries, List<RunSummary>> runSummariesQueryHandler, IQueryHandler<SummaryOfRun, RunSummary> summaryOfRunQueryHandler)
         {
+            this.RegisterRoutes("index", new List<RouteTemplate>
+            {
+                new RouteTemplate("RunResults") {UrlPattern = "RunResults(/id)"},
+            });
+
             _runSummariesQueryHandler = runSummariesQueryHandler;
             _summaryOfRunQueryHandler = summaryOfRunQueryHandler;
             _runSummariesQueryHandler.FetchAsync(new LatestRunSumarries(), CancellationToken.None).ContinueWith(t =>
@@ -62,5 +66,7 @@ namespace storyteller.portal.dotnetify.view_models
             Changed(nameof(Runs));
             PushUpdates();
         }
+
+        public RoutingState RoutingState { get; set; }
     }
 }
