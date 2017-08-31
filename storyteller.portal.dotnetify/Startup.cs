@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using storyteller.portal.dotnetify;
 using storyteller.portal.dotnetify.view_models;
 using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
@@ -130,6 +131,7 @@ namespace helloworld
         void RegisterMediatr(Container container)
         {
             container.RegisterSingleton<IMediator, MediatR.Mediator>();
+            container.RegisterDecorator<IMediator, MediatorExceptionHandlerDecorator>(Lifestyle.Scoped);
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 

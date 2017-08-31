@@ -30,7 +30,7 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
             };
             await _addRunResultCommandHandler.ExecuteAsync(new AddRunResult(request.AppId, runResult), cancellationToken);
             
-            _mediator.Publish(new RunCompleted(request.RunId, runResult.Passed));
+            await _mediator.Publish(new RunCompleted(request.RunId, runResult.Passed), cancellationToken);
         }
     }
 }

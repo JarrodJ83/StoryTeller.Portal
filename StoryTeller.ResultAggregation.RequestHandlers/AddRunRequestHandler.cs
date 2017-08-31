@@ -1,6 +1,8 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Hosting.Internal;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Commands;
 using StoryTeller.ResultAggregation.Events;
@@ -41,8 +43,8 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
                     SpecId = specId
                 }), cancellationToken);
             }
-
-            _mediator.Publish(new RunCreated(run.Id));
+            
+             await _mediator.Publish(new RunCreated(run.Id), cancellationToken);
 
             return run;
         }
