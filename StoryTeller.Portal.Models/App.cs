@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StoryTeller.Portal.Models
+﻿namespace StoryTeller.Portal.Models
 {
     public class App
     {

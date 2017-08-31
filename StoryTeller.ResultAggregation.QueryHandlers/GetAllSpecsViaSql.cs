@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Queries;
-using Dapper;
 using StoryTeller.Portal.CQRS.Sql;
 using StoryTeller.ResultAggregation.CommandHandlers;
 

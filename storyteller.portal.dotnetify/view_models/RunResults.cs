@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DotNetify;
+﻿using DotNetify;
 using DotNetify.Routing;
 
 namespace storyteller.portal.dotnetify.view_models

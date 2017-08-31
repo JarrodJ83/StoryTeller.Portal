@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using StoryTeller.Engine;
 using StoryTeller.Model;
@@ -8,7 +7,6 @@ using StoryTeller.Portal.ResultsAggregator.Client;
 using StoryTeller.Remotes.Messaging;
 using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Models.ClientModel;
-using StoryTeller.Results;
 
 namespace StoryTeller.Portal.ResultsAggregator
 {

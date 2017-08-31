@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Commands;
 using StoryTeller.ResultAggregation.Events;
-using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Requests;
 
 namespace StoryTeller.ResultAggregation.RequestHandlers
