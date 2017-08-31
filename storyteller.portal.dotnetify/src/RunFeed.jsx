@@ -25,8 +25,8 @@ class RunFeed extends React.Component {
             <tbody>
                         {this.state.Runs.map(run => <tr key={run.Id}>
                                                         <td>{run.Name}</td>
-                                                        <td>{run.AppName}</td>
-                                                        <td>(Pass: {run.SuccessfulCount} Fail: {run.FailureCount} Total: {run.TotalCount})</td>
+                                                        <td sytle="color: green;">{run.AppName}</td>
+                                                        <td><span>(Pass: {run.SuccessfulCount} </span><span sytle="color: green;">Fail: {run.FailureCount} Total: {run.TotalCount})</span></td>
                                                         <td>
                                 <a target="_blank" href={"http://localhost:1881/Runs/" + run.Id + "/results"} style={{visibility: run.Finished ? "visible" : "hidden"}} >View Results</a>
                                                         </td>

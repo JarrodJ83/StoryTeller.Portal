@@ -31,13 +31,13 @@ namespace StoryTeller.Portal.ResultsAggregator.Client
         public async Task<Spec> AddSpecAsync(PostSpec spec) => await PostAsync<Spec>("Specs", spec);
 
         public async Task<Run> StartNewRunAsync(StartNewRun run) => await PostAsync<Run>("Runs", run);
-
-        //public async Task AddSpecsToRunAsync(int runId, PostRunSpecBatch runSpecBatch) => await PostAsync($"Runs/{runId}/SpecBatches", runSpecBatch);
-
+        
         public async Task PassFailRunSpecAsync(PassFailRunSpec runSpec) => await PutAsync($"Runs/{runSpec.RunId}/Specs/{runSpec.SpecId}", runSpec);
 
         public async Task UpdateRunAsync(Run run) => await PutAsync($"Runs/{run.Id}", run);
-        
+
+        public async Task<Run> GetLatestRun() => await GetAsync<Run>("Runs/Latest");
+
         #endregion
 
         #region Private

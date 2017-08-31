@@ -13,10 +13,10 @@
 
         #region IRunLoggerSettings
 
-        public RunLoggerSettings(IRunNameGenerator runNameGenerator = null)
+        public RunLoggerSettings(string htmlResultsFileNameLocation, IRunNameGenerator runNameGenerator = null)
         {
             RunNameGenerator = runNameGenerator;
-            HtmlResultsFileName = @"C:\temp\stresults.html";
+            HtmlResultsFileName = htmlResultsFileNameLocation;
         }
 
         #endregion

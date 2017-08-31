@@ -34,7 +34,7 @@ namespace Tester
 
         static void TestRunLogger(IPortalResultsAggregatorClient client)
         {
-            var runLogger = new RunLogger(client, new RunLoggerSettings());
+            var runLogger = new RunLogger(client, new RunLoggerSettings("c:\\temp\\stresults.html"));
 
             var fixture = new Fixture();
 
@@ -56,10 +56,10 @@ namespace Tester
                 extension.AfterEach(new SpecContext(s, null, null, null, null));
             }
 
-            runLogger.Receive(new BatchRunResponse
-            {
+            //runLogger.Receive(new BatchRunResponse
+            //{
                 
-            });
+            //});
         }
         
         static void TestClient(IPortalResultsAggregatorClient client)

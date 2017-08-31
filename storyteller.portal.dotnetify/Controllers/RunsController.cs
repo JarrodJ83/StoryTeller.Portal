@@ -19,12 +19,13 @@ namespace StoryTeller.ResultAggregator.Controllers
         private readonly IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>> _addSpecBatchToRunRequestRequestHandler;
         private readonly IRequestHandler<PutRunSpecRequest> _putRunSpecRequestHandler;
         private readonly IRequestHandler<PutRunRequest> _putRunRequestHandler;
+        private readonly IRequestHandler<GetLatestRunRequest, Run> _getLatestRunRequestHandler;
         private readonly IApiContext _apiContext;
 
         public RunsController(IApiContext apiContext, 
             IRequestHandler<AddRunRequest, Run> addRunRequest, 
             IRequestHandler<AddSpecToRunRequest, RunSpec> addSpecToRunRequestRequestHandler, 
-            IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>> addSpecBatchToRunRequestRequestHandler, IRequestHandler<PutRunSpecRequest> putRunSpecRequestHandler, IRequestHandler<PutRunRequest> putRunRequestHandler)
+            IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>> addSpecBatchToRunRequestRequestHandler, IRequestHandler<PutRunSpecRequest> putRunSpecRequestHandler, IRequestHandler<PutRunRequest> putRunRequestHandler, IRequestHandler<GetLatestRunRequest, Run> getLatestRunRequestHandler)
         {
             _addRunRequest = addRunRequest;
             _apiContext = apiContext;
@@ -32,6 +33,7 @@ namespace StoryTeller.ResultAggregator.Controllers
             _addSpecBatchToRunRequestRequestHandler = addSpecBatchToRunRequestRequestHandler;
             _putRunSpecRequestHandler = putRunSpecRequestHandler;
             _putRunRequestHandler = putRunRequestHandler;
+            _getLatestRunRequestHandler = getLatestRunRequestHandler;
         }
 
         [HttpPost]
@@ -82,6 +84,14 @@ namespace StoryTeller.ResultAggregator.Controllers
             await _putRunRequestHandler.HandleAsync(new PutRunRequest(_apiContext.AppId, run), Request.HttpContext.RequestAborted);
 
             return NoContent();
+        }
+
+        [HttpGet]
+        [Route("latest")]
+        public async Task<IActionResult> GetRuns()
+        {
+            Run run = await _getLatestRunRequestHandler.HandleAsync(new GetLatestRunRequest(_apiContext.AppId), Request.HttpContext.RequestAborted);
+            return Ok(run);
         }
     }
 }

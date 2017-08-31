@@ -13,8 +13,8 @@ using StoryTeller.Results;
 namespace StoryTeller.Portal.ResultsAggregator
 {
     public class RunLogger : 
-        IListener<BatchRunRequest>, 
-        IListener<BatchRunResponse>
+        IListener<BatchRunRequest> 
+        //IListener<BatchRunResponse>
     {
         private readonly IPortalResultsAggregatorClient _client;
         private readonly IRunLoggerSettings _RunLoggerSettings;
@@ -50,36 +50,53 @@ namespace StoryTeller.Portal.ResultsAggregator
                     allSpecs.Add(newSpec);
                 });
 
+                List<Guid> stSpecIds = message.Specifications.Select(s => Guid.Parse(s.id)).ToList();
+                List<Spec> runSpecs = allSpecs.Where(s => stSpecIds.Contains(s.StoryTellerId))
+                                                .ToList();
+
                 Run run = _client.StartNewRunAsync(new StartNewRun
                     {
                         RunDateTime = DateTime.Now,
                         RunName = _RunLoggerSettings.RunNameGenerator.Generate(),
-                        SpecIds = allSpecs.Select(s => s.Id).ToList()
-                }).Result;
+                        SpecIds = runSpecs.Select(s => s.Id).ToList()
+            }).Result;
 
                 Console.WriteLine($"Run {run.Name} added to StoryTeller Portal");
-                
-                RunContext.Create(run, allSpecs);
+
+                if (RunContext.Current == null)
+                {
+                    Console.WriteLine($"Creating Run {run.Name} context");
+                    RunContext.Create(run, runSpecs); 
+                }
+                else
+                {
+                    Console.WriteLine($"Updating Run {run.Name} context");
+                    RunContext.Current.Update(run, runSpecs);
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error setting up Run in StoryTeller Portal", ex);
+                Console.WriteLine($"Error setting up Run in StoryTeller Portal\n\n{ex}");
             }
         }
 
         #endregion
 
-        public void Receive(BatchRunResponse results)
-        {
-            var run = RunContext.Current.Run;
+        //#region IListener<BatchRunResponse>
 
-            var htmlResults = File.ReadAllText(_RunLoggerSettings.HtmlResultsFileName);
+        //public void Receive(BatchRunResponse results)
+        //{
+        //    var run = RunContext.Current.Run;
 
-            run.HtmlResults = htmlResults;
+        //    var htmlResults = File.ReadAllText(_RunLoggerSettings.HtmlResultsFileName);
 
-            _client.UpdateRunAsync(run).Wait();
+        //    run.HtmlResults = htmlResults;
 
-            Console.WriteLine($"Run {run.Id} updated in StoryTeller Portal with final results");
-        }
+        //    _client.UpdateRunAsync(run).Wait();
+
+        //    Console.WriteLine($"Run {run.Id} updated in StoryTeller Portal with final results");
+        //}
+
+        //#endregion
     }
 }

@@ -17,6 +17,10 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
             _sqlSettings = sqlSettings;
         }
 
+        protected async Task<TResult> ExecuteScalarAsync<TResult>(string query, CancellationToken cancellationToken)
+        {
+            return await ExecuteScalarAsync<TResult>(query, null, cancellationToken);
+        }
         protected async Task<TResult> ExecuteScalarAsync<TResult>(string query, object parameters, CancellationToken cancellationToken)
         {
             using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
@@ -25,6 +29,11 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
 
                 return await conn.ExecuteScalarAsync<TResult>(query, parameters);
             }
+        }
+
+        protected async Task<List<TResult>> QueryAsync<TResult>(string query, CancellationToken cancellationToken)
+        {
+            return await QueryAsync<TResult>(query, null, cancellationToken);
         }
 
         protected async Task<List<TResult>> QueryAsync<TResult>(string query, object parameters, CancellationToken cancellationToken)
@@ -39,6 +48,10 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
             }
         }
 
+        protected async Task<TResult> QuerySingleOrDefaultAsync<TResult>(string query, CancellationToken cancellationToken)
+        {
+            return await QuerySingleOrDefaultAsync<TResult>(query, null, cancellationToken);
+        }
         protected async Task<TResult> QuerySingleOrDefaultAsync<TResult>(string query, object parameters, CancellationToken cancellationToken)
         {
             using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
