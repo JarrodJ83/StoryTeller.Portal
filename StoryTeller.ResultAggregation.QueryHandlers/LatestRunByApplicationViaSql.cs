@@ -18,7 +18,7 @@ namespace StoryTeller.ResultAggregation.QueryHandlers
         {
             return await QuerySingleOrDefaultAsync<Run>($@"
                             select top 1
-                                {nameof(Run.Id)}, {nameof(Run.Name)}, {nameof(Run.RunDateTime)}, {nameof(Run.HtmlResults)}
+                                {nameof(Run.Id)}, {nameof(Run.Name)}, {nameof(Run.RunDateTime)}
                             from {nameof(Run)}
                             order by {nameof(Run.RunDateTime)} desc", cancellationToken);
         }

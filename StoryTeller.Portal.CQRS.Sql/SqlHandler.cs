@@ -31,6 +31,21 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
             }
         }
 
+        protected async Task ExecuteAsync(string query, CancellationToken cancellationToken)
+        {
+            await ExecuteAsync(query, null, cancellationToken);
+        }
+
+        protected async Task ExecuteAsync(string query, object parameters, CancellationToken cancellationToken)
+        {
+            using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
+            {
+                await conn.OpenAsync(cancellationToken);
+
+                await conn.ExecuteAsync(query, parameters);
+            }
+        }
+
         protected async Task<List<TResult>> QueryAsync<TResult>(string query, CancellationToken cancellationToken)
         {
             return await QueryAsync<TResult>(query, null, cancellationToken);

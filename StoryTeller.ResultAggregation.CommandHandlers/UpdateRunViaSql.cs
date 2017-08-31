@@ -17,7 +17,6 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
         {
             var qry = $@"update r
                          set r.{nameof(cmd.Run.Name)} = @{nameof(cmd.Run.Name)},
-                             r.{nameof(cmd.Run.HtmlResults)} = @{nameof(cmd.Run.HtmlResults)},
                              r.{nameof(cmd.Run.RunDateTime)} = @{nameof(cmd.Run.RunDateTime)}                          
                          from Run as r
                          where r.Id = @{nameof(cmd.Run.Id)} and
@@ -25,7 +24,7 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
 
                          select @@rowcount";
 
-            var affectedRows = await ExecuteScalarAsync<int>(qry, new { cmd.Run.Id, cmd.Run.Name, cmd.Run.HtmlResults, cmd.Run.RunDateTime, cmd.AppId }, cancellationToken);
+            var affectedRows = await ExecuteScalarAsync<int>(qry, new { cmd.Run.Id, cmd.Run.Name, cmd.Run.RunDateTime, cmd.AppId }, cancellationToken);
 
             if(affectedRows == 0)
                 throw new Exception("No updates");

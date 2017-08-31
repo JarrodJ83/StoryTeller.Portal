@@ -11,7 +11,7 @@ namespace StoryTeller.Portal.ResultsAggregator.Client
         Task<Spec> AddSpecAsync(PostSpec spec);
         Task<Run> StartNewRunAsync(StartNewRun run);
         Task PassFailRunSpecAsync(PassFailRunSpec runSpec);
-        Task UpdateRunAsync(Run run);
+        Task CompleteRunAsync(RunResult runResult);
         Task<Run> GetLatestRun();
     }
 }

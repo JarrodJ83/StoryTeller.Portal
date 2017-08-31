@@ -10,9 +10,7 @@ using StoryTeller.ResultAggregation.Models.ClientModel;
 
 namespace StoryTeller.Portal.ResultsAggregator
 {
-    public class RunLogger : 
-        IListener<BatchRunRequest> 
-        //IListener<BatchRunResponse>
+    public class RunLogger : IListener<BatchRunRequest>
     {
         private readonly IPortalResultsAggregatorClient _client;
         private readonly IRunLoggerSettings _RunLoggerSettings;
@@ -79,22 +77,6 @@ namespace StoryTeller.Portal.ResultsAggregator
         }
 
         #endregion
-
-        //#region IListener<BatchRunResponse>
-
-        //public void Receive(BatchRunResponse results)
-        //{
-        //    var run = RunContext.Current.Run;
-
-        //    var htmlResults = File.ReadAllText(_RunLoggerSettings.HtmlResultsFileName);
-
-        //    run.HtmlResults = htmlResults;
-
-        //    _client.UpdateRunAsync(run).Wait();
-
-        //    Console.WriteLine($"Run {run.Id} updated in StoryTeller Portal with final results");
-        //}
-
-        //#endregion
+        
     }
 }

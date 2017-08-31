@@ -20,12 +20,13 @@ namespace StoryTeller.ResultAggregator.Controllers
         private readonly IRequestHandler<PutRunSpecRequest> _putRunSpecRequestHandler;
         private readonly IRequestHandler<PutRunRequest> _putRunRequestHandler;
         private readonly IRequestHandler<GetLatestRunRequest, Run> _getLatestRunRequestHandler;
+        private readonly IRequestHandler<PostRunResultRequest> _postRunResultRequestHandler;
         private readonly IApiContext _apiContext;
 
         public RunsController(IApiContext apiContext, 
             IRequestHandler<AddRunRequest, Run> addRunRequest, 
             IRequestHandler<AddSpecToRunRequest, RunSpec> addSpecToRunRequestRequestHandler, 
-            IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>> addSpecBatchToRunRequestRequestHandler, IRequestHandler<PutRunSpecRequest> putRunSpecRequestHandler, IRequestHandler<PutRunRequest> putRunRequestHandler, IRequestHandler<GetLatestRunRequest, Run> getLatestRunRequestHandler)
+            IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>> addSpecBatchToRunRequestRequestHandler, IRequestHandler<PutRunSpecRequest> putRunSpecRequestHandler, IRequestHandler<PutRunRequest> putRunRequestHandler, IRequestHandler<GetLatestRunRequest, Run> getLatestRunRequestHandler, IRequestHandler<PostRunResultRequest> postRunResultRequestHandler)
         {
             _addRunRequest = addRunRequest;
             _apiContext = apiContext;
@@ -34,6 +35,7 @@ namespace StoryTeller.ResultAggregator.Controllers
             _putRunSpecRequestHandler = putRunSpecRequestHandler;
             _putRunRequestHandler = putRunRequestHandler;
             _getLatestRunRequestHandler = getLatestRunRequestHandler;
+            _postRunResultRequestHandler = postRunResultRequestHandler;
         }
 
         [HttpPost]
@@ -44,6 +46,16 @@ namespace StoryTeller.ResultAggregator.Controllers
             Run run = await _addRunRequest.HandleAsync(addRunRequest, Request.HttpContext.RequestAborted);
 
             return Created(String.Empty, run);
+        }
+
+        [HttpPost]
+        [Route("{runId}/Results")]
+        public async Task<IActionResult> Post([FromRoute]int runId, [FromBody]PostRunResult postedRunResult)
+        {
+
+            await _postRunResultRequestHandler.HandleAsync(new PostRunResultRequest(_apiContext.AppId, runId, postedRunResult), Request.HttpContext.RequestAborted);
+
+            return Created(String.Empty, null);
         }
 
         [HttpPost]

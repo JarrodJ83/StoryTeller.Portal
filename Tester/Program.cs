@@ -87,10 +87,13 @@ namespace Tester
                 Thread.Sleep(TimeSpan.FromSeconds(2));
                 client.PassFailRunSpecAsync(new PassFailRunSpec(run.Id, spec.Id, rand.Next(1000) % 2 == 0)).Wait();
             }
-
-            run.HtmlResults = "FINISHED!";
-
-            client.UpdateRunAsync(run).Wait();
+            
+            client.CompleteRunAsync(new RunResult
+            {
+                RunId = run.Id,
+                Passed = true,
+                HtmlResults = "test"
+            }).Wait();
         }
     }
 }
