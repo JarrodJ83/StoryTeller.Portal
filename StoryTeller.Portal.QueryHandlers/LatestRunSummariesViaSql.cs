@@ -23,7 +23,8 @@ namespace StoryTeller.Portal.QueryHandlers
                             ,a.Id as [AppId]
                             ,a.Name as [AppName]
                             ,r.RunDateTime
-                            ,r.HtmlResults
+                            ,rr.HtmlResults
+                            ,rr.Passed
                             ,(select count(1)
                                 from RunSpec as rs
                                 where rs.RunId = r.Id and
@@ -37,6 +38,7 @@ namespace StoryTeller.Portal.QueryHandlers
                                 where rs.RunId = r.Id) as [TotalCount]
                             from Run as r
                                 inner join App as a on r.AppId = a.Id
+                                left outer join RunResult as rr on r.Id = rr.RunId
                             order by r.RunDateTime desc
                         ", new { }, cancellationToken); 
         }

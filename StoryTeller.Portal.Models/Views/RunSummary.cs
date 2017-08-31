@@ -9,8 +9,8 @@ namespace StoryTeller.Portal.Models.Views
         public int AppId { get; set; }
         public string AppName { get; set; }
         public DateTime RunDateTime { get; set; }
-        public bool Passed => Finished && FailureCount == 0;
-        public bool Finished => !string.IsNullOrEmpty(HtmlResults);
+        public bool? Passed { get; set; }
+        public bool Finished => Passed.HasValue;
         public int SuccessfulCount { get; set; }
         public int FailureCount { get; set; }
         public int TotalCount { get; set; }

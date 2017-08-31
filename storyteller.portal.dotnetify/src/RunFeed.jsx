@@ -19,6 +19,7 @@ class RunFeed extends React.Component {
                 <th>Run Date</th>
                 <th>App</th>
                 <th>Status</th>
+                <th>Passed?</th>
                 <th>Results</th>
             </tr>
             </thead>
@@ -27,6 +28,7 @@ class RunFeed extends React.Component {
                                                         <td>{run.Name}</td>
                                                         <td sytle="color: green;">{run.AppName}</td>
                                                         <td><span>(Pass: {run.SuccessfulCount} </span><span sytle="color: green;">Fail: {run.FailureCount} Total: {run.TotalCount})</span></td>
+                                                        <td>{run.Passed}</td>
                                                         <td>
                                 <a target="_blank" href={"http://localhost:1881/Runs/" + run.Id + "/results"} style={{visibility: run.Finished ? "visible" : "hidden"}} >View Results</a>
                                                         </td>

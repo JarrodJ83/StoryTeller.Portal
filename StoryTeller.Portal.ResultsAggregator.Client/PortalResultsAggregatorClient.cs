@@ -34,7 +34,7 @@ namespace StoryTeller.Portal.ResultsAggregator.Client
         
         public async Task PassFailRunSpecAsync(PassFailRunSpec runSpec) => await PutAsync($"Runs/{runSpec.RunId}/Specs/{runSpec.SpecId}", runSpec);
 
-        public async Task CompleteRunAsync(RunResult runResult) => await PutAsync($"Runs/{runResult.RunId}/Results", runResult);
+        public async Task CompleteRunAsync(RunResult runResult) => await PostAsync($"Runs/{runResult.RunId}/Results", runResult);
 
         public async Task<Run> GetLatestRun() => await GetAsync<Run>("Runs/Latest");
 

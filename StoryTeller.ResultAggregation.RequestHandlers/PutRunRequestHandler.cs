@@ -24,7 +24,7 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
             var updateRunCmd = new UpdateRun(request.AppId, request.Run);
             await _updateRunCommandHandler.ExecuteAsync(updateRunCmd, cancellationToken);
 
-            await _mediator.Publish(new RunCompleted(request.Run.Id), cancellationToken);
+            _mediator.Publish(new RunCompleted(request.Run.Id));
         }
     }
 }
