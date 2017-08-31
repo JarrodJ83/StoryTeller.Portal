@@ -10,6 +10,7 @@ using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Models.ClientModel;
 using Fixture = Ploeh.AutoFixture.Fixture;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tester
 {
@@ -48,17 +49,26 @@ namespace Tester
 
             runLogger.Receive(new BatchRunRequest(stSpecs));
 
-            var extension = new SpecResultLoggingExtension(client);
+            var specRunner = new Task(() =>
+            {
+                var extension = new SpecResultLoggingExtension(client);
 
-            foreach (var s in stSpecs) {
-                Thread.Sleep(TimeSpan.FromSeconds(2));
-                extension.AfterEach(new SpecContext(s, null, null, null, null));
-            }
+                foreach (var s in stSpecs)
+                {
+                    Thread.Sleep(TimeSpan.FromSeconds(2));
+                    extension.AfterEach(new SpecContext(s, null, null, null, null));
+                }
+            });
 
-            //runLogger.Receive(new BatchRunResponse
-            //{
-                
-            //});
+            specRunner.Start();
+            specRunner.Wait();
+
+            client.CompleteRunAsync(new RunResult
+            {
+                HtmlResults = "testing",
+                Passed = true,
+                RunId = RunContext.Current.Run.Id
+            });
         }
         
         static void TestClient(IPortalResultsAggregatorClient client)

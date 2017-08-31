@@ -34,22 +34,27 @@ namespace StoryTeller.Portal.ResultsAggregator
 
         public void AfterEach(ISpecContext context)
         {
-            SpecContext ctx = (SpecContext)context;
+            SpecContext ctx = (SpecContext) context;
 
-            if (RunContext.Current != null)
+            if (RunContext.Current == null)
             {
-                Spec spec = RunContext.Current.Specs.Single(s => s.StoryTellerId.Equals(Guid.Parse(ctx.Specification.id)));
-                try
-                {
-                    bool passed = ctx.Counts.Exceptions == 0 && ctx.Counts.Wrongs == 0;
-                    _client.PassFailRunSpecAsync(new PassFailRunSpec(RunContext.Current.Run.Id, spec.Id, passed));
+                Console.WriteLine("No RunContext present. Will not attempt to send spec results to StoryTeller Portal");
+                return;
+            }
 
-                    Console.WriteLine($"Spec {spec.Id} [{spec.StoryTellerId}] updated in StoryTeller Portal");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error updating {spec.Id} [{spec.StoryTellerId}] in StoryTeller Portal", ex);
-                }
+            var spec = new Spec();
+            try
+            {
+                spec = RunContext.Current.Specs.Single(s => s.StoryTellerId.Equals(Guid.Parse(ctx.Specification.id)));
+
+                bool passed = ctx.Counts.Exceptions == 0 && ctx.Counts.Wrongs == 0;
+                _client.PassFailRunSpecAsync(new PassFailRunSpec(RunContext.Current.Run.Id, spec.Id, passed));
+
+                Console.WriteLine($"Spec {spec.Id} [{spec.StoryTellerId}] updated in StoryTeller Portal");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error updating {spec.Id} [{spec.StoryTellerId}] in StoryTeller Portal", ex);
             }
         }
 

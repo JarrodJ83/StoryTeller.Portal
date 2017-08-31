@@ -39,7 +39,8 @@ namespace StoryTeller.Portal.ResultsAggregator
                         {
                             Name = ns.name,
                             StoryTellerId = Guid.Parse(ns.id)
-                        }).Result;
+                        })
+                        .Result;
 
                     Console.WriteLine($"Spec {newSpec.Name} added to StoryTeller Portal");
 
@@ -47,28 +48,20 @@ namespace StoryTeller.Portal.ResultsAggregator
                 });
 
                 List<Guid> stSpecIds = message.Specifications.Select(s => Guid.Parse(s.id)).ToList();
-                List<Spec> runSpecs = allSpecs.Where(s => stSpecIds.Contains(s.StoryTellerId))
-                                                .ToList();
+                List<Spec> runSpecs = allSpecs.Where(s => stSpecIds.Contains(s.StoryTellerId)).ToList();
 
                 Run run = _client.StartNewRunAsync(new StartNewRun
                     {
                         RunDateTime = DateTime.Now,
                         RunName = _RunLoggerSettings.RunNameGenerator.Generate(),
                         SpecIds = runSpecs.Select(s => s.Id).ToList()
-            }).Result;
+                    })
+                    .Result;
 
                 Console.WriteLine($"Run {run.Name} added to StoryTeller Portal");
 
-                if (RunContext.Current == null)
-                {
-                    Console.WriteLine($"Creating Run {run.Name} context");
-                    RunContext.Create(run, runSpecs); 
-                }
-                else
-                {
-                    Console.WriteLine($"Updating Run {run.Name} context");
-                    RunContext.Current.Update(run, runSpecs);
-                }
+                Console.WriteLine($"Creating Run {run.Name} context");
+                RunContext.Create(run, runSpecs);
             }
             catch (Exception ex)
             {

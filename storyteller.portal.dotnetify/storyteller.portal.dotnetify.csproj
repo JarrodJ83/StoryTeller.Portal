@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aa8fcb37-b0d8-4712-a725-1e87b9822360</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />

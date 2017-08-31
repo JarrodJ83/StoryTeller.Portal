@@ -12,7 +12,7 @@ using StoryTeller.ResultAggregation.Events;
 
 namespace storyteller.portal.dotnetify.view_models
 {
-    public class RunFeed : BaseVM, IAsyncNotificationHandler<RunCreated>, IAsyncNotificationHandler<RunSpecUpdated>, IRoutable
+    public class RunFeed : BaseVM, IAsyncNotificationHandler<RunCreated>, IAsyncNotificationHandler<RunSpecUpdated>, IAsyncNotificationHandler<RunCompleted>, IRoutable
     {
         private readonly IQueryHandler<LatestRunSumarries, List<RunSummary>> _runSummariesQueryHandler;
         private readonly IQueryHandler<SummaryOfRun, RunSummary> _summaryOfRunQueryHandler;
@@ -40,24 +40,29 @@ namespace storyteller.portal.dotnetify.view_models
 
         public async Task Handle(RunCreated notification)
         {
-            RunSummary runSummary = await _summaryOfRunQueryHandler.FetchAsync(new SummaryOfRun(notification.RunId), CancellationToken.None);
-           
-            AddAndReorder(runSummary);
+            await AddOrUpdateRunSummary(notification.RunId);
         }
 
         public async Task Handle(RunSpecUpdated notification)
         {
-            var latestRunSummary = await _summaryOfRunQueryHandler.FetchAsync(new SummaryOfRun(notification.RunId), CancellationToken.None);
-
-            var outOfDateRunSummary = Runs.Single(r => r.Id == latestRunSummary.Id);
-
-            Runs.Remove(outOfDateRunSummary);
-            AddAndReorder(latestRunSummary);
+            await AddOrUpdateRunSummary(notification.RunId);
         }
 
-        private void AddAndReorder(RunSummary runSummary)
+        public async Task Handle(RunCompleted notification)
         {
-            Runs.Add(runSummary);
+            await AddOrUpdateRunSummary(notification.RunId);
+        }
+
+        private async Task AddOrUpdateRunSummary(int runId)
+        {
+            RunSummary latestRunSummary = await _summaryOfRunQueryHandler.FetchAsync(new SummaryOfRun(runId), CancellationToken.None);
+
+            RunSummary outOfDateRunSummary = Runs.SingleOrDefault(r => r.Id == latestRunSummary.Id);
+
+            if(outOfDateRunSummary != null)
+                Runs.Remove(outOfDateRunSummary);
+
+            Runs.Add(latestRunSummary);
 
             Runs = Runs.OrderByDescending(r => r.RunDateTime).ToList();
 

@@ -1,40 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using StoryTeller.ResultAggregation.Models;
 
 namespace StoryTeller.Portal.ResultsAggregator
 {
-    public class RunContext : IDisposable
+    public class RunContext
     {
-        private static AsyncLocal<RunContext> _instance;
-        public static RunContext Current => _instance?.Value;
-        public Run Run { get; private set; }
+        private static RunContext _instance;
+        public static RunContext Current => _instance;
+        public Run Run { get; }
         /// <summary>
         /// Key is the Portal's Spec ID and value is ST Spec ID
         /// </summary>
-        public List<Spec> Specs { get; private set; }
+        public List<Spec> Specs { get; }
 
-        internal RunContext(Run run = null, List<Spec> specs = null)
+        internal RunContext(Run run, List<Spec> specs)
         {
             Run = run;
             Specs = specs;
         }
 
-        public static RunContext Create(Run run = null, List<Spec> specs = null)
+        public static void Create(Run run, List<Spec> specs)
         {
-            _instance = new AsyncLocal<RunContext>();
-            _instance.Value = new RunContext(run, specs);
-            return _instance.Value;
+            _instance = new RunContext(run, specs);
         }
 
-        public void Update(Run run = null, List<Spec> specs = null)
-        {
-            Run = run;
-            Specs = specs;
-        }
-
-        public void Dispose()
+        public static void Destroy()
         {
             _instance = null;
         }

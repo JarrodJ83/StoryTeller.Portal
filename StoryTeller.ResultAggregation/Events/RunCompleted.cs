@@ -5,9 +5,12 @@ namespace StoryTeller.ResultAggregation.Events
     public class RunCompleted : INotification
     {
         public int RunId { get; }
-        public RunCompleted(int runId)
+        public bool Passed { get; }
+
+        public RunCompleted(int runId, bool passed)
         {
             RunId = runId;
+            Passed = passed;
         }
     }
 }
