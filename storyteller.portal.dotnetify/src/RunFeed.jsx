@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import dotnetify from 'dotnetify';
+import { Table, Glyphicon } from 'react-bootstrap';
 
 class RunFeed extends React.Component {
     constructor(props) {
@@ -12,30 +13,28 @@ class RunFeed extends React.Component {
     }
     render() {
         return (
-            <div className="App-intro">
-            <table>
-            <thead>
-            <tr>
-                <th>Run Date</th>
-                <th>App</th>
-                <th>Status</th>
-                <th>Passed?</th>
-                <th>Results</th>
-            </tr>
+            <Table striped bordered condensed hover>
+                <thead>
+                <tr>
+                    <th>Run Date</th>
+                    <th>App</th>
+                    <th>Status</th>
+                    <th>Results</th>
+                </tr>
             </thead>
             <tbody>
                         {this.state.Runs.map(run => <tr key={run.Id}>
                                                         <td>{run.Name}</td>
                                                         <td sytle="color: green;">{run.AppName}</td>
                                                         <td><span>(Pass: {run.SuccessfulCount} </span><span sytle="color: green;">Fail: {run.FailureCount} Total: {run.TotalCount})</span></td>
-                                                        <td>{run.Passed}</td>
+                                                        
                                                         <td>
                                 <a target="_blank" href={"http://localhost:1881/Runs/" + run.Id + "/results"} style={{visibility: run.Finished ? "visible" : "hidden"}} >View Results</a>
                                                         </td>
+                                                        <td><Glyphicon glyph={run.Finished ? run.Passed ? "ok" : "exclamation-sign" : "hourglass"} /></td>
                                                     </tr >)}
                     </tbody>
-            </table>                 
-            </div>
+                </Table>  
         );
     }
 }
