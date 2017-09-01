@@ -32,7 +32,7 @@ class RunFeed extends React.Component {
                                                         <td>
                                 <a target="_blank" href={"http://localhost:1881/Runs/" + run.Id + "/results"} style={{visibility: run.Finished ? "visible" : "hidden"}} >View Results</a>
                                                         </td>
-                                                        <td><Glyphicon glyph={run.Finished ? run.Passed ? "ok" : "exclamation-sign" : "hourglass"} style={{ color: run.Passed ? "green" : "red" }}/></td>
+                                                        <td><Glyphicon glyph={run.Finished ? run.Passed ? "ok" : "exclamation-sign" : "hourglass"} style={{ color: run.Finished ? run.Passed ? "green" : "red" : "black" }}/></td>
                                                     </tr >)}
                     </tbody>
                 </Table>  
