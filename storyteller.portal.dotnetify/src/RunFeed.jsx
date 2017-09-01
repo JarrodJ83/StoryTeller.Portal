@@ -11,7 +11,8 @@ class RunFeed extends React.Component {
     getInitialState() {
         this.vm.onRouteEnter = (path, template) => template.Target = "HtmlResults";
     }
-    render() {
+    
+    render() {  
         return (
             <Table striped bordered condensed hover>
                 <thead>
@@ -31,7 +32,7 @@ class RunFeed extends React.Component {
                                                         <td>
                                 <a target="_blank" href={"http://localhost:1881/Runs/" + run.Id + "/results"} style={{visibility: run.Finished ? "visible" : "hidden"}} >View Results</a>
                                                         </td>
-                                                        <td><Glyphicon glyph={run.Finished ? run.Passed ? "ok" : "exclamation-sign" : "hourglass"} /></td>
+                                                        <td><Glyphicon glyph={run.Finished ? run.Passed ? "ok" : "exclamation-sign" : "hourglass"} style={{ color: run.Passed ? "green" : "red" }}/></td>
                                                     </tr >)}
                     </tbody>
                 </Table>  
