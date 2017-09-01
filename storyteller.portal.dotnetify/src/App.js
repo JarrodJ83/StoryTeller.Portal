@@ -2,22 +2,24 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import RunFeed from './RunFeed';
-
+import NavHeader from './NavHeader';
+import { Button, Grid, Row, Col, Navbar, Nav, NavItem, NavDropdown, MenuItem, DropdownMenu } from 'react-bootstrap';
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>StoryTeller Portal</h2>
-        </div>
-          <div id="container">
-                <div id="nav">
-                    Home<br />
-                    Apps
-                </div>
-                <div id="main"><RunFeed /></div>
-          </div>
+        <div>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css" />
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css" />
+            <Grid>
+                <Row>
+                    <Col>
+                       <NavHeader />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col><RunFeed/></Col>
+                </Row>
+            </Grid>
       </div>
     );
   }
