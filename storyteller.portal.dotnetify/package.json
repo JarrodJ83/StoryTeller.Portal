@@ -8,7 +8,8 @@
     "dotnetify": "^2.0.5-beta",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.2",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "recharts": "^1.0.0-alpha.4"
   },
   "devDependencies": {
     "concurrently": "^3.4.0",

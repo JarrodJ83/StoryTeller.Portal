@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import RunFeed from './RunFeed';
+import RunChart from './RunChart';
 import NavHeader from './NavHeader';
 import { Button, Grid, Row, Col, Navbar, Nav, NavItem, NavDropdown, MenuItem, DropdownMenu } from 'react-bootstrap';
 class App extends Component {
@@ -17,7 +18,10 @@ class App extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col><RunFeed/></Col>
+                    <Col><RunChart /></Col>
+                </Row>
+                <Row>
+                    <Col><RunFeed /></Col>
                 </Row>
             </Grid>
       </div>
