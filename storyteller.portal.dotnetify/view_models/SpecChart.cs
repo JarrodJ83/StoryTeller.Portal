@@ -1,9 +1,7 @@
 ﻿using DotNetify;
-using MediatR;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.Portal.Models.Views;
 using StoryTeller.Portal.Queries;
-using StoryTeller.ResultAggregation.Events;
 using StoryTeller.ResultAggregation.Models;
 using System;
 using System.Collections.Generic;
@@ -13,32 +11,21 @@ using System.Threading.Tasks;
 
 namespace storyteller.portal.dotnetify.view_models
 {
-    public class RunChart : BaseVM, IAsyncNotificationHandler<RunCompleted>
+    public class SpecChart : BaseVM
     {
         private readonly IQueryHandler<LatestRunSumarries, List<RunSummary>> _runSummariesQueryHandler;
-        public List<RunStat> Stats { get; set; } = new List<RunStat>();
+        public List<SpecStat> Stats { get; set; } = new List<SpecStat>();
 
-        public RunChart(IQueryHandler<LatestRunSumarries, List<RunSummary>> runSummariesQueryHandler)
+        public SpecChart(IQueryHandler<LatestRunSumarries, List<RunSummary>> runSummariesQueryHandler)
         {
             _runSummariesQueryHandler = runSummariesQueryHandler;
-            RefreshStats();
-        }
-
-        public Task Handle(RunCompleted notification)
-        {
-            RefreshStats();
-            return Task.CompletedTask;  
-        }
-
-        void RefreshStats()
-        {
             _runSummariesQueryHandler.FetchAsync(new LatestRunSumarries(), CancellationToken.None).ContinueWith(t =>
             {
                 if (t.IsCompletedSuccessfully)
                 {
                     List<int> daysInWeek = new List<int>();
                     var startingOn = DateTime.UtcNow.AddDays(-6);
-                    for (int i = 0; i < 7; i++)
+                    for(int i = 0; i < 7; i ++)
                     {
                         daysInWeek.Add(startingOn.Day);
                         startingOn = startingOn.AddDays(1);
@@ -47,18 +34,18 @@ namespace storyteller.portal.dotnetify.view_models
                     var groupedRuns = from r in t.Result
                                       group r by r.RunDateTime.Day into byDay
                                       select byDay;
-
+                    
                     var stats = from d in daysInWeek
                                 join r in groupedRuns on d equals r.Key into dr
                                 from day in dr.DefaultIfEmpty()
-                                select new RunStat
+                                select new SpecStat
                                 {
                                     Day = d,
-                                    Successful = day == null ? 0 : day.Count(x => x.Passed.HasValue && x.Passed.Value),
-                                    Failed = day == null ? 0 : day.Count(x => x.Passed.HasValue && !x.Passed.Value)
+                                    Successful = day == null ? 0 : day.Sum(x => x.SuccessfulCount),
+                                    Failed = day == null ? 0 : day.Sum(s => s.FailureCount)
                                 };
-
-                    Stats = stats.ToList();
+                    
+                    Stats.AddRange(stats);
                     Changed(nameof(Stats));
                     PushUpdates();
                 }
@@ -66,7 +53,7 @@ namespace storyteller.portal.dotnetify.view_models
         }
     }
 
-    public class RunStat
+    public class SpecStat
     {
         public int Day { get; set; }
         public int Successful { get; set; }

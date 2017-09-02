@@ -99,7 +99,8 @@ namespace helloworld
             container.Register<ApiAuthenticationMiddleware>(Lifestyle.Scoped);
             container.Register(() => new RunFeed(new LatestRunSummariesViaSql(sqlSettings), new SummaryForRunViaSql(sqlSettings)) , Lifestyle.Singleton);
             container.Register(() => new NavHeader(new AllAppsViaSql(sqlSettings)), Lifestyle.Scoped);
-            
+            container.Register(() => new RunChart(new LatestRunSummariesViaSql(sqlSettings)), Lifestyle.Singleton);
+
             RegisterCQRSHandlers();
 
             RegisterMediatr(container);
