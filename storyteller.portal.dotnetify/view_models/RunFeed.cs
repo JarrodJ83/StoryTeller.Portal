@@ -64,7 +64,7 @@ namespace storyteller.portal.dotnetify.view_models
 
             Runs.Add(latestRunSummary);
 
-            Runs = Runs.OrderByDescending(r => r.RunDateTime).ToList();
+            Runs = Runs.OrderByDescending(r => r.RunDateTime).Take(20).ToList();
 
             Changed(nameof(Runs));
             PushUpdates();

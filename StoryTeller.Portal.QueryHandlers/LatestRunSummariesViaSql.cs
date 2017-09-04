@@ -39,6 +39,7 @@ namespace StoryTeller.Portal.QueryHandlers
                             from Run as r
                                 inner join App as a on r.AppId = a.Id
                                 left outer join RunResult as rr on r.Id = rr.RunId
+                            where r.RunDateTime >= DATEADD(DAY, -6, GETUTCDATE())
                             order by r.RunDateTime desc
                         ", new { }, cancellationToken); 
         }
