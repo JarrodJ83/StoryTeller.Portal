@@ -143,9 +143,9 @@ namespace helloworld
             services.AddSingleton(p => new SingleInstanceFactory(p.GetService));
             services.AddSingleton(p => new MultiInstanceFactory(p.GetServices));
 
-            services.AddTransient<RunFeed>();
-            services.AddTransient<NavHeader>();
-            services.AddTransient<RunChart>();
+            services.AddSingleton<RunFeed>();
+            services.AddSingleton<NavHeader>();
+            services.AddSingleton<RunChart>();
         }
 
         //private void InitializeContainer(IApplicationBuilder app)

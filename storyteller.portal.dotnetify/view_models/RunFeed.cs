@@ -43,7 +43,7 @@ namespace storyteller.portal.dotnetify.view_models
             {
                 if (t.IsCompletedSuccessfully)
                 {
-                    Runs.AddRange(t.Result);
+                    Runs.AddRange(t.Result.Take(2));
                     Changed(nameof(Runs));
                     PushUpdates();
                 }

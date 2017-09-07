@@ -6,11 +6,15 @@ import RunFeedRow from './RunFeedRow';
 class RunFeed extends React.Component {
     constructor(props) {
         super(props);
-        dotnetify.react.connect("RunFeed", this);
+        this.vm = dotnetify.react.connect("RunFeed", this);
         this.state = { Runs:[] };
     }
     componentWillUnmount() {
         this.vm.$destroy();
+    }
+    shouldComponentUpdate(nextProps) {
+        console.log("RunFeed NextProps :: " + nextProps);
+        return true;
     }
     render() {  
         return (<Table striped bordered condensed hover>

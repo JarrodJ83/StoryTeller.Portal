@@ -5,7 +5,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tool
 class RunChart extends Component {
     constructor(props) {
         super(props);
-        dotnetify.react.connect("RunChart", this);
+        this.vm = dotnetify.react.connect("RunChart", this);
         this.state = { Stats: [] };
     }
     componentWillUnmount() {
