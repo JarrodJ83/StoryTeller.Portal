@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import dotnetify from 'dotnetify';
-import { Table, Glyphicon } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
+import RunFeedRow from './RunFeedRow';
 
 class RunFeed extends React.Component {
     constructor(props) {
@@ -8,13 +9,11 @@ class RunFeed extends React.Component {
         dotnetify.react.connect("RunFeed", this);
         this.state = { Runs:[] };
     }
-    getInitialState() {
-        this.vm.onRouteEnter = (path, template) => template.Target = "HtmlResults";
+    componentWillUnmount() {
+        this.vm.$destroy();
     }
-    
     render() {  
-        return (
-            <Table striped bordered condensed hover>
+        return (<Table striped bordered condensed hover>
                 <thead>
                 <tr>
                     <th>Run Date</th>
@@ -24,18 +23,9 @@ class RunFeed extends React.Component {
                 </tr>
             </thead>
             <tbody>
-                        {this.state.Runs.map(run => <tr key={run.Id}>
-                                                        <td>{run.Name}</td>
-                                                        <td sytle="color: green;">{run.AppName}</td>
-                                                        <td><span>(Pass: {run.SuccessfulCount} </span><span sytle="color: green;">Fail: {run.FailureCount} Total: {run.TotalCount})</span></td>
-                                                        
-                                                        <td>
-                                <a target="_blank" href={"http://localhost:1881/Runs/" + run.Id + "/results"} style={{visibility: run.Finished ? "visible" : "hidden"}} >View Results</a>
-                                                        </td>
-                                                        <td><Glyphicon glyph={run.Finished ? run.Passed ? "ok" : "exclamation-sign" : "hourglass"} style={{ color: run.Finished ? run.Passed ? "green" : "red" : "black" }}/></td>
-                                                    </tr >)}
+                    {this.state.Runs.map(run => <RunFeedRow Run={run} />)}
                     </tbody>
-                </Table>  
+            </Table>  
         );
     }
 }

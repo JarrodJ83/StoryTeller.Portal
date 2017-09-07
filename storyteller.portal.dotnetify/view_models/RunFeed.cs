@@ -12,21 +12,33 @@ using StoryTeller.ResultAggregation.Events;
 
 namespace storyteller.portal.dotnetify.view_models
 {
-    public class RunFeed : BaseVM, IAsyncNotificationHandler<RunCreated>, IAsyncNotificationHandler<RunSpecUpdated>, IAsyncNotificationHandler<RunCompleted>, IRoutable
+    public class RunFeed : BaseVM, IRoutable//, IAsyncNotificationHandler<RunCompleted>, IAsyncNotificationHandler<RunSpecUpdated>, IAsyncNotificationHandler<RunCreated>
     {
         private readonly IQueryHandler<LatestRunSumarries, List<RunSummary>> _runSummariesQueryHandler;
         private readonly IQueryHandler<SummaryOfRun, RunSummary> _summaryOfRunQueryHandler;
+        
         public List<RunSummary> Runs { get; set; } = new List<RunSummary>();
 
-        public RunFeed(IQueryHandler<LatestRunSumarries, List<RunSummary>> runSummariesQueryHandler, IQueryHandler<SummaryOfRun, RunSummary> summaryOfRunQueryHandler)
+        public RunFeed(IQueryHandler<LatestRunSumarries, List<RunSummary>> runSummariesQueryHandler, 
+            IQueryHandler<SummaryOfRun, RunSummary> summaryOfRunQueryHandler, IEventsHub eventsHub)
         {
             this.RegisterRoutes("index", new List<RouteTemplate>
             {
                 new RouteTemplate("RunResults") {UrlPattern = "RunResults(/id)"},
             });
 
+            if (!eventsHub.IsSubscribed<RunCreated>(this))
+                eventsHub.Subscribe<RunCreated>(this, notification => Handle((RunCreated)notification));
+
+            if (!eventsHub.IsSubscribed<RunCompleted>(this))
+                eventsHub.Subscribe<RunCompleted>(this, notification => Handle((RunCompleted)notification));
+
+            if (!eventsHub.IsSubscribed<RunSpecUpdated>(this))
+                eventsHub.Subscribe<RunSpecUpdated>(this, notification => Handle((RunSpecUpdated)notification));
+
             _runSummariesQueryHandler = runSummariesQueryHandler;
             _summaryOfRunQueryHandler = summaryOfRunQueryHandler;
+            
             _runSummariesQueryHandler.FetchAsync(new LatestRunSumarries(), CancellationToken.None).ContinueWith(t =>
             {
                 if (t.IsCompletedSuccessfully)
@@ -38,38 +50,46 @@ namespace storyteller.portal.dotnetify.view_models
             });
         }
 
-        public async Task Handle(RunCreated notification)
+        private void AddOrUpdateRunSummary(int runId)
         {
-            await AddOrUpdateRunSummary(notification.RunId);
+            _summaryOfRunQueryHandler.FetchAsync(new SummaryOfRun(runId), CancellationToken.None)
+                .ContinueWith(t =>
+                {
+                    if (t.IsCompletedSuccessfully)
+                    {
+                        RunSummary latestRunSummary = t.Result;
+                        RunSummary outOfDateRunSummary = Runs.SingleOrDefault(r => r.Id == latestRunSummary.Id);
+
+                        if (outOfDateRunSummary != null)
+                        {
+                            Runs[Runs.IndexOf(outOfDateRunSummary)] = latestRunSummary;
+                        }
+                        else
+                        {
+                            Runs.Insert(0, latestRunSummary);
+                        }
+
+                        Changed(nameof(Runs));
+                        PushUpdates();
+                    }
+                });
         }
 
-        public async Task Handle(RunSpecUpdated notification)
+        public void Handle(RunCompleted notification)
         {
-            await AddOrUpdateRunSummary(notification.RunId);
-        }
-
-        public async Task Handle(RunCompleted notification)
-        {
-            await AddOrUpdateRunSummary(notification.RunId);
-        }
-
-        private async Task AddOrUpdateRunSummary(int runId)
-        {
-            RunSummary latestRunSummary = await _summaryOfRunQueryHandler.FetchAsync(new SummaryOfRun(runId), CancellationToken.None);
-
-            RunSummary outOfDateRunSummary = Runs.SingleOrDefault(r => r.Id == latestRunSummary.Id);
-
-            if(outOfDateRunSummary != null)
-                Runs.Remove(outOfDateRunSummary);
-
-            Runs.Add(latestRunSummary);
-
-            Runs = Runs.OrderByDescending(r => r.RunDateTime).Take(20).ToList();
-
-            Changed(nameof(Runs));
-            PushUpdates();
+            AddOrUpdateRunSummary(notification.RunId);
         }
 
         public RoutingState RoutingState { get; set; }
+
+        public void Handle(RunSpecUpdated notification)
+        {
+            AddOrUpdateRunSummary(notification.RunId);
+        }
+
+        public void Handle(RunCreated notification)
+        {
+            AddOrUpdateRunSummary(notification.RunId);
+        }
     }
 }

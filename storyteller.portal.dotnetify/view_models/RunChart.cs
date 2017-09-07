@@ -13,21 +13,24 @@ using System.Threading.Tasks;
 
 namespace storyteller.portal.dotnetify.view_models
 {
-    public class RunChart : BaseVM, IAsyncNotificationHandler<RunCompleted>
+    public class RunChart : BaseVM
     {
         private readonly IQueryHandler<LatestRunSumarries, List<RunSummary>> _runSummariesQueryHandler;
         public List<RunStat> Stats { get; set; } = new List<RunStat>();
 
-        public RunChart(IQueryHandler<LatestRunSumarries, List<RunSummary>> runSummariesQueryHandler)
+        public RunChart(IQueryHandler<LatestRunSumarries, List<RunSummary>> runSummariesQueryHandler, IEventsHub eventsHub)
         {
             _runSummariesQueryHandler = runSummariesQueryHandler;
+
+            if (!eventsHub.IsSubscribed<RunCompleted>(this))
+                eventsHub.Subscribe<RunCompleted>(this, notification => Handle((RunCompleted)notification));
+
             RefreshStats();
         }
 
-        public Task Handle(RunCompleted notification)
+        public void Handle(RunCompleted notification)
         {
             RefreshStats();
-            return Task.CompletedTask;  
         }
 
         void RefreshStats()

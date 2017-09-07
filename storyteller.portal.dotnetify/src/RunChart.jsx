@@ -8,6 +8,9 @@ class RunChart extends Component {
         dotnetify.react.connect("RunChart", this);
         this.state = { Stats: [] };
     }
+    componentWillUnmount() {
+        this.vm.$destroy();
+    }
     render() {
         return (
 

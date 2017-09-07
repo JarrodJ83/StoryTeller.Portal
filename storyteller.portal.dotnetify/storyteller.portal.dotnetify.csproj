@@ -12,11 +12,13 @@
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0-msbuild3-final" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DotNetify.SignalR" Version="2.2.0-pre" />
+    <PackageReference Include="DotNetify.SignalR" Version="2.2.1-pre" />
     <PackageReference Include="mediator" Version="1.0.2123" />
     <PackageReference Include="Mediator.Net.SimpleInjector" Version="1.1.6" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="microsoft.aspnetcore.middlewareanalysis" Version="2.0.0" />
+    <PackageReference Include="serilog.sinks.seq" Version="3.3.3" />
     <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.0.10" />
   </ItemGroup>
   <ItemGroup>

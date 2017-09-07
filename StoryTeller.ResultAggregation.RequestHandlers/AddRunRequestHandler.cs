@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Hosting.Internal;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Commands;
 using StoryTeller.ResultAggregation.Events;
