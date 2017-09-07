@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.CQRS", "StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj", "{7FC1A584-362E-43D6-AA3A-3496DB688F1D}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.RequestHandlers", "StoryTeller.Portal.RequestHandlers\StoryTeller.Portal.RequestHandlers.csproj", "{4F1C1972-2004-451D-B90F-EDF90A4789B9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "storyteller.portal.dotnetify", "storyteller.portal.dotnetify\storyteller.portal.dotnetify.csproj", "{76F87FC3-09B1-4B81-AA63-69E0B2D26280}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoryTeller.Portal.Web", "StoryTeller.Portal.Web\StoryTeller.Portal.Web.csproj", "{84FF9AB5-2F65-4E13-BECA-2D4AF4E748E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +101,10 @@ Global
 		{76F87FC3-09B1-4B81-AA63-69E0B2D26280}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76F87FC3-09B1-4B81-AA63-69E0B2D26280}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76F87FC3-09B1-4B81-AA63-69E0B2D26280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84FF9AB5-2F65-4E13-BECA-2D4AF4E748E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84FF9AB5-2F65-4E13-BECA-2D4AF4E748E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84FF9AB5-2F65-4E13-BECA-2D4AF4E748E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84FF9AB5-2F65-4E13-BECA-2D4AF4E748E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

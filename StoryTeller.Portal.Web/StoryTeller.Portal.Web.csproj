@@ -9,8 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="simpleinjector" Version="4.0.8" />
-    <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.0.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,20 +18,6 @@
   <ItemGroup>
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
     <Content Remove="ClientApp\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\StoryTeller.Portal.CQRS.Sql\StoryTeller.Portal.CQRS.Sql.csproj" />
-    <ProjectReference Include="..\StoryTeller.Portal.CQRS\StoryTeller.Portal.CQRS.csproj" />
-    <ProjectReference Include="..\StoryTeller.Portal.Models\StoryTeller.Portal.Models.csproj" />
-    <ProjectReference Include="..\StoryTeller.Portal.QueryHandlers\StoryTeller.Portal.QueryHandlers.csproj" />
-    <ProjectReference Include="..\StoryTeller.Portal.RequestHandlers\StoryTeller.Portal.RequestHandlers.csproj" />
-    <ProjectReference Include="..\StoryTeller.Portal\StoryTeller.Portal.csproj" />
-    <ProjectReference Include="..\StoryTeller.ResultAggregation.CommandHandlers\StoryTeller.ResultAggregation.CommandHandlers.csproj" />
-    <ProjectReference Include="..\StoryTeller.ResultAggregation.Models\StoryTeller.ResultAggregation.Models.csproj" />
-    <ProjectReference Include="..\StoryTeller.ResultAggregation.QueryHandlers\StoryTeller.ResultAggregation.QueryHandlers.csproj" />
-    <ProjectReference Include="..\StoryTeller.ResultAggregation.RequestHandlers\StoryTeller.ResultAggregation.RequestHandlers.csproj" />
-    <ProjectReference Include="..\StoryTeller.ResultAggregation\StoryTeller.ResultAggregation.csproj" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

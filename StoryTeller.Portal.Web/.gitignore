@@ -31,8 +31,6 @@ Obj/
 /wwwroot/dist/
 /ClientApp/dist/
 
-/yarn.lock
-
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
@@ -186,6 +184,8 @@ ClientBin/
 orleans.codegen.cs
 
 /node_modules
+
+/yarn.lock
 
 # RIA/Silverlight projects
 Generated_Code/
