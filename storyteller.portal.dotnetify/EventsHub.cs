@@ -27,27 +27,9 @@ namespace storyteller.portal.dotnetify
         #region Receivers
 
 
-        private void InvokeForSubscriptions<TNotification>(TNotification notification) where TNotification : INotification
-        {
-            var subscriptions = GetSubscriptions<TNotification>();
-
-            foreach (var subscription in subscriptions)
-            {
-                subscription.Item3.Invoke(notification);
-            }
-        }
-
-        private Tuple<object, Type, Action<INotification>> GetSubscriptionOrDefault<TNotification>(object instance)
-        {
-            return Subscriptions.SingleOrDefault(s => s.Item1.GetType() == instance.GetType() && s.Item2 == typeof(TNotification));
-        }
-
-        private List<Tuple<object, Type, Action<INotification>>> GetSubscriptions<TNotification>()
-        {
-            return Subscriptions.Where(s => s.Item2 == typeof(TNotification)).ToList();
-        }
-
         #endregion
+
+        #region IEventsHub
 
         public bool IsSubscribed<TNotification>(object instance) where TNotification : INotification
         {
@@ -56,9 +38,11 @@ namespace storyteller.portal.dotnetify
 
         public void Subscribe<TNotification>(object instance, Action<INotification> action) where TNotification : INotification
         {
-            if(IsSubscribed<TNotification>(instance))
-                throw new Exception($"An instance of {instance.GetType().FullName} is already subsribed to event {typeof(TNotification).FullName}");
-            
+            var currentSubscription = GetSubscriptionOrDefault<TNotification>(instance);
+
+            if (currentSubscription != null)
+                Subscriptions.Remove(currentSubscription);
+
             Subscriptions.Add(new Tuple<object, Type, Action<INotification>>(instance, typeof(TNotification), action));
         }
 
@@ -69,6 +53,10 @@ namespace storyteller.portal.dotnetify
             if (sub != null)
                 Subscriptions.Remove(sub);
         }
+
+        #endregion 
+
+        #region Receivers
 
         public void Handle(RunCompleted notification)
         {
@@ -84,5 +72,32 @@ namespace storyteller.portal.dotnetify
         {
             InvokeForSubscriptions(notification);
         }
+
+        #endregion
+
+        #region Private
+
+        private void InvokeForSubscriptions<TNotification>(TNotification notification) where TNotification : INotification
+        {
+            var subscriptions = GetSubscriptions<TNotification>();
+
+            foreach (var subscription in subscriptions)
+            {
+                subscription.Item3.Invoke(notification);
+            }
+        }
+
+        private Tuple<object, Type, Action<INotification>> GetSubscriptionOrDefault<TNotification>(object instance)
+        {
+            return Subscriptions.SingleOrDefault(s => s.Item1.Equals(instance) && s.Item2 == typeof(TNotification));
+        }
+
+        private List<Tuple<object, Type, Action<INotification>>> GetSubscriptions<TNotification>()
+        {
+            return Subscriptions.Where(s => s.Item2 == typeof(TNotification)).ToList();
+        }
+
+
+        #endregion  
     }
 }

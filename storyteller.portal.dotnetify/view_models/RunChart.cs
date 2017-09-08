@@ -16,16 +16,25 @@ namespace storyteller.portal.dotnetify.view_models
     public class RunChart : BaseVM
     {
         private readonly IQueryHandler<LatestRunSumarries, List<RunSummary>> _runSummariesQueryHandler;
+        private readonly IEventsHub _eventsHub;
         public List<RunStat> Stats { get; set; } = new List<RunStat>();
 
         public RunChart(IQueryHandler<LatestRunSumarries, List<RunSummary>> runSummariesQueryHandler, IEventsHub eventsHub)
         {
+            _eventsHub = eventsHub;
             _runSummariesQueryHandler = runSummariesQueryHandler;
 
             if (!eventsHub.IsSubscribed<RunCompleted>(this))
                 eventsHub.Subscribe<RunCompleted>(this, notification => Handle((RunCompleted)notification));
 
             RefreshStats();
+        }
+
+        public override void Dispose()
+        {
+            _eventsHub.UnSubscribe<RunCompleted>(this);
+
+            base.Dispose();
         }
 
         public void Handle(RunCompleted notification)

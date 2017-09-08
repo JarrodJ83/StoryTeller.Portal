@@ -16,7 +16,7 @@ namespace storyteller.portal.dotnetify.view_models
     {
         private readonly IQueryHandler<LatestRunSumarries, List<RunSummary>> _runSummariesQueryHandler;
         private readonly IQueryHandler<SummaryOfRun, RunSummary> _summaryOfRunQueryHandler;
-        
+        private readonly IEventsHub _eventsHub;
         public List<RunSummary> Runs { get; set; } = new List<RunSummary>();
 
         public RunFeed(IQueryHandler<LatestRunSumarries, List<RunSummary>> runSummariesQueryHandler, 
@@ -27,14 +27,16 @@ namespace storyteller.portal.dotnetify.view_models
                 new RouteTemplate("RunResults") {UrlPattern = "RunResults(/id)"},
             });
 
-            if (!eventsHub.IsSubscribed<RunCreated>(this))
-                eventsHub.Subscribe<RunCreated>(this, notification => Handle((RunCreated)notification));
+            _eventsHub = eventsHub;
 
-            if (!eventsHub.IsSubscribed<RunCompleted>(this))
-                eventsHub.Subscribe<RunCompleted>(this, notification => Handle((RunCompleted)notification));
+            if (!_eventsHub.IsSubscribed<RunCreated>(this))
+                _eventsHub.Subscribe<RunCreated>(this, notification => Handle((RunCreated)notification));
 
-            if (!eventsHub.IsSubscribed<RunSpecUpdated>(this))
-                eventsHub.Subscribe<RunSpecUpdated>(this, notification => Handle((RunSpecUpdated)notification));
+            if (!_eventsHub.IsSubscribed<RunCompleted>(this))
+                _eventsHub.Subscribe<RunCompleted>(this, notification => Handle((RunCompleted)notification));
+
+            if (!_eventsHub.IsSubscribed<RunSpecUpdated>(this))
+                _eventsHub.Subscribe<RunSpecUpdated>(this, notification => Handle((RunSpecUpdated)notification));
 
             _runSummariesQueryHandler = runSummariesQueryHandler;
             _summaryOfRunQueryHandler = summaryOfRunQueryHandler;
@@ -48,6 +50,15 @@ namespace storyteller.portal.dotnetify.view_models
                     PushUpdates();
                 }
             });
+        }
+
+        public override void Dispose()
+        {
+            _eventsHub.UnSubscribe<RunCreated>(this);
+            _eventsHub.UnSubscribe<RunCompleted>(this);
+            _eventsHub.UnSubscribe<RunSpecUpdated>(this);
+
+            base.Dispose();
         }
 
         private void AddOrUpdateRunSummary(int runId)
