@@ -11,11 +11,7 @@ class RunFeed extends React.Component {
     }
     componentWillUnmount() {
         this.vm.$destroy();
-    }
-    shouldComponentUpdate(nextProps) {
-        console.log("RunFeed NextProps :: " + nextProps);
-        return true;
-    }
+    }    
     render() {  
         return (<Table striped bordered condensed hover>
                 <thead>

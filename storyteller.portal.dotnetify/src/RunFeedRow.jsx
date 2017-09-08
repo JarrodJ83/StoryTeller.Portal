@@ -2,10 +2,19 @@
 import dotnetify from 'dotnetify';
 import { Table, Glyphicon } from 'react-bootstrap';
 
-class RunFeedRow extends React.PureComponent  {
+class RunFeedRow extends React.Component  {
     constructor(props) {
         super(props);
     } 
+    shouldComponentUpdate(nextProps) {
+        var shouldUpdate = nextProps.Run.FailureCount !== this.props.Run.FailureCount ||
+            nextProps.Run.SuccessfulCount !== this.props.Run.SuccessfulCount ||
+            nextProps.Run.Finished !== this.props.Run.Finished;
+
+        console.log("ShouldUpdate: " + shouldUpdate);
+
+        return shouldUpdate;
+    }
     render() {
         return (<tr key={this.props.Run.Id}>
             <td>{this.props.Run.Name}</td>

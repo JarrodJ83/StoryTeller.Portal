@@ -17,6 +17,8 @@ namespace storyteller.portal.dotnetify.view_models
         private readonly IQueryHandler<LatestRunSumarries, List<RunSummary>> _runSummariesQueryHandler;
         private readonly IQueryHandler<SummaryOfRun, RunSummary> _summaryOfRunQueryHandler;
         private readonly IEventsHub _eventsHub;
+
+        private const int MAX_RECORDS = 20;
         public List<RunSummary> Runs { get; set; } = new List<RunSummary>();
 
         public RunFeed(IQueryHandler<LatestRunSumarries, List<RunSummary>> runSummariesQueryHandler, 
@@ -45,7 +47,7 @@ namespace storyteller.portal.dotnetify.view_models
             {
                 if (t.IsCompletedSuccessfully)
                 {
-                    Runs.AddRange(t.Result.Take(2));
+                    Runs.AddRange(t.Result.Take(MAX_RECORDS));
                     Changed(nameof(Runs));
                     PushUpdates();
                 }
@@ -79,6 +81,8 @@ namespace storyteller.portal.dotnetify.view_models
                         {
                             Runs.Insert(0, latestRunSummary);
                         }
+
+                        Runs = Runs.OrderByDescending(r => r.RunDateTime).Take(MAX_RECORDS).ToList();
 
                         Changed(nameof(Runs));
                         PushUpdates();

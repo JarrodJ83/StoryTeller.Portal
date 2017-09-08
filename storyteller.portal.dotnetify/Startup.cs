@@ -66,7 +66,7 @@ namespace helloworld
             app.UseDotNetify(config =>
             {
                 
-                config.UseDeveloperLogging(log => logger.Verbose(log));
+                //config.UseDeveloperLogging(log => logger.Verbose(log));
                 //config.SetFactoryMethod((type, args) =>
                 //{
                 //    return container.GetInstance(type);
