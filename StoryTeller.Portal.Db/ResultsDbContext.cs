@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using Storyteller.Portal.Db.Model;
 
 namespace StoryTeller.Portal.Db

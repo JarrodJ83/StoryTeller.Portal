@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using MediatR;
-using Microsoft.CodeAnalysis.Semantics;
 using StoryTeller.ResultAggregation.Events;
 
 namespace storyteller.portal.dotnetify

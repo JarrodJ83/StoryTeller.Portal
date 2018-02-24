@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
 namespace StoryTeller.Portal.Db.Migrations
 {

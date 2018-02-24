@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using StoryTeller.Portal;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Models.ClientModel;
 using StoryTeller.ResultAggregation.Models;

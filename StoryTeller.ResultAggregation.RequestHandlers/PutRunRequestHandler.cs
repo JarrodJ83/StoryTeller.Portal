@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using MediatR;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.ResultAggregation.Commands;
-using StoryTeller.ResultAggregation.Events;
 using StoryTeller.ResultAggregation.Requests;
 
 namespace StoryTeller.ResultAggregation.RequestHandlers
