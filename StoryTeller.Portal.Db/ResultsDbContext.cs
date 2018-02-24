@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Storyteller.Portal.Db.Model;
+using System;
+using System.IO;
 
 namespace StoryTeller.Portal.Db
 {
@@ -11,9 +13,14 @@ namespace StoryTeller.Portal.Db
         public DbSet<RunSpec> RunSpecs { get; set; }
         public DbSet<RunResult> RunResults { get; set; }
 
+        public ResultsDbContext(DbContextOptions<ResultsDbContext> options) : base(options)
+        {
+
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=results.db");
+            optionsBuilder.UseSqlite($"Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "results.db")}");
         }
     }
 }

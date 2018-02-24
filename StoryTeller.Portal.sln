@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.RequestH
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "storyteller.portal.dotnetify", "storyteller.portal.dotnetify\storyteller.portal.dotnetify.csproj", "{76F87FC3-09B1-4B81-AA63-69E0B2D26280}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "storyteller.portal.web", "StoryTeller.Portal.Web\storyteller.portal.web.csproj", "{158E55F4-5840-41CB-9C2B-CAE3E69B4EE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.Web", "StoryTeller.Portal.Web\StoryTeller.Portal.Web.csproj", "{158E55F4-5840-41CB-9C2B-CAE3E69B4EE6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoryTeller.Portal.Db", "StoryTeller.Portal.Db\StoryTeller.Portal.Db.csproj", "{90CEF968-6584-4344-AF66-A01435CB394D}"
 EndProject

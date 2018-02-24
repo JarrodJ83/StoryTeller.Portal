@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StoryTeller.Portal.Db;
+using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System;
 
 namespace storyteller.portal.web
 {
@@ -19,6 +23,9 @@ namespace storyteller.portal.web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=Results;Trusted_Connection=True;ConnectRetryCount=0";
+            services.AddDbContext<ResultsDbContext>(options => options.UseSqlite($"Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "results.db")}"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
