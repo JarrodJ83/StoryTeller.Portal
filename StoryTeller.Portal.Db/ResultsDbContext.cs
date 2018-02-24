@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Storyteller.Portal.Db.Model;
 
 namespace StoryTeller.Portal.Db
 {
@@ -8,6 +9,8 @@ namespace StoryTeller.Portal.Db
         public DbSet<App> Apps { get; set; }
         public DbSet<Run> Runs { get; set; }
         public DbSet<Spec> Specs { get; set; }
+        public DbSet<RunSpec> RunSpecs { get; set; }
+        public DbSet<RunResult> RunResults { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
