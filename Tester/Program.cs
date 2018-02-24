@@ -8,7 +8,6 @@ using StoryTeller.Portal.ResultsAggregator;
 using StoryTeller.Portal.ResultsAggregator.Client;
 using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Models.ClientModel;
-using Fixture = Ploeh.AutoFixture.Fixture;
 using System.Threading;
 using System.Threading.Tasks;
 

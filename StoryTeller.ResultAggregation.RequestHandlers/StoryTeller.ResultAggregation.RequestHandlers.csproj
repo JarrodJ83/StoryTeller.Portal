@@ -14,10 +14,4 @@
     <ProjectReference Include="..\StoryTeller.ResultAggregation\StoryTeller.ResultAggregation.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Hosting">
-      <HintPath>..\..\..\..\Users\jarrod.johnson\.nuget\packages\microsoft.aspnetcore.hosting\2.0.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
