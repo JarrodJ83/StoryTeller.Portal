@@ -53,14 +53,22 @@ namespace StoryTeller.ResultAggregation.CommandHandlers
 
         protected async Task<List<TResult>> QueryAsync<TResult>(string query, object parameters, CancellationToken cancellationToken)
         {
-            using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
+            try
             {
-                await conn.OpenAsync(cancellationToken);
+                using (var conn = new SqlConnection(_sqlSettings.ResultsDbConnStr))
+                {
+                    await conn.OpenAsync(cancellationToken);
 
-                var results = await conn.QueryAsync<TResult>(query, parameters);
+                    var results = await conn.QueryAsync<TResult>(query, parameters);
 
-                return results.ToList();
+                    return results.ToList();
+                }
             }
+            catch (System.Exception e)
+            {
+                throw;
+            }
+           
         }
 
         protected async Task<TResult> QuerySingleOrDefaultAsync<TResult>(string query, CancellationToken cancellationToken)

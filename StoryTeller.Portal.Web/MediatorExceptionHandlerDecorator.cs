@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace storyteller.portal.dotnetify
+namespace StoryTeller.Portal.Web
 {
     public class MediatorExceptionHandlerDecorator : IMediator
     {

@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Storyteller.Portal.Db.Model;
 using System;
 using System.IO;
@@ -14,13 +16,24 @@ namespace StoryTeller.Portal.Db
         public DbSet<RunResult> RunResults { get; set; }
 
         public ResultsDbContext(DbContextOptions<ResultsDbContext> options) : base(options)
-        {
+        {            
+        }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            var internalBuilder = modelBuilder.GetInfrastructure<InternalModelBuilder>();
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                internalBuilder
+                    .Entity(entity.Name, ConfigurationSource.Convention)
+                    .Relational(ConfigurationSource.Convention)
+                    .ToTable(entity.ClrType.Name);
+            }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "results.db")}");
+            optionsBuilder.UseSqlServer($"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Results;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
     }
 }

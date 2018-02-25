@@ -10,6 +10,8 @@ using StoryTeller.ResultAggregation.Models;
 using StoryTeller.ResultAggregation.Models.ClientModel;
 using System.Threading;
 using System.Threading.Tasks;
+using StoryTeller.Portal.Db;
+using Entities = Storyteller.Portal.Db.Model;
 
 namespace Tester
 {
@@ -17,11 +19,12 @@ namespace Tester
     {
         static void Main(string[] args)
         {
-            var client = new PortalResultsAggregatorClient("http://localhost:1881/",
+            var client = new PortalResultsAggregatorClient("http://localhost:51879/",
                 "ee5b80aa-c4e5-413d-8c60-5eb0acabca52");
             try
             {
-                TestRunLogger(client);
+                SetupApp();
+                TestClient(client);
             }
             catch (Exception e)
             {
@@ -31,12 +34,58 @@ namespace Tester
             Console.ReadLine();
         }
 
+        static void SetupApp()
+        {
+            using (var db = new ResultsDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<ResultsDbContext>()))
+            {
+                db.Database.EnsureDeleted();
+                db.Database.EnsureCreated();
+
+                var testApp = new Entities.App
+                {
+                    ApiKey = "test",
+                    Name = "test"
+                };
+                
+                var spec = new Entities.Spec()
+                {
+                    App = testApp,
+                    Name = "Calculate something",
+                    StorytellerId = Guid.NewGuid()
+                };
+
+                db.Specs.Add(spec);
+
+                var run = new Entities.Run()
+                {
+                    App = testApp,
+                    Name = $"Run @ {DateTime.Now.ToString("yyyy-mm-dd hh:MM:ss")}"
+                };
+                db.Runs.Add(run);
+
+                var runSpec = new Entities.RunSpec()
+                {
+                    Run = run,
+                    Spec = spec,
+                    Passed = true
+                };
+
+                var runResults = new Entities.RunResult()
+                { 
+                    HtmlResults = "<html><div>resuls here</div></html>",
+                    Run = run
+                };
+
+                db.Apps.Add(testApp);
+
+                db.SaveChanges();
+            }
+        }
+
         static void TestRunLogger(IPortalResultsAggregatorClient client)
         {
-            var runLogger = new RunLogger(client, new RunLoggerSettings("c:\\temp\\stresults.html"));
-
-            var fixture = new Fixture();
-
+            var runLogger = new RunLogger(client, new RunLoggerSettings("D:\\github\\StoryTeller.Portal\\FakeSystemAndSpecs\\FakeSystemAndSpecs\\stresults.html"));
+            
             List<Spec> specs = client.GetAllSpecsAsync().Result;
 
             var stSpecs = specs.Select(s => new Specification

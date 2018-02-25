@@ -1,4 +1,6 @@
 ﻿using StoryTeller.Portal.CQRS.Sql;
+using System;
+using System.IO;
 
 namespace StoryTeller.Portal
 {

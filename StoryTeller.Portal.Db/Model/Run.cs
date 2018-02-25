@@ -1,7 +1,9 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Storyteller.Portal.Db.Model
 {
+    [Table(nameof(Run))]
     public class Run 
     {
         public int Id { get; set; }

@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Storyteller.Portal.Db.Model
 {
+    [Table(nameof(App))]
     public class App 
     {
         public int Id { get; set; }

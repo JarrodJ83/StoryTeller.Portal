@@ -4,7 +4,7 @@ using System.Linq;
 using MediatR;
 using StoryTeller.ResultAggregation.Events;
 
-namespace storyteller.portal.dotnetify
+namespace StoryTeller.Portal.Web
 {
     public interface IEventsHub : INotificationHandler<RunCompleted>, INotificationHandler<RunSpecUpdated>, INotificationHandler<RunCreated>
     {
