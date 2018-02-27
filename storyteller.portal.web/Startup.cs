@@ -26,6 +26,8 @@ using StoryTeller.ResultAggregation.QueryHandlers;
 using StoryTeller.ResultAggregation.RequestHandlers;
 using StoryTeller.Portal.Models;
 using StoryTeller.ResultAggregation.Events;
+using StoryTeller.Portal.RequestHandlers;
+using StoryTeller.Portal.Requests;
 
 namespace storyteller.portal.web
 {
@@ -42,9 +44,9 @@ namespace storyteller.portal.web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=Results;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<ResultsDbContext>(options => options.UseSqlite($"Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "results.db")}"));
+            
+            services.AddDbContext<ResultsDbContext>(options => 
+                options.UseSqlServer($"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Results;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
             RegisterMicrosoftDependencyInjection(services);
         }
 
@@ -100,6 +102,10 @@ namespace storyteller.portal.web
             services.AddTransient<IQueryHandler<SpecsByApplication, List<Spec>>, GetAllSpecsViaSql>();
             services.AddTransient<IQueryHandler<LatestRunByApplication, Run>, LatestRunByApplicationViaSql>();
 
+            // controller handlers
+            services.AddTransient<IRequestHandler<AllAppsRequest, List<App>>, AllAppsRequestHandler>();
+
+            // Results Aggregation Handlers
             services.AddTransient<IRequestHandler<AddRunRequest, Run>, AddRunRequestHandler>();
             services.AddTransient<IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>>, AddSpecBatchToRunRequestHandler>();
             services.AddTransient<IRequestHandler<AddSpecRequest, Spec>, AddSpecRequestHandler>();
