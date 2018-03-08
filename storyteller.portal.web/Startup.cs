@@ -28,6 +28,7 @@ using StoryTeller.Portal.Models;
 using StoryTeller.ResultAggregation.Events;
 using StoryTeller.Portal.RequestHandlers;
 using StoryTeller.Portal.Requests;
+using StoryTeller.Portal.Web.Hubs;
 
 namespace storyteller.portal.web
 {
@@ -44,7 +45,12 @@ namespace storyteller.portal.web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:4200");
+                }));
+            services.AddSignalR();
+
             services.AddDbContext<ResultsDbContext>(options => 
                 options.UseSqlServer($"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Results;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
             RegisterMicrosoftDependencyInjection(services);
@@ -53,6 +59,12 @@ namespace storyteller.portal.web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("CorsPolicy");
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<DashboardHub>("/dashboard");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
