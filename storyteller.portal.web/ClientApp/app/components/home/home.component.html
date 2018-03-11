@@ -1,5 +1,5 @@
 <div>
-    <li *ngFor="let run of runs">
-        {{run.name}}
-    </li>
+    <div *ngFor="let run of runs">
+        {{run.runDateTime}} - {{run.name}} ({{run.successfulCount + run.failureCount}} / {{run.totalCount}})
+    </div>
 </div>

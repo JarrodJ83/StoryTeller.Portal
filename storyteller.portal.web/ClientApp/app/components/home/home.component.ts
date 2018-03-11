@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
         let connection = new signalR.HubConnection("/dashboard");
 
         connection.on('RunCreated', data => {
-            
+            this.runs.push(data);
         });
 
         connection.on('RunSpecUpdated', data => {
