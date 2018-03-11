@@ -26,11 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\app\models\run-summary.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="ClientApp\app\models\run-summary.ts" />
+    <None Remove="ClientApp\app\services\runs.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +44,14 @@
     <ProjectReference Include="..\StoryTeller.ResultAggregation.QueryHandlers\StoryTeller.ResultAggregation.QueryHandlers.csproj" />
     <ProjectReference Include="..\StoryTeller.ResultAggregation.RequestHandlers\StoryTeller.ResultAggregation.RequestHandlers.csproj" />
     <ProjectReference Include="..\StoryTeller.ResultAggregation\StoryTeller.ResultAggregation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\app\models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\services\runs.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
