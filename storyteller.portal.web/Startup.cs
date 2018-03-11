@@ -131,6 +131,7 @@ namespace storyteller.portal.web
             services.AddTransient<CQRS.IRequestHandler<PostRunResultRequest>, PostRunResultRequestHandler>();
             services.AddTransient<CQRS.IRequestHandler<PutRunRequest>, PutRunRequestHandler>();
             services.AddTransient<CQRS.IRequestHandler<PutRunSpecRequest>, PutRunSpecRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<StoryTeller.Portal.Requests.RunSummaries, List<RunSummary>>, StoryTeller.Portal.RequestHandlers.RunSummaries>();
 
             services.AddSingleton<MediatR.IMediator, MediatR.Mediator>();
             //services.AddTransient<MediatR.IMediator, MediatorExceptionHandlerDecorator>();
