@@ -1,23 +1,24 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.SignalR;
 using StoryTeller.ResultAggregation.Events;
-using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace StoryTeller.Portal.Web.Hubs
 {
     public class DashboardHub : Hub
     {
-        public DashboardHub()
+        public Task RunCreated(RunCreated runCreated)
         {
-            Debug.WriteLine("hub ctor");
-
+            return Clients.All.SendAsync(nameof(RunCreated), runCreated);
         }
-        public Task Send(string message)
+
+        public Task RunCompleted(RunCompleted runCreated)
         {
-            return Clients.All.SendAsync("Send", message);
+            return Clients.All.SendAsync(nameof(RunCompleted), runCreated);
+        }
+
+        public Task RunSpecUpdated(RunSpecUpdated runCreated)
+        {
+            return Clients.All.SendAsync(nameof(RunSpecUpdated), runCreated);
         }
     }
 }
