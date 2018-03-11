@@ -1,21 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
+import { RunSummary } from '../../models/run-summary';
+import { RunsService } from '../../services/runs';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'home',
     templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-    public msg: any;
+    public runs: RunSummary[];
 
-    ngOnInit(): void {
-        let connection = new signalR.HubConnection("/dashboard");
+    constructor(private runsSvc: RunsService) {
 
-        connection.on('send', data => {
-            this.msg = data;
-        });
-
-        connection.start().then(() => connection.invoke('send', 'Hello'));        
     }
 
+    ngOnInit(): void {
+        this.initializeSignalR();   
+
+        this.runsSvc.getRunsSummary().subscribe(data => this.runs = data);
+    }
+
+    initializeSignalR() {
+        let connection = new signalR.HubConnection("/dashboard");
+
+        connection.on('RunCreated', data => {
+            
+        });
+
+        connection.on('RunSpecUpdated', data => {
+            
+        });
+
+        connection.on('RunCompleted', data => {
+            
+        });
+
+        connection.start();   
+    }
 }
