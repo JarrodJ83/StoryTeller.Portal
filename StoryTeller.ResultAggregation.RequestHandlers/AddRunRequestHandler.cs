@@ -42,7 +42,7 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
                 }), cancellationToken);
             }
             
-             await _mediator.Publish(new RunCreated(run.Id), cancellationToken);
+             await _mediator.Publish(new RunCreated(run), cancellationToken);
 
             return run;
         }

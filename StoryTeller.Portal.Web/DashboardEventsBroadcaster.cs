@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
 using StoryTeller.Portal.CQRS;
 using StoryTeller.Portal.Models.Views;
 using StoryTeller.Portal.Web.Hubs;
@@ -23,13 +22,14 @@ namespace StoryTeller.Portal.Web
 
         public async Task Handle(RunCreated runCreated, CancellationToken cancellationToken)
         {
-            RunSummary runSummary = await RunSummary.FetchAsync(new Queries.SummaryOfRun(runCreated.RunId), cancellationToken);
+            // TODO: IF we don't need the app name for display we could really do away with this query because we know it just started
+            RunSummary runSummary = await RunSummary.FetchAsync(new Queries.SummaryOfRun(runCreated.Run.Id), cancellationToken);
             await DashboardHubContext.Clients.All.SendAsync(nameof(RunCreated), runSummary);
         }
 
-        public async Task Handle(RunSpecUpdated notification, CancellationToken cancellationToken)
+        public async Task Handle(RunSpecUpdated runSpecUpdated, CancellationToken cancellationToken)
         {
-            await DashboardHubContext.Clients.All.SendAsync(nameof(RunSpecUpdated), notification);
+            await DashboardHubContext.Clients.All.SendAsync(nameof(RunSpecUpdated), runSpecUpdated);
         }
 
         public async Task Handle(RunCompleted notification, CancellationToken cancellationToken)

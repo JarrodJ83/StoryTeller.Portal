@@ -25,7 +25,7 @@ namespace StoryTeller.ResultAggregation.RequestHandlers
 
             await _passFailRunSpecCommandHandler.ExecuteAsync(passFailRunSpecCmd, cancellationToken);
 
-            await _mediator.Publish(new RunSpecUpdated(request.RunSpec.RunId, request.RunSpec.SpecId), cancellationToken);
+            await _mediator.Publish(new RunSpecUpdated(request.RunSpec.RunId, request.RunSpec.SpecId, request.RunSpec.Success.Value), cancellationToken);
         }
     }
 }

@@ -103,8 +103,7 @@ namespace storyteller.portal.web
             services.AddSingleton<ISqlSettings, SqlSettings>();
             services.AddTransient<IApiContext, ApiContext>();
             services.AddTransient<ApiAuthenticationMiddleware>();
-
-            //services.AddTransient<INotificationHandler<RunCreated>, DashbaordEventsBroadcaster>();
+            
             services.AddTransient<CQRS.ICommandHandler<AddRunForApplication>, AddRunForApplicationViaSql>();
             services.AddTransient<CQRS.ICommandHandler<AddRunResult>, AddRunResultViaSql>();
             services.AddTransient<CQRS.ICommandHandler<AddSpecToRun>, AddSpecToRunViaSql>();
@@ -132,14 +131,8 @@ namespace storyteller.portal.web
             services.AddTransient<CQRS.IRequestHandler<PutRunRequest>, PutRunRequestHandler>();
             services.AddTransient<CQRS.IRequestHandler<PutRunSpecRequest>, PutRunSpecRequestHandler>();
             services.AddTransient<CQRS.IRequestHandler<StoryTeller.Portal.Requests.RunSummaries, List<RunSummary>>, StoryTeller.Portal.RequestHandlers.RunSummaries>();
-
-            //services.AddSingleton<MediatR.IMediator, MediatR.Mediator>();
-            //services.AddTransient<MediatR.IMediator, MediatorExceptionHandlerDecorator>();
-
-            services.AddMediatR(); 
             
-            //services.AddSingleton(p => new MediatR.SingleInstanceFactory(p.GetService));
-            //services.AddSingleton(p => new MediatR.MultiInstanceFactory(p.GetServices));            
+            services.AddMediatR();           
         }
     }
 }

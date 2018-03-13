@@ -24,16 +24,27 @@ export class HomeComponent implements OnInit {
     initializeSignalR() {
         let connection = new signalR.HubConnection("/dashboard");
 
-        connection.on('RunCreated', data => {
-            this.runs.push(data);
+        connection.on('RunCreated', runCreated => {
+            this.runs.push(runCreated);
         });
 
-        connection.on('RunSpecUpdated', data => {
-            
+        connection.on('RunSpecUpdated', runSpecUpdated => {
+            let run = this.runs.find(run => run.id == runSpecUpdated.runId);
+
+            if (run) {
+                if (runSpecUpdated.passed) {
+                    run.successfulCount++;
+                } else {
+                    run.failureCount++
+                }
+            }
         });
 
-        connection.on('RunCompleted', data => {
-            
+        connection.on('RunCompleted', runCompleted => {
+            let run = this.runs.find(run => run.id == runCompleted.runId);
+            if (run) {
+                run.passed = runCompleted.passed;
+            }
         });
 
         connection.start();   
