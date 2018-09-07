@@ -6,10 +6,12 @@ namespace StoryTeller.ResultAggregation.Events
     {
         public int RunId { get; }
         public int SpecId { get; }
-        public RunSpecUpdated(int runId, int specId)
+        public bool Passed { get; }
+        public RunSpecUpdated(int runId, int specId, bool passed)
         {
             RunId = runId;
             SpecId = specId;
+            Passed = passed;    
         }
     }
 }

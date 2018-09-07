@@ -1,14 +1,15 @@
 ﻿using MediatR;
+using StoryTeller.ResultAggregation.Models;
 
 namespace StoryTeller.ResultAggregation.Events
 {
     public class RunCreated : INotification
     {
-        public int RunId { get; }
+        public Run Run { get; }
 
-        public RunCreated(int runId)
+        public RunCreated(Run run)
         {
-            RunId = runId;
+            Run = run;
         }
     }
 }

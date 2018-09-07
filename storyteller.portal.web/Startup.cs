@@ -9,7 +9,7 @@ using System.IO;
 using System;
 using StoryTeller.ResultAggregation.CommandHandlers;
 using StoryTeller.ResultAggregation.Commands;
-using StoryTeller.Portal.CQRS;
+using CQRS = StoryTeller.Portal.CQRS;
 using StoryTeller.Portal.Web;
 using Microsoft.AspNetCore.Http;
 using StoryTeller.Portal.CQRS.Sql;
@@ -28,6 +28,8 @@ using StoryTeller.Portal.Models;
 using StoryTeller.ResultAggregation.Events;
 using StoryTeller.Portal.RequestHandlers;
 using StoryTeller.Portal.Requests;
+using StoryTeller.Portal.Web.Hubs;
+using MediatR;
 
 namespace storyteller.portal.web
 {
@@ -44,6 +46,13 @@ namespace storyteller.portal.web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:4200");
+                }));
+            services.AddSignalR(config =>
+            {
+            });
             
             services.AddDbContext<ResultsDbContext>(options => 
                 options.UseSqlServer($"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Results;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
@@ -53,6 +62,13 @@ namespace storyteller.portal.web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("CorsPolicy");
+            app.UseSignalR(config =>
+            {
+                config.MapHub<DashboardHub>("/dashboard");                
+            });
+            
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -83,48 +99,40 @@ namespace storyteller.portal.web
         private void RegisterMicrosoftDependencyInjection(IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            var eventsHub = new EventsHub();
-            services.AddSingleton<IEventsHub>(eventsHub);
+
             services.AddSingleton<ISqlSettings, SqlSettings>();
             services.AddTransient<IApiContext, ApiContext>();
             services.AddTransient<ApiAuthenticationMiddleware>();
+            
+            services.AddTransient<CQRS.ICommandHandler<AddRunForApplication>, AddRunForApplicationViaSql>();
+            services.AddTransient<CQRS.ICommandHandler<AddRunResult>, AddRunResultViaSql>();
+            services.AddTransient<CQRS.ICommandHandler<AddSpecToRun>, AddSpecToRunViaSql>();
+            services.AddTransient<CQRS.ICommandHandler<AddSpec, int>, AddSpecViaSql>();
+            services.AddTransient<CQRS.ICommandHandler<UpdateRunSpec>, UpdateRunSpecViaSql>();
+            services.AddTransient<CQRS.ICommandHandler<UpdateRun>, UpdateRunViaSql>();
 
-            services.AddTransient<ICommandHandler<AddRunForApplication>, AddRunForApplicationViaSql>();
-            services.AddTransient<ICommandHandler<AddRunResult>, AddRunResultViaSql>();
-            services.AddTransient<ICommandHandler<AddSpecToRun>, AddSpecToRunViaSql>();
-            services.AddTransient<ICommandHandler<AddSpec, int>, AddSpecViaSql>();
-            services.AddTransient<ICommandHandler<UpdateRunSpec>, UpdateRunSpecViaSql>();
-            services.AddTransient<ICommandHandler<UpdateRun>, UpdateRunViaSql>();
-
-            services.AddTransient<IQueryHandler<AllApps, List<App>>, AllAppsViaSql>();
-            services.AddTransient<IQueryHandler<LatestRunSumarries, List<RunSummary>>, LatestRunSummariesViaSql>();
-            services.AddTransient<IQueryHandler<SummaryOfRun, RunSummary>, SummaryForRunViaSql>();
-            services.AddTransient<IQueryHandler<SpecsByApplication, List<Spec>>, GetAllSpecsViaSql>();
-            services.AddTransient<IQueryHandler<LatestRunByApplication, Run>, LatestRunByApplicationViaSql>();
+            services.AddTransient<CQRS.IQueryHandler<AllApps, List<App>>, AllAppsViaSql>();
+            services.AddTransient<CQRS.IQueryHandler<LatestRunSumarries, List<RunSummary>>, LatestRunSummariesViaSql>();
+            services.AddTransient<CQRS.IQueryHandler<SummaryOfRun, RunSummary>, SummaryForRunViaSql>();
+            services.AddTransient<CQRS.IQueryHandler<SpecsByApplication, List<Spec>>, GetAllSpecsViaSql>();
+            services.AddTransient<CQRS.IQueryHandler<LatestRunByApplication, Run>, LatestRunByApplicationViaSql>();
 
             // controller handlers
-            services.AddTransient<IRequestHandler<AllAppsRequest, List<App>>, AllAppsRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<AllAppsRequest, List<App>>, AllAppsRequestHandler>();
 
             // Results Aggregation Handlers
-            services.AddTransient<IRequestHandler<AddRunRequest, Run>, AddRunRequestHandler>();
-            services.AddTransient<IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>>, AddSpecBatchToRunRequestHandler>();
-            services.AddTransient<IRequestHandler<AddSpecRequest, Spec>, AddSpecRequestHandler>();
-            services.AddTransient<IRequestHandler<AddSpecToRunRequest, RunSpec>, AddSpecToRunRequestHandler>();
-            services.AddTransient<IRequestHandler<GetLatestRunRequest, Run>, GetLatestRunRequestHandler>();
-            services.AddTransient<IRequestHandler<GetAllSpecs, List<Spec>>, GetSpecsRequestHandler>();
-            services.AddTransient<IRequestHandler<PostRunResultRequest>, PostRunResultRequestHandler>();
-            services.AddTransient<IRequestHandler<PutRunRequest>, PutRunRequestHandler>();
-            services.AddTransient<IRequestHandler<PutRunSpecRequest>, PutRunSpecRequestHandler>();
-
-            services.AddSingleton<MediatR.IMediator, MediatR.Mediator>();
-            //services.AddTransient<MediatR.IMediator, MediatorExceptionHandlerDecorator>();
-
-            services.AddTransient<MediatR.INotificationHandler<RunCreated>>(provider => eventsHub);
-            services.AddTransient<MediatR.INotificationHandler<RunSpecUpdated>>(provider => eventsHub);
-            services.AddTransient<MediatR.INotificationHandler<RunCompleted>>(provider => eventsHub);
-
-            services.AddSingleton(p => new MediatR.SingleInstanceFactory(p.GetService));
-            services.AddSingleton(p => new MediatR.MultiInstanceFactory(p.GetServices));            
+            services.AddTransient<CQRS.IRequestHandler<AddRunRequest, Run>, AddRunRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<AddSpecBatchToRunRequest, List<RunSpec>>, AddSpecBatchToRunRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<AddSpecRequest, Spec>, AddSpecRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<AddSpecToRunRequest, RunSpec>, AddSpecToRunRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<GetLatestRunRequest, Run>, GetLatestRunRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<GetAllSpecs, List<Spec>>, GetSpecsRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<PostRunResultRequest>, PostRunResultRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<PutRunRequest>, PutRunRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<PutRunSpecRequest>, PutRunSpecRequestHandler>();
+            services.AddTransient<CQRS.IRequestHandler<StoryTeller.Portal.Requests.RunSummaries, List<RunSummary>>, StoryTeller.Portal.RequestHandlers.RunSummaries>();
+            
+            services.AddMediatR();           
         }
     }
 }
